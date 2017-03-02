@@ -27,13 +27,13 @@ repositories {
 //noinspection GroovyAssignabilityCheck
 jar {
     destinationDir = new File(buildDir, "/dist")
-    archiveName = "edustor.jar"
+    archiveName = "mray-core.jar"
 }
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile "org.springframework.boot:spring-boot-starter-web"
-    compile "org.springframework.boot:spring-boot-starter-data-mongodb"
+//    compile "org.springframework.boot:spring-boot-starter-data-mongodb"
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-starter-thymeleaf"
 
