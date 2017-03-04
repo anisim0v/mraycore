@@ -4,6 +4,8 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
 @RequestMapping("/buy")
@@ -17,8 +19,12 @@ class BuyController {
     }
 
     @RequestMapping(method = arrayOf(RequestMethod.POST))
-    fun processForm() {
-        logger.info("Processing form...")
-//        TODO: Get user input and print it to log
+    fun processForm(@RequestParam email: String,
+                    @RequestParam country: String,
+                    @RequestParam period: String,
+                    redirectAttrs: RedirectAttributes): String {
+        logger.info("Processing form... Email: $email. Сountry: $country. Period: $period")
+        redirectAttrs.addAttribute("email", email)
+        return "redirect:/"
     }
 }

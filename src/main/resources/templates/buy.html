@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<form method="POST" action="add.php">
+<form method="POST" action="/buy">
     <label for="email">email
         <input type="email" name="email" id="email" placeholder="Email" th:required="required"/>
     </label>
@@ -19,7 +19,7 @@
     </label>
     <label>
         <p>срок оплаты
-            <select id="timefor" name="timefor">
+            <select id="timefor" name="period">
                 <option value="1">Один месяц (80р)</option>
                 <option value="6">Шесть месяцев (450р)</option>
                 <option value="12">Двеннадцать месяцев (900р)</option>
