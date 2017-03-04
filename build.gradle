@@ -11,6 +11,9 @@ buildscript {
     }
 }
 
+plugins {
+    id "com.palantir.configuration-resolver" version "0.2.0"
+}
 
 apply plugin: 'kotlin'
 apply plugin: 'org.springframework.boot'
