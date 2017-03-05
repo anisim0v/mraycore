@@ -30,7 +30,7 @@ class BuyController(val accountRepository: AccountRepository) {
         val account = Account(email, region, period)
         accountRepository.save(account)
 
-        logger.info("New user: Email: $email. Сountry: $region. Period: $period")
+        logger.info("New user: Email: $email. Region: $region. Period: $period")
         model.addAttribute("message", "Готово! Мы отправили письмо со ссылкой на оплату на $email")
         return "buy/done"
     }
