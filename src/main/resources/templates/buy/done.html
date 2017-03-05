@@ -7,9 +7,10 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <!--/*@thymesVar id="message" type="java.lang.String"*/-->
-    <p th:text="${message}">Готово! Мы отправили письмо со ссылкой
-        на оплату на bob@example.com</p>
+    <!--/*@thymesVar id="email" type="java.lang.String"*/-->
+    <!--/*@thymesVar id="transactionId" type="java.lang.String"*/-->
+    <p>Готово! Мы отправили письмо со ссылкой на оплату на <span th:text="${email}">bob@example.com</span></p>
+    <p>Кроме того, вы можете <a th:href="'/pay/' + ${transactionId}">оплатить подписку прямо сейчас</a></p>
 </div>
 </body>
 </html>

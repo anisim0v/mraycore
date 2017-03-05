@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org"
+      layout:decorator="base">
+<head>
+    <title>Что-то пошло не так</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <!--/*@thymesVar id="message" type="java.lang.String"*/-->
+    <p th:text="${message}">Мир сошел с ума. И наши сервера тоже.</p>
+</div>
+</body>
+</html>
