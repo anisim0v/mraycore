@@ -4,10 +4,15 @@ import java.time.Instant
 import java.util.*
 
 data class Account (
-    val id: String = UUID.randomUUID().toString(),
-    var email: String,
-    var country: String,
-    var renewPeriod: Int = 1,
-    var provisioned: Boolean = false,
-    var activeUntil: Instant? = null
+        var email: String,
+        var region: Region,
+        var renewPeriod: Int = 1,
+        var provisioned: Boolean = false,
+        var activeUntil: Instant? = null,
+        val id: String = UUID.randomUUID().toString()
 )
+
+enum class Region {
+    PH,
+    US
+}
