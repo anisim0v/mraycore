@@ -23,7 +23,7 @@ class BuyController {
                     @RequestParam country: String,
                     @RequestParam period: String,
                     model: Model): String {
-        logger.info("Processing form... Email: $email. Сountry: $country. Period: $period")
+        logger.info("New user: Email: $email. Сountry: $country. Period: $period")
         model.addAttribute("message", "Готово! Мы отправили письмо со ссылкой на оплату на $email")
         return "buy/done"
     }
