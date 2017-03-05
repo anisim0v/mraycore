@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Base template</title>
+</head>
+<body>
+<div class="container">
+    <div>Menu placeholder</div>
+    <div layout:fragment="content">Page content</div>
+    <div th:include="footer">Footer placeholder</div>
+</div>
+</body>
+</html>
