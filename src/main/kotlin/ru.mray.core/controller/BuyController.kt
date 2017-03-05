@@ -9,12 +9,16 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
 import ru.mray.core.model.Account
 import ru.mray.core.model.Region
+import ru.mray.core.model.Transaction
 import ru.mray.core.repository.AccountRepository
+import ru.mray.core.repository.TransactionRepository
+import java.time.Period
 import javax.servlet.http.HttpServletResponse
 
 @Controller
 @RequestMapping("/buy")
-class BuyController(val accountRepository: AccountRepository) {
+class BuyController(val accountRepository: AccountRepository,
+                    val transactionRepository: TransactionRepository) {
 
     val logger: Logger = LoggerFactory.getLogger(BuyController::class.java)
 
@@ -30,17 +34,22 @@ class BuyController(val accountRepository: AccountRepository) {
                     httpServletResponse: HttpServletResponse,
                     model: Model): String {
 
-        if(accountRepository.findByEmail(email) != null) {
+        if (accountRepository.findByEmail(email) != null) {
             httpServletResponse.status = 400
             model.addAttribute("message", "Этот email уже связан с другим акканутом")
-            return "buy/done" // TODO: Create error page
+            return "buy/error" // TODO: Create error page
         }
 
         val account = Account(email, region, period)
         accountRepository.save(account)
-
         logger.info("New user: Email: $email. Region: $region. Period: $period")
-        model.addAttribute("message", "Готово! Мы отправили письмо со ссылкой на оплату на $email")
+
+        val transaction = Transaction(account.id, Period.ofMonths(period))
+        transactionRepository.save(transaction)
+        logger.info("New transaction: Account: ${transaction.accountId}. Period: ${transaction.period}. ID: ${transaction.id}")
+
+        model.addAttribute("email", email)
+        model.addAttribute("transactionId", transaction.id)
         return "buy/done"
     }
 }

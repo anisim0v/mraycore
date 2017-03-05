@@ -5,6 +5,7 @@ import java.time.Period
 import java.util.*
 
 class Transaction() {
+    lateinit var accountId: String
     lateinit var period: Period
     var issueDate: Instant = Instant.now()
     var previousPaymentId: String? = null
@@ -13,7 +14,8 @@ class Transaction() {
     var activeUntil: Instant? = null
     val id: String = UUID.randomUUID().toString()
 
-    constructor(period: Period) : this() {
+    constructor(accountId: String, period: Period) : this() {
+        this.accountId = accountId
         this.period = period
     }
 }
