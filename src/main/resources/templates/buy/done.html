@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org"
+      layout:decorator="base">
+<head>
+    <title>Готово!</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <!--/*@thymesVar id="message" type="java.lang.String"*/-->
+    <p th:text="${message}">Готово! Мы отправили письмо со ссылкой
+        на оплату на bob@example.com</p>
+</div>
+</body>
+</html>

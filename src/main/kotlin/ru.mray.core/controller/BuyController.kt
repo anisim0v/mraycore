@@ -2,10 +2,10 @@ package ru.mray.core.controller
 
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
 @RequestMapping("/buy")
@@ -15,16 +15,16 @@ class BuyController {
 
     @RequestMapping
     fun getPage(): String {
-        return "buy"
+        return "buy/buy"
     }
 
     @RequestMapping(method = arrayOf(RequestMethod.POST))
     fun processForm(@RequestParam email: String,
                     @RequestParam country: String,
                     @RequestParam period: String,
-                    redirectAttrs: RedirectAttributes): String {
-        logger.info("Processing form... Email: $email. Сountry: $country. Period: $period")
-        redirectAttrs.addAttribute("email", email)
-        return "redirect:/"
+                    model: Model): String {
+        logger.info("New user: Email: $email. Сountry: $country. Period: $period")
+        model.addAttribute("message", "Готово! Мы отправили письмо со ссылкой на оплату на $email")
+        return "buy/done"
     }
 }
