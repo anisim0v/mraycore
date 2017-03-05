@@ -1,11 +1,11 @@
 package ru.mray.core.service
 
+import org.apache.commons.codec.digest.DigestUtils
 import org.slf4j.LoggerFactory.getLogger
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
-import org.springframework.util.DigestUtils
 import java.nio.charset.Charset
-import java.nio.charset.StandardCharsets
+import java.util.*
 
 @Service
 open class W1Service(@Value("\${mray.w1.key}") private val signingKey: String) {
@@ -24,9 +24,9 @@ open class W1Service(@Value("\${mray.w1.key}") private val signingKey: String) {
         singleString += signingKey
 
         val byteString = singleString.byteInputStream(Charset.forName("Windows-1251"))
+        val hash = DigestUtils.sha1(byteString)
+        val signature = Base64.getEncoder().encodeToString(hash)
 
-
-
-        return singleString
+        return signature
     }
 }

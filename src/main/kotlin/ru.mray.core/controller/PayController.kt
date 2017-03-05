@@ -14,7 +14,7 @@ class PayController(val w1Service: W1Service) {
     @RequestMapping("/{transaction}")
     fun createForm(@PathVariable transaction: Transaction,
                    model: Model): String {
-        val price = 1
+        val price = 1 //TODO: Calculate actual price
         val formFields = mapOf(
                 "transactionId" to transaction.id,
                 "price" to price,
@@ -22,8 +22,8 @@ class PayController(val w1Service: W1Service) {
         )
 
         val signature = w1Service.sign(formFields)
-
         model.addAllAttributes(formFields)
+        model.addAttribute("signature", signature)
 
         return "pay/form"
     }
