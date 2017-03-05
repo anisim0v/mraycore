@@ -9,6 +9,5 @@ data class Account (
     var country: String,
     var renewPeriod: Int = 1,
     var provisioned: Boolean = false,
-    var latestPaymentId: String? = null,
     var activeUntil: Instant? = null
 )
