@@ -11,7 +11,7 @@ dependencies:
 test:
   override:
     - ./gradlew build
-    - docker build -f ci.Dockerfile -t mraycore .
+#    - docker build -f ci.Dockerfile -t mraycore .
   post:
     - cp build/dist/*.jar $CIRCLE_ARTIFACTS
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/

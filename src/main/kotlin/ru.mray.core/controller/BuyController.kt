@@ -44,16 +44,16 @@ class BuyController(val accountRepository: AccountRepository,
         accountRepository.save(account)
         logger.info("New account: Email: $email. Region: $region. Period: $period")
 
-        val bonusTransaction = Transaction(account.id, Period.ofDays(1), Transaction.TransactionType.BONUS)
+        val bonusTransaction = Transaction(account.id, account.region, Period.ofDays(1), Transaction.TransactionType.BONUS)
         bonusTransaction.paidAt = Instant.now()
-        logger.info("New transaction: Type: ${bonusTransaction.type}. Account: ${bonusTransaction.accountId}. " +
-                "Period: ${bonusTransaction.period}. ID: ${bonusTransaction.id}")
 
-        val paymentTransaction = Transaction(account.id, Period.ofMonths(period), Transaction.TransactionType.PAYMENT)
-        logger.info("New transaction: Type: ${paymentTransaction.type}. Account: ${paymentTransaction.accountId}. " +
-                "Period: ${paymentTransaction.period}. ID: ${paymentTransaction.id}")
+        val paymentTransaction = Transaction(account.id, account.region, Period.ofMonths(period), Transaction.TransactionType.PAYMENT)
 
-        transactionRepository.save(listOf(paymentTransaction, bonusTransaction))
+        listOf(bonusTransaction, paymentTransaction).forEach { transaction ->
+            transactionRepository.save(transaction)
+            logger.info("New transaction: Type: ${transaction.type}. Account: ${transaction.accountId}. " +
+                    "Period: ${transaction.period}. Region: ${transaction.region}. ID: ${transaction.id}")
+        }
 
         model.addAttribute("email", email)
         model.addAttribute("transactionId", paymentTransaction.id)
