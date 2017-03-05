@@ -7,6 +7,7 @@ import java.util.*
 class Transaction() {
     lateinit var accountId: String
     lateinit var period: Period
+    lateinit var type: TransactionType
     var issueDate: Instant = Instant.now()
     var previousPaymentId: String? = null
     var paidAt: Instant? = null
@@ -14,8 +15,14 @@ class Transaction() {
     var activeUntil: Instant? = null
     val id: String = UUID.randomUUID().toString()
 
-    constructor(accountId: String, period: Period) : this() {
+    constructor(accountId: String, period: Period, type: TransactionType) : this() {
         this.accountId = accountId
         this.period = period
+        this.type = type
+    }
+
+    enum class TransactionType {
+        BONUS,
+        PAYMENT
     }
 }

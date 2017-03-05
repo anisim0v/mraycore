@@ -16,9 +16,9 @@ class Account() {
         this.region = region
         this.renewPeriod = renewPeriod
     }
-}
 
-enum class Region {
-    PH,
-    US
+    enum class Region {
+        PH,
+        US
+    }
 }

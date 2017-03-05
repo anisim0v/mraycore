@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
 import ru.mray.core.model.Account
-import ru.mray.core.model.Region
 import ru.mray.core.model.Transaction
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.TransactionRepository
+import java.time.Instant
 import java.time.Period
 import javax.servlet.http.HttpServletResponse
 
@@ -29,7 +29,7 @@ class BuyController(val accountRepository: AccountRepository,
 
     @RequestMapping(method = arrayOf(RequestMethod.POST))
     fun processForm(@RequestParam email: String,
-                    @RequestParam region: Region,
+                    @RequestParam region: Account.Region,
                     @RequestParam period: Int,
                     httpServletResponse: HttpServletResponse,
                     model: Model): String {
@@ -42,14 +42,21 @@ class BuyController(val accountRepository: AccountRepository,
 
         val account = Account(email, region, period)
         accountRepository.save(account)
-        logger.info("New user: Email: $email. Region: $region. Period: $period")
+        logger.info("New account: Email: $email. Region: $region. Period: $period")
 
-        val transaction = Transaction(account.id, Period.ofMonths(period))
-        transactionRepository.save(transaction)
-        logger.info("New transaction: Account: ${transaction.accountId}. Period: ${transaction.period}. ID: ${transaction.id}")
+        val bonusTransaction = Transaction(account.id, Period.ofDays(1), Transaction.TransactionType.BONUS)
+        bonusTransaction.paidAt = Instant.now()
+        logger.info("New transaction: Type: ${bonusTransaction.type}. Account: ${bonusTransaction.accountId}. " +
+                "Period: ${bonusTransaction.period}. ID: ${bonusTransaction.id}")
+
+        val paymentTransaction = Transaction(account.id, Period.ofMonths(period), Transaction.TransactionType.PAYMENT)
+        logger.info("New transaction: Type: ${paymentTransaction.type}. Account: ${paymentTransaction.accountId}. " +
+                "Period: ${paymentTransaction.period}. ID: ${paymentTransaction.id}")
+
+        transactionRepository.save(listOf(paymentTransaction, bonusTransaction))
 
         model.addAttribute("email", email)
-        model.addAttribute("transactionId", transaction.id)
+        model.addAttribute("transactionId", paymentTransaction.id)
         return "buy/done"
     }
 }
