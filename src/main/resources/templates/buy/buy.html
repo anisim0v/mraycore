@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org"
+      layout:decorator="base">
+<head>
+    <title>Купить</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <form method="POST" action="/buy">
+        <label for="email">email
+            <input type="email" name="email" id="email" placeholder="Email" th:required="required"/>
+        </label>
+        <label>
+            <p>Страна
+                <select id="country" name="country">
+                    <option value="US" th:disabled="disabled">США (временно недоступна)</option>
+                    <option value="PH">Филиппины</option>
+                </select>
+            </p>
+        </label>
+        <label>
+            <p>срок оплаты
+                <select id="timefor" name="period">
+                    <option value="1">Один месяц (80р)</option>
+                    <option value="6">Шесть месяцев (450р)</option>
+                    <option value="12">Двеннадцать месяцев (900р)</option>
+                </select>
+            </p>
+        </label>
+        <label class="agree">
+            <p><input type="checkbox" id="agree"/>
+                Я подтверждаю, что мой аккаунт Spotify зарегистрирован в выбранной стране.</p>
+        </label>
+        <label for="twiceayear">
+            <p><input type="checkbox" id="twiceayear" th:required="required"/>
+                Я подтверждаю, что осведомлён о том, что менять семью в Spotify можно не более раза в год</p>
+        </label>
+        <button type="submit" class="button" id="submit">Попробовать!</button>
+    </form>
+</div>
+</body>
+</html>
