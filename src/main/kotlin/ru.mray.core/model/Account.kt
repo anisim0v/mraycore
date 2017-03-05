@@ -8,6 +8,7 @@ class Account {
     lateinit var email: String
     lateinit var country: String
     var renewPeriod: Int = 1
-    var paidUntil: Instant? = null
+    var provisioned: Boolean = false
     var latestPaymentId: String? = null
+    var activeUntil: Instant? = null
 }
