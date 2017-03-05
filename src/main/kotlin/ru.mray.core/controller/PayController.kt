@@ -1,20 +1,30 @@
 package ru.mray.core.controller;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RequestParam
-import ru.mray.core.repository.AccountRepository
-import ru.mray.core.repository.TransactionRepository
+import org.springframework.web.bind.annotation.RequestMapping
+import ru.mray.core.model.Transaction
+import ru.mray.core.service.W1Service
 
 
 @Controller
 @RequestMapping("/pay")
-class PayController(val accountRepository: AccountRepository,
-                    val transactionRepository: TransactionRepository) {
-    @RequestMapping("/{transactionId}")
-    fun createForm(@PathVariable transactionId: String): String {
+class PayController(val w1Service: W1Service) {
+    @RequestMapping("/{transaction}")
+    fun createForm(@PathVariable transaction: Transaction,
+                   model: Model): String {
+        val price = 1
+        val formFields = mapOf(
+                "transactionId" to transaction.id,
+                "price" to price,
+                "key" to "value"
+        )
+
+        val signature = w1Service.sign(formFields)
+
+        model.addAllAttributes(formFields)
+
         return "pay/form"
     }
 }
