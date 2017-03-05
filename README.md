@@ -1,1 +1,3 @@
-# newmrayadmin
+# MusicRay Core
+
+Пилим движок
