@@ -55,7 +55,7 @@ class PayController(val w1Service: W1Service,
 
         val actualSignature = w1Service.sign(params)
         if (signature != actualSignature) {
-            logger.warn("WMI_SIGNATURE: Actual: $actualSignature. Declared: $signature")
+            logger.warn("WMI_SIGNATURE check failed: Actual: $actualSignature. Declared: $signature")
             throw BadRequestException("WMI_SIGNATURE validation failed")
         }
 
