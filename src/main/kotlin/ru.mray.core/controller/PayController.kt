@@ -30,15 +30,18 @@ class PayController(val w1Service: W1Service,
                    model: Model): String {
 
         val formFields = mapOf(
-                "transactionId" to transaction.id,
-                "price" to pricesHolder.getFormattedPrice(transaction.region, transaction.period),
-                "description" to "Оплата Spotify Premium на ${transaction.period.describe()}",
-                "key" to "value"
+                "WMI_MERCHANT_ID" to "141130336213", // TODO: Move to config
+                "WMI_CURRENCY_ID" to "643",
+                "WMI_PAYMENT_NO" to transaction.id,
+                "WMI_PAYMENT_AMOUNT" to pricesHolder.getFormattedPrice(transaction.region, transaction.period),
+                "WMI_DESCRIPTION" to "Оплата Spotify Premium на ${transaction.period.describe()}",
+                "WMI_SUCCESS_URL" to "http://music-ray.ru/pay/done/${transaction.id}",
+                "WMI_FAIL_URL" to "http://music-ray.ru/pay/fail/${transaction.id}"
         )
 
         val signature = w1Service.sign(formFields)
         model.addAllAttributes(formFields)
-        model.addAttribute("signature", signature)
+        model.addAttribute("WMI_SIGNATURE", signature)
 
         return "pay/form"
     }

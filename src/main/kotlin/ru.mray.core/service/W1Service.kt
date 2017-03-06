@@ -20,11 +20,11 @@ open class W1Service(@Value("\${mray.w1.key}") private val signingKey: String) {
                 .map { key ->
                     data[key]
                 }
-                .joinToString()
+                .joinToString(separator = "")
         singleString += signingKey
 
         val byteString = singleString.byteInputStream(Charset.forName("Windows-1251"))
-        val hash = DigestUtils.sha1(byteString)
+        val hash = DigestUtils.md5(byteString)
         val signature = Base64.getEncoder().encodeToString(hash)
 
         return signature
