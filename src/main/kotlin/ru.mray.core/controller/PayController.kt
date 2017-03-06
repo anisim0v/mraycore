@@ -1,5 +1,7 @@
 package ru.mray.core.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -21,9 +23,10 @@ import javax.servlet.http.HttpServletRequest
 @RequestMapping("/pay")
 class PayController(val w1Service: W1Service,
                     val pricesHolder: PricesHolder,
-                    val transactionRepository: TransactionRepository) {
+                    val transactionRepository: TransactionRepository,
+                    val objMapper: ObjectMapper) {
 
-    val logger = LoggerFactory.getLogger(PayController::class.java)
+    val logger: Logger = LoggerFactory.getLogger(PayController::class.java)
 
     @RequestMapping("/{transaction}")
     fun createForm(@PathVariable transaction: Transaction,
@@ -34,7 +37,7 @@ class PayController(val w1Service: W1Service,
                 "WMI_CURRENCY_ID" to "643",
                 "WMI_PAYMENT_NO" to transaction.id,
                 "WMI_PAYMENT_AMOUNT" to pricesHolder.getFormattedPrice(transaction.region, transaction.period),
-                "WMI_DESCRIPTION" to "Оплата Spotify Premium на ${transaction.period.describe()}",
+                "WMI_DESCRIPTION" to "MusicRay Spotify Premium: ${transaction.period.describe()}",
                 "WMI_SUCCESS_URL" to "http://music-ray.ru/pay/done/${transaction.id}",
                 "WMI_FAIL_URL" to "http://music-ray.ru/pay/fail/${transaction.id}"
         )
@@ -49,12 +52,16 @@ class PayController(val w1Service: W1Service,
     @ResponseBody
     @RequestMapping("/confirm")
     fun confirm(request: HttpServletRequest): String {
+
         val signature = request.getParameter("WMI_SIGNATURE") ?: throw BadRequestException("No WMI_SIGNATURE field in request")
         val params = request.parameterNames
                 .toList()
                 .filter { it != "WMI_SIGNATURE" }
                 .map { it to request.getParameter(it) }
                 .toMap()
+
+        val json = objMapper.writeValueAsString(params)
+        logger.info("Confirmation data: $json")
 
         val actualSignature = w1Service.sign(params)
         if (signature != actualSignature) {
@@ -72,14 +79,16 @@ class PayController(val w1Service: W1Service,
         }
 
         if (transaction.paidAt != null) {
-            logger.warn("Transaction already activated: ${transaction.id}")
+            logger.warn("Transaction already paid: ${transaction.id}")
             return "WMI_RESULT=OK"
         }
 
         transaction.paidAt = Instant.now()
         transactionRepository.save(transaction)
 
-        logger.info("Transaction activated: ${transaction.id}")
+        logger.info("Transaction paid: ${transaction.id}")
+
+//        TODO: Call transactions service
 
         return "WMI_RESULT=OK"
     }
