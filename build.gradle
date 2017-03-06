@@ -45,7 +45,6 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-data-mongodb"
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-starter-thymeleaf"
-    compile "org.springframework.boot:spring-boot-devtools"
     compile "commons-codec:commons-codec:1.10"
 
 
