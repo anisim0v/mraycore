@@ -20,7 +20,7 @@ class PayController(val w1Service: W1Service, val pricesHolder: PricesHolder) {
 
         val formFields = mapOf(
                 "transactionId" to transaction.id,
-                "price" to price,
+                "price" to price, //TODO: price with two symbols after dot
                 "key" to "value"
         )
 
