@@ -13,6 +13,7 @@ import ru.mray.core.repository.TransactionRepository
 import ru.mray.core.service.W1Service
 import ru.mray.core.util.describe
 import java.net.URLEncoder
+import java.time.Instant
 import javax.servlet.http.HttpServletRequest
 
 
@@ -61,10 +62,21 @@ class PayController(val w1Service: W1Service,
         val transactionId = request.getParameter("WMI_PAYMENT_NO")
                 ?: throw BadRequestException("No WMI_PAYMENT_NO field in request")
 
-        transactionRepository.findOne(transactionId) ?: let {
+        val transaction = transactionRepository.findOne(transactionId) ?: let {
+            logger.warn("Transaction not found activated: $transactionId")
             val respStr = URLEncoder.encode("WMI_RESULT=RETRY&WMI_DESCRIPTION=Unknown transaction id", "UTF-8")
             return respStr
         }
+
+        if (transaction.paidAt != null) {
+            logger.warn("Transaction already activated: ${transaction.id}")
+            return "WMI_RESULT=OK"
+        }
+
+        transaction.paidAt = Instant.now()
+        transactionRepository.save(transaction)
+
+        logger.info("Transaction activated: ${transaction.id}")
 
         return "WMI_RESULT=OK"
     }
