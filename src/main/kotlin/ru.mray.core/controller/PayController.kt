@@ -15,12 +15,17 @@ class PayController(val w1Service: W1Service, val pricesHolder: PricesHolder) {
     @RequestMapping("/{transaction}")
     fun createForm(@PathVariable transaction: Transaction,
                    model: Model): String {
-
-        val price = pricesHolder.getPrice(transaction.region, transaction.period)
-
+        var description :String
+        var price = pricesHolder.getPrice(transaction.region, transaction.period)
+        when (price){
+            80.0 -> description = "Оплата Spotify Premium на 1 месяц"
+            240.0 -> description = "Оплата Spotify Premium на n месяцев"
+            else -> description = "Оплата Spotify Premium"
+        }
         val formFields = mapOf(
                 "transactionId" to transaction.id,
                 "price" to price, //TODO: price with two symbols after dot
+                "description" to description,
                 "key" to "value"
         )
 
