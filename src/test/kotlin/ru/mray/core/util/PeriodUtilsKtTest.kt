@@ -7,8 +7,7 @@ import java.time.Period
 class PeriodUtilsKtTest {
     @Test
     fun describe() {
-        assertEquals("1 месяц", Period.ofMonths(1).describe())
-        assertEquals("2 месяца", Period.ofMonths(2).describe())
-        assertEquals("5 месяцев", Period.ofMonths(5).describe())
+        assertEquals("1 month", Period.ofMonths(1).describe())
+        assertEquals("5 months", Period.ofMonths(5).describe())
     }
 }

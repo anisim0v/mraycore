@@ -3,7 +3,6 @@ package ru.mray.core.component
 import org.springframework.stereotype.Component
 import org.yaml.snakeyaml.Yaml
 import ru.mray.core.model.Account
-import java.text.DecimalFormat
 import java.time.Period
 import java.util.*
 
