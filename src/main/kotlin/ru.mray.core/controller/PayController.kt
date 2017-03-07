@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody
 import ru.mray.core.component.PricesHolder
 import ru.mray.core.exceptions.BadRequestException
 import ru.mray.core.model.Transaction
+import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.TransactionRepository
 import ru.mray.core.service.W1Service
 import ru.mray.core.util.describe
@@ -91,5 +92,21 @@ class PayController(val w1Service: W1Service,
 //        TODO: Call transactions service
 
         return "WMI_RESULT=OK"
+    }
+}
+
+@RequestMapping("/pay/done")
+class BuyResult(val accountsRepository: AccountRepository){
+    @RequestMapping("/{transaction}")
+    fun getTest(@PathVariable transaction: Transaction,
+                model: Model): String {
+        val user = accountsRepository.findOne(transaction.accountId)
+        if (user.provisioned){
+            model.addAttribute("text","Продление совершено успешно")
+        }
+        else{
+            model.addAttribute("text", "Покупка совершена успешно")
+        }
+        return "res/done"
     }
 }
