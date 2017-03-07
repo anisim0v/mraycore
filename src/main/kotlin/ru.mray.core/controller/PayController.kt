@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest
 class PayController(val w1Service: W1Service,
                     val pricesHolder: PricesHolder,
                     val transactionRepository: TransactionRepository,
+                    val accountsRepository: AccountRepository,
                     val objMapper: ObjectMapper) {
 
     val logger: Logger = LoggerFactory.getLogger(PayController::class.java)
@@ -96,21 +97,30 @@ class PayController(val w1Service: W1Service,
 
         return "WMI_RESULT=OK"
     }
-}
 
-@RequestMapping("/pay/done")
-class BuyResult(val accountsRepository: AccountRepository){
-    @RequestMapping("/{transaction}")
-    fun getTest(@PathVariable transaction: Transaction?,
+    @RequestMapping("/error/{transaction}")
+    fun BuyError(@PathVariable transaction: String,
+                 model: Model): String {
+        model.addAttribute("transactionId", transaction)
+        return "res/error"
+
+
+    }
+
+    @RequestMapping("/done/{transaction}")
+    fun BuyDone(@PathVariable transaction: Transaction?,
                 model: Model): String {
         transaction ?: throw NotFoundException("Unknown transaction")
         val user = accountsRepository.findOne(transaction.accountId)
-        if (user.provisioned){
-            model.addAttribute("text","Продление совершено успешно")
-        }
-        else{
+        if (user.provisioned) {
+            model.addAttribute("text", "Продление совершено успешно")
+        } else {
             model.addAttribute("text", "Покупка совершена успешно")
         }
         return "res/done"
+
     }
+
 }
+
+
