@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 import ru.mray.core.component.PricesHolder
 import ru.mray.core.exceptions.BadRequestException
+import ru.mray.core.exceptions.NotFoundException
 import ru.mray.core.model.Transaction
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.TransactionRepository
@@ -30,8 +31,10 @@ class PayController(val w1Service: W1Service,
     val logger: Logger = LoggerFactory.getLogger(PayController::class.java)
 
     @RequestMapping("/{transaction}")
-    fun createForm(@PathVariable transaction: Transaction,
+    fun createForm(@PathVariable transaction: Transaction?,
                    model: Model): String {
+
+        transaction ?: throw NotFoundException("Unknown transaction")
 
         val formFields = mapOf(
                 "WMI_MERCHANT_ID" to "141130336213", // TODO: Move to config
