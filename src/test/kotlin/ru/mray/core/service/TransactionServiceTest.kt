@@ -16,7 +16,7 @@ import java.time.temporal.ChronoUnit
 
 class TransactionServiceTest {
 
-    val transactionRepository = mock(TransactionRepository::class.java)
+    val transactionRepository: TransactionRepository = mock(TransactionRepository::class.java)
 
     val account = Account("bob@example.com", Account.Region.PH, 1).let {
         it.provisioned = true
