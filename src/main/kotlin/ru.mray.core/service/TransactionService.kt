@@ -12,5 +12,7 @@ class TransactionService(val transactionRepository: TransactionRepository) {
         }
 
         val inactivePaidTransactions = transactionRepository.findAccountInactivePaidTransactions(account.id)
+                .sortedBy { it.paidAt }
+
     }
 }

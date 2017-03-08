@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner
 import ru.mray.core.model.Account
 import ru.mray.core.model.Transaction
 import java.time.Instant
+import java.time.OffsetDateTime
 import java.time.Period
 import java.util.*
 
@@ -26,7 +27,6 @@ class TestTransactionRepository {
 
     @Test
     fun testFindAccountInactivePaidTransactions() {
-
         val accountId = UUID.randomUUID().toString()
 
         val newTransaction = Transaction(accountId, Account.Region.PH, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
@@ -45,5 +45,28 @@ class TestTransactionRepository {
 
         assertThat(all.count()).isEqualTo(3)
         assertThat(inactivePaidTransactions.count()).isEqualTo(1)
+    }
+
+    @Test
+    fun testFindLastActiveAccountTransaction() {
+        val accountId = UUID.randomUUID().toString()
+
+        val lastTransaction = (0..5)
+                .reversed()
+                .map {
+                    val transaction = Transaction(accountId, Account.Region.PH, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
+                    val period = Period.ofMonths(it)
+                    val now = OffsetDateTime.now()
+                    transaction.paidAt = now.minus(period).toInstant()
+                    transaction.activatedAt = transaction.paidAt!!.plusSeconds(30)
+                    return@map transaction
+                }
+                .toList()
+                .let {
+                    transactionRepository.save(it)
+                    it.last()
+                }
+
+        assertThat(transactionRepository.findLastActiveAccountTransaction(accountId)?.id).isEqualTo(lastTransaction.id)
     }
 }
