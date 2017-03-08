@@ -35,6 +35,7 @@ jar {
 
 test {
     testLogging {
+        showStandardStreams = true
         events "PASSED", "FAILED", "SKIPPED"
     }
 }
