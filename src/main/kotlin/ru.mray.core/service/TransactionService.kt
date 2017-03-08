@@ -2,13 +2,15 @@ package ru.mray.core.service
 
 import org.springframework.stereotype.Service
 import ru.mray.core.model.Account
+import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.TransactionRepository
 import java.time.Instant
 import java.time.OffsetDateTime
 import java.time.ZoneId
 
 @Service
-class TransactionService(val transactionRepository: TransactionRepository) {
+class TransactionService(private val transactionRepository: TransactionRepository,
+                         private val accountRepository: AccountRepository) {
     /**
      * Calculates Transaction.activeUntil instants for all paid, but not activated yet account transactions
      *
@@ -40,5 +42,12 @@ class TransactionService(val transactionRepository: TransactionRepository) {
             transactionRepository.save(it)
             latestActiveAccountTransaction = it
         }
+    }
+
+    fun refreshAccountTransactions(accountId: String) {
+        val account = accountRepository.findOne(accountId)
+                ?: throw NoSuchElementException("Failed to refresh account transactions: can't find " +
+                "account with requested user id")
+        refreshAccountTransactions(account)
     }
 }

@@ -2,9 +2,11 @@ package ru.mray.core.service
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import org.mockito.Mockito
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 import ru.mray.core.model.Account
 import ru.mray.core.model.Transaction
+import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.TransactionRepository
 import java.time.Instant
 import java.time.OffsetDateTime
@@ -14,7 +16,7 @@ import java.time.temporal.ChronoUnit
 
 class TransactionServiceTest {
 
-    val transactionRepository = Mockito.mock(TransactionRepository::class.java)
+    val transactionRepository = mock(TransactionRepository::class.java)
 
     val account = Account("bob@example.com", Account.Region.PH, 1).let {
         it.provisioned = true
@@ -33,13 +35,13 @@ class TransactionServiceTest {
         return@let it
     }
 
-    val transactionService = TransactionService(transactionRepository)
+    val transactionService = TransactionService(transactionRepository, mock(AccountRepository::class.java))
 
     init {
-        Mockito.`when`(transactionRepository.findLatestActiveAccountTransaction(account.id))
+        `when`(transactionRepository.findLatestActiveAccountTransaction(account.id))
                 .thenReturn(activatedTransaction)
 
-        Mockito.`when`(transactionRepository.findAccountInactivePaidTransactions(account.id))
+        `when`(transactionRepository.findAccountInactivePaidTransactions(account.id))
                 .thenReturn(listOf(paidTransaction))
     }
 
