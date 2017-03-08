@@ -38,8 +38,8 @@ class PayController(val w1Service: W1Service,
         transaction ?: throw NotFoundException("Unknown transaction")
         if (transaction.paidAt != null) {
             return "redirect:/pay/done/${transaction.id}"
-
         }
+
         val formFields = mapOf(
                 "WMI_MERCHANT_ID" to "141130336213", // TODO: Move to config
                 "WMI_CURRENCY_ID" to "643",
