@@ -1,9 +1,8 @@
 package ru.mray.core.component
 
-import org.junit.Test
-
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Test
 import ru.mray.core.model.Account
 import java.time.Period
 
