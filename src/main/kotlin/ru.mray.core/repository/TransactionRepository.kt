@@ -15,11 +15,11 @@ interface TransactionRepository : TransactionRepositoryCustom, MongoRepository<T
 
 
 interface TransactionRepositoryCustom {
-    fun findLastActiveAccountTransaction(accountId: String): Transaction?
+    fun findLatestActiveAccountTransaction(accountId: String): Transaction?
 }
 
 class TransactionRepositoryImpl(val mongoTemplate: MongoTemplate) : TransactionRepositoryCustom {
-    override fun findLastActiveAccountTransaction(accountId: String): Transaction? {
+    override fun findLatestActiveAccountTransaction(accountId: String): Transaction? {
         val query = query(
                 Criteria
                         .where("accountId").`is`(accountId)

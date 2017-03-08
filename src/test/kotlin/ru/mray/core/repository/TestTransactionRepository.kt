@@ -48,7 +48,7 @@ class TestTransactionRepository {
     }
 
     @Test
-    fun testFindLastActiveAccountTransaction() {
+    fun testFindLatestActiveAccountTransaction() {
         val accountId = UUID.randomUUID().toString()
 
         val lastTransaction = (0..5)
@@ -67,6 +67,15 @@ class TestTransactionRepository {
                     it.last()
                 }
 
-        assertThat(transactionRepository.findLastActiveAccountTransaction(accountId)?.id).isEqualTo(lastTransaction.id)
+        val foundLastActiveTransaction = transactionRepository.findLatestActiveAccountTransaction(accountId)
+        assertThat(foundLastActiveTransaction?.id).isEqualTo(lastTransaction.id)
+    }
+
+    @Test
+    fun testFindLatestActiveAccountTransactionNull() {
+        val accountId = UUID.randomUUID().toString()
+        val foundLastActiveTransaction = transactionRepository.findLatestActiveAccountTransaction(accountId)
+
+        assertThat(foundLastActiveTransaction).isNull()
     }
 }
