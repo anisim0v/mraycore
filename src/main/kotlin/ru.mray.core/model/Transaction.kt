@@ -10,11 +10,11 @@ class Transaction() {
     lateinit var region: Account.Region
     lateinit var type: TransactionType
     var issueDate: Instant = Instant.now()
-    var previousPaymentId: String? = null
+    var previousTransactionId: String? = null
     var paidAt: Instant? = null
     var activatedAt: Instant? = null
     var activeUntil: Instant? = null
-    val id: String = UUID.randomUUID().toString()
+    var id: String = UUID.randomUUID().toString()
 
     constructor(accountId: String, region: Account.Region, period: Period, type: TransactionType) : this() {
         this.accountId = accountId

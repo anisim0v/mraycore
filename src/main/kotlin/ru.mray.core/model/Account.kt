@@ -9,7 +9,7 @@ class Account() {
     var renewPeriod: Int = 1
     var provisioned: Boolean = false
     var activeUntil: Instant? = null
-    val id: String = UUID.randomUUID().toString()
+    var id: String = UUID.randomUUID().toString()
 
     constructor(email: String, region: Region, renewPeriod: Int) : this() {
         this.email = email

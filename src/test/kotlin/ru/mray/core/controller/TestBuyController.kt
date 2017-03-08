@@ -1,11 +1,11 @@
 package ru.mray.core.controller
 
-import com.nhaarman.mockito_kotlin.times
-import com.nhaarman.mockito_kotlin.verify
 import org.junit.Assert
 import org.junit.Test
 import org.mockito.ArgumentCaptor
 import org.mockito.Mockito
+import org.mockito.Mockito.times
+import org.mockito.Mockito.verify
 import org.springframework.ui.ExtendedModelMap
 import ru.mray.core.model.Account
 import ru.mray.core.model.Transaction
@@ -46,7 +46,7 @@ class TestBuyController {
         transactionCaptor.allValues.forEach { transaction ->
             Assert.assertEquals(account.id, transaction.accountId)
             Assert.assertEquals(account.region, transaction.region)
-            Assert.assertNull(transaction.previousPaymentId)
+            Assert.assertNull(transaction.previousTransactionId)
 
             when(transaction.type) {
                 Transaction.TransactionType.BONUS -> {

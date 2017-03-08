@@ -14,6 +14,7 @@ import ru.mray.core.exceptions.NotFoundException
 import ru.mray.core.model.Transaction
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.TransactionRepository
+import ru.mray.core.service.TransactionService
 import ru.mray.core.service.W1Service
 import ru.mray.core.util.describe
 import java.net.URLEncoder
@@ -27,9 +28,10 @@ class PayController(val w1Service: W1Service,
                     val pricesHolder: PricesHolder,
                     val transactionRepository: TransactionRepository,
                     val accountsRepository: AccountRepository,
-                    val objMapper: ObjectMapper) {
-    val logger: Logger = LoggerFactory.getLogger(PayController::class.java)
+                    val objMapper: ObjectMapper,
+                    val transactionService: TransactionService) {
 
+    val logger: Logger = LoggerFactory.getLogger(PayController::class.java)
 
     @RequestMapping("/{transaction}")
     fun createForm(@PathVariable transaction: Transaction?,
@@ -96,23 +98,21 @@ class PayController(val w1Service: W1Service,
 
         logger.info("Transaction paid: ${transaction.id}")
 
-//        TODO: Call transactions service
+        transactionService.refreshAccountTransactions(transaction.accountId)
 
         return "WMI_RESULT=OK"
     }
 
     @RequestMapping("/error/{transaction}")
-    fun BuyError(@PathVariable transaction: String,
-                 model: Model): String {
+    fun error(@PathVariable transaction: String,
+              model: Model): String {
         model.addAttribute("transactionId", transaction)
         return "res/error"
-
-
     }
 
     @RequestMapping("/done/{transaction}")
-    fun BuyDone(@PathVariable transaction: Transaction?,
-                model: Model): String {
+    fun done(@PathVariable transaction: Transaction?,
+             model: Model): String {
         transaction ?: throw NotFoundException("Unknown transaction")
         val user = accountsRepository.findOne(transaction.accountId)
         if (user.provisioned) {
@@ -121,9 +121,7 @@ class PayController(val w1Service: W1Service,
             model.addAttribute("text", "Покупка совершена успешно")
         }
         return "res/done"
-
     }
-
 }
 
 
