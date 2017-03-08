@@ -16,7 +16,7 @@ import java.util.*
 
 @RunWith(SpringRunner::class)
 @DataMongoTest
-class TestTransactionRepository {
+class TransactionRepositoryTest {
     @Autowired
     lateinit var transactionRepository: TransactionRepository
 

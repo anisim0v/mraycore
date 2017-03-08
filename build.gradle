@@ -51,6 +51,5 @@ dependencies {
 
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
-    testCompile 'com.nhaarman:mockito-kotlin:0.6.1'
     testCompile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.0'
 }
