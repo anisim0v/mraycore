@@ -9,6 +9,11 @@ import java.time.ZoneId
 
 @Service
 class TransactionService(val transactionRepository: TransactionRepository) {
+    /**
+     * Calculates Transaction.activeUntil instants for all paid, but not activated yet account transactions
+     *
+     * This method should be called every time account.provisioned flag changes or transaction becomes paid
+     */
     fun refreshAccountTransactions(account: Account) {
         if (!account.provisioned) {
             return
