@@ -6,7 +6,7 @@ import org.springframework.session.data.mongo.config.annotation.web.http.EnableM
 
 @EnableMongoHttpSession
 open class HttpSessionConfig {
-
+//    See http://docs.spring.io/spring-session/docs/current/reference/html5/#httpsession-mongo
     @Bean
     open fun jdkMongoSessionConverter(): JdkMongoSessionConverter {
         return JdkMongoSessionConverter()
