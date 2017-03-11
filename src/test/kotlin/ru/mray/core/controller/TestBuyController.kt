@@ -23,7 +23,7 @@ class TestBuyController {
         val response = Mockito.mock(HttpServletResponse::class.java)
         val model = ExtendedModelMap()
 
-        val buyController = BuyController(accountRepository, transactionRepository, BCryptPasswordEncoder())
+        val buyController = JoinController(accountRepository, transactionRepository, BCryptPasswordEncoder())
         val viewName = buyController.processForm(
                 "bob@example.com",
                 Account.Region.PH,
@@ -31,7 +31,7 @@ class TestBuyController {
                 response,
                 model
         )
-        Assert.assertEquals("buy/done", viewName)
+        Assert.assertEquals("join/done", viewName)
 
         val accountCaptor = ArgumentCaptor.forClass(Account::class.java)
         verify(accountRepository).save(accountCaptor.capture())

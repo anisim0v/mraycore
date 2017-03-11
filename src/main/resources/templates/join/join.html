@@ -7,7 +7,7 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <form method="POST" th:action="@{/buy}">
+    <form method="POST" th:action="@{/join}">
         <label for="email">email
             <input type="email" name="email" id="email" placeholder="Email" th:required="required"/>
         </label>
@@ -29,7 +29,7 @@
             </p>
         </label>
         <label class="agree">
-            <p><input type="checkbox" id="agree"/>
+            <p><input type="checkbox" id="agree" th:required="required"/>
                 Я подтверждаю, что мой аккаунт Spotify зарегистрирован в выбранной стране.</p>
         </label>
         <label for="twiceayear">

@@ -13,23 +13,21 @@ import ru.mray.core.model.Account
 import ru.mray.core.model.Transaction
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.TransactionRepository
-import java.math.BigInteger
-import java.security.SecureRandom
 import java.time.Instant
 import java.time.Period
 import javax.servlet.http.HttpServletResponse
 
 @Controller
-@RequestMapping("/buy")
-class BuyController(val accountRepository: AccountRepository,
-                    val transactionRepository: TransactionRepository,
-                    val passwordEncoder: PasswordEncoder) {
+@RequestMapping("/join")
+class JoinController(val accountRepository: AccountRepository,
+                     val transactionRepository: TransactionRepository,
+                     val passwordEncoder: PasswordEncoder) {
 
-    val logger: Logger = LoggerFactory.getLogger(BuyController::class.java)
+    val logger: Logger = LoggerFactory.getLogger(JoinController::class.java)
 
     @RequestMapping
     fun getPage(): String {
-        return "buy/buy"
+        return "join/join"
     }
 
     @RequestMapping(method = arrayOf(RequestMethod.POST))
@@ -42,7 +40,7 @@ class BuyController(val accountRepository: AccountRepository,
         if (accountRepository.findByEmail(email) != null) {
             httpServletResponse.status = 400
             model.addAttribute("message", "Этот email уже связан с другим акканутом")
-            return "buy/error" // TODO: Create error page
+            return "join/error" // TODO: Create error page
         }
 
         val account = Account(email, region, period)
@@ -64,6 +62,6 @@ class BuyController(val accountRepository: AccountRepository,
 
         model.addAttribute("email", email)
         model.addAttribute("transactionId", paymentTransaction.id)
-        return "buy/done"
+        return "join/done"
     }
 }
