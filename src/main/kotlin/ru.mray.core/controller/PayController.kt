@@ -107,7 +107,7 @@ class PayController(val w1Service: W1Service,
     fun error(@PathVariable transaction: String,
               model: Model): String {
         model.addAttribute("transactionId", transaction)
-        return "res/error"
+        return "pay/error"
     }
 
     @RequestMapping("/done/{transaction}")
@@ -120,7 +120,7 @@ class PayController(val w1Service: W1Service,
         } else {
             model.addAttribute("text", "Покупка совершена успешно")
         }
-        return "res/done"
+        return "pay/done"
     }
 }
 
