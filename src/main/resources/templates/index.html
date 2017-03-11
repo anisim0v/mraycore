@@ -1,12 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.thymeleaf.org"
+<html xmlns:layout="http://www.thymeleaf.org" xmlns:th="http://www.thymeleaf.org"
       layout:decorator="base">
 <head>
     <title>Main page</title>
 </head>
 <body>
 <div layout:fragment="content">
-    <p>Hello world</p>
+    <!--/*@thymesVar id="accountsCount" type="java.lang.Integer"*/-->
+    <!--/*@thymesVar id="provisioningCount" type="java.lang.Integer"*/-->
+    <span>
+        Всего аккаунтов:
+        <span th:text="${accountsCount}"></span>.
+        Запросов в обработке:
+        <span th:text="${provisioningCount}"></span>.
+    </span>
 </div>
 </body>
 </html>
