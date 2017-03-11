@@ -13,6 +13,7 @@ class Account() : UserDetails {
     var renewPeriod: Int = 1
     var provisioned: Boolean = false
     var activeUntil: Instant? = null
+    var admin: Boolean = false
     @Field("password") var _password: String? = null
 
     var id: String = UUID.randomUUID().toString()
@@ -29,7 +30,11 @@ class Account() : UserDetails {
     }
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return mutableListOf(SimpleGrantedAuthority("ROLE_USER"))
+        val authorities = mutableListOf(SimpleGrantedAuthority("ROLE_USER"))
+        if (admin) {
+            authorities.add(SimpleGrantedAuthority("ROLE_ADMIN"))
+        }
+        return authorities
     }
 
     override fun isEnabled(): Boolean {
