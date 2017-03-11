@@ -1,0 +1,14 @@
+package ru.mray.core.service
+
+import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.core.userdetails.UsernameNotFoundException
+import org.springframework.stereotype.Service
+import ru.mray.core.repository.AccountRepository
+
+@Service
+class MRayUserDetailsService(val accountRepository: AccountRepository) : UserDetailsService {
+    override fun loadUserByUsername(email: String): UserDetails {
+        return accountRepository.findByEmail(email) ?: throw UsernameNotFoundException("Cannot find account with email $email")
+    }
+}

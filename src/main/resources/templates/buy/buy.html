@@ -7,7 +7,7 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <form method="POST" action="/buy">
+    <form method="POST" th:action="@{/buy}">
         <label for="email">email
             <input type="email" name="email" id="email" placeholder="Email" th:required="required"/>
         </label>

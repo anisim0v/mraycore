@@ -1,7 +1,9 @@
 package ru.mray.core.controller
 
+import org.apache.commons.lang3.RandomStringUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
@@ -11,6 +13,8 @@ import ru.mray.core.model.Account
 import ru.mray.core.model.Transaction
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.TransactionRepository
+import java.math.BigInteger
+import java.security.SecureRandom
 import java.time.Instant
 import java.time.Period
 import javax.servlet.http.HttpServletResponse
@@ -18,7 +22,8 @@ import javax.servlet.http.HttpServletResponse
 @Controller
 @RequestMapping("/buy")
 class BuyController(val accountRepository: AccountRepository,
-                    val transactionRepository: TransactionRepository) {
+                    val transactionRepository: TransactionRepository,
+                    val passwordEncoder: PasswordEncoder) {
 
     val logger: Logger = LoggerFactory.getLogger(BuyController::class.java)
 
@@ -41,6 +46,8 @@ class BuyController(val accountRepository: AccountRepository,
         }
 
         val account = Account(email, region, period)
+        val password = RandomStringUtils.random(8, true, true)
+        account._password = passwordEncoder.encode(password)
         accountRepository.save(account)
         logger.info("New account: Email: $email. Region: $region. Period: $period")
 
