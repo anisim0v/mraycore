@@ -11,6 +11,9 @@ import ru.mray.core.model.Transaction
 interface TransactionRepository : TransactionRepositoryCustom, MongoRepository<Transaction, String> {
     @Query("{ 'accountId': ?0, 'paidAt': { \$ne: null }, 'activatedAt': { \$exists: false } }")
     fun findAccountInactivePaidTransactions(accountId: String): List<Transaction>
+
+    @Query("{ 'paidAt': { \$ne: null }, 'activatedAt': { \$exists: false } }", count = true)
+    fun countAccountInactivePaidTransactions(): Int
 }
 
 
