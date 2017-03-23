@@ -12,16 +12,22 @@ import ru.mray.core.repository.AccountRepository
 
 
 @Controller
-@RequestMapping("admin/users")
+@RequestMapping("admin")
 class UsersPageController(val accountRepository: AccountRepository) {
-    val logger: Logger = LoggerFactory.getLogger(PayController::class.java)
-
-    @RequestMapping
+    @RequestMapping("/users")
     fun generateTable(@RequestParam(defaultValue="0") page: Int,
                       model: Model): String {
         val users = accountRepository.findAll(PageRequest(page, 50))
         model.addAttribute("users", users)
 
         return "admin/users"
+    }
+    @RequestMapping("/notprovisioned")
+    fun generateNoProvisionedTable(@RequestParam(defaultValue="0") page: Int,
+                      model: Model): String {
+        val users = accountRepository.findByProvisioned(false, PageRequest(page, 50))
+        model.addAttribute("users", users)
+
+        return "admin/notprovisioned"
     }
 }
