@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!--suppress HtmlFormInputWithoutLabel -->
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Add family</title>
+</head>
+<body>
+<form method="POST" th:action="@{/admin/families/add}">
+    <table>
+        <tr>
+            <td>
+                <label for="login">Login</label>
+                <input name="login" id="login"/>
+
+                <label for="password">Password</label>
+                <input name="password" id="password" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="region">Region</label>
+                <select id="region" name="region">
+                    <option value="PH">PH</option>
+                    <option value="US">US</option>
+                </select>
+
+                <label for="city">City</label>
+                <input name="city" id="city" />
+
+                <label for="streetName">Street name</label>
+                <input name="streetName" id="streetName" />
+
+                <label for="streetNumber">Street number</label>
+                <input name="streetNumber" id="streetNumber" />
+
+                <label for="zipCode">Zip code</label>
+                <input name="zipCode" id="zipCode" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="paidUntil">Paid until</label>
+                <input name="paidUntil" id="paidUntil" type="date" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>Tokens</label>
+                <input name="tokens" />
+                <input name="tokens" />
+                <input name="tokens" />
+                <input name="tokens" />
+                <input name="tokens" />
+            </td>
+        </tr>
+        <tr>
+            <td><button type="submit" class="button" id="submit">Добавить</button></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
