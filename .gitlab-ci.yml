@@ -2,10 +2,4 @@ build:
   stage: build
   image: openjdk:8
   script:
-    - ./gradlew assemble
-
-test:
-  stage: test
-  image: openjdk:8
-  script:
-    - ./gradlew test
+    - ./gradlew build
