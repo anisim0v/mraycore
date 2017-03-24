@@ -12,16 +12,18 @@ class UsersPageController(val accountRepository: AccountRepository) {
     @RequestMapping("/accounts")
     fun users(model: Model): String {
         val accounts = accountRepository.findAll()
+        model.addAttribute("title", "All accounts")
         model.addAttribute("accounts", accounts)
 
-        return "admin/accounts/all"
+        return "admin/accounts/list"
     }
 
     @RequestMapping("/accounts/pending")
     fun pendingAccounts(model: Model): String {
         val accounts = accountRepository.findByFamilyTokenIsNull()
+        model.addAttribute("title", "Pending accounts")
         model.addAttribute("accounts", accounts)
 
-        return "admin/accounts/pending"
+        return "admin/accounts/list"
     }
 }
