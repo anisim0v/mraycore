@@ -7,23 +7,23 @@ import ru.mray.core.repository.AccountRepository
 
 
 @Controller
-@RequestMapping("admin")
-class UsersPageController(val accountRepository: AccountRepository) {
-    @RequestMapping("/accounts")
+@RequestMapping("/admin/accounts")
+class AccountsController(val accountRepository: AccountRepository) {
+    @RequestMapping
     fun users(model: Model): String {
         val accounts = accountRepository.findAll()
         model.addAttribute("title", "All accounts")
         model.addAttribute("accounts", accounts)
 
-        return "admin/accounts/list"
+        return "admin/accountList"
     }
 
-    @RequestMapping("/accounts/pending")
+    @RequestMapping("/pending")
     fun pendingAccounts(model: Model): String {
         val accounts = accountRepository.findByFamilyTokenIsNull()
         model.addAttribute("title", "Pending accounts")
         model.addAttribute("accounts", accounts)
 
-        return "admin/accounts/list"
+        return "admin/accountList"
     }
 }
