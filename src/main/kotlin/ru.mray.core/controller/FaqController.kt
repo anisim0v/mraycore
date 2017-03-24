@@ -5,10 +5,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 @RequestMapping("/faq")
-class FaqController{
+class FaqController {
     @RequestMapping
     fun faqController(): String {
         return "faq/main"
     }
-
 }
