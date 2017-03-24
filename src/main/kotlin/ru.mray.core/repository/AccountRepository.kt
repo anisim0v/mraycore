@@ -6,5 +6,5 @@ import ru.mray.core.model.Account
 
 interface AccountRepository : MongoRepository<Account, String> {
     fun findByEmail(email: String): Account?
-    fun findByProvisioned(provisioned: Boolean, pageable: Pageable): List<Account>
+    fun findByProvisioned(provisioned: Boolean): List<Account>
 }
