@@ -68,4 +68,12 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
 
         return "admin/familyAdd"
     }
+
+    @RequestMapping("/tokens")
+    fun tokens(model: Model): String {
+        val tokens = familyTokenRepository.findAll()
+        model.addAttribute("familyTokens", tokens)
+        return "admin/familyTokens"
+
+    }
 }
