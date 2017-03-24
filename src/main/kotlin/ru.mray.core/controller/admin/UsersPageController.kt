@@ -19,7 +19,7 @@ class UsersPageController(val accountRepository: AccountRepository) {
 
     @RequestMapping("/accounts/pending")
     fun pendingAccounts(model: Model): String {
-        val accounts = accountRepository.findByProvisioned(false)
+        val accounts = accountRepository.findByFamilyTokenIsNull()
         model.addAttribute("accounts", accounts)
 
         return "admin/accounts/pending"

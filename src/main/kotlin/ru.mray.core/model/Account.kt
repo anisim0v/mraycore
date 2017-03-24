@@ -11,7 +11,7 @@ class Account() : UserDetails {
     lateinit var email: String
     lateinit var region: Region
     var renewPeriod: Int = 1
-    var provisioned: Boolean = false
+    var familyToken: String? = null
     var activeUntil: Instant? = null
     var admin: Boolean = false
     @Field("password") var _password: String? = null

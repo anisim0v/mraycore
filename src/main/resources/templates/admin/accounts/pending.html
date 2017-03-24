@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Pending accounts</title>
+    <title>All accounts</title>
 </head>
 <body>
-<!--/*@thymesVar id="accounts" type="java.util.List"*/-->
 <table>
     <tr th:each="account : ${accounts}">
         <td th:text="${account.email}"></td>

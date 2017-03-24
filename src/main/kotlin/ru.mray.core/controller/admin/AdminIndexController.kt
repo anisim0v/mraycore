@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody
 @RequestMapping("/admin")
 class AdminIndexController {
     @RequestMapping
-    @ResponseBody
     fun index(@AuthenticationPrincipal principal: UserDetails): String {
-        return "Hello ${principal.username}"
+        return "admin/index"
     }
 }

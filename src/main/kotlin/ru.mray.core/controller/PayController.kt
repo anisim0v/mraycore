@@ -115,7 +115,7 @@ class PayController(val w1Service: W1Service,
              model: Model): String {
         transaction ?: throw NotFoundException("Unknown transaction")
         val user = accountsRepository.findOne(transaction.accountId)
-        if (user.provisioned) {
+        if (user.familyToken != null) {
             model.addAttribute("text", "Продление совершено успешно")
         } else {
             model.addAttribute("text", "Покупка совершена успешно")
