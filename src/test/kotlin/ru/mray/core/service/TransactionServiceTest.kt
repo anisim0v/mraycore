@@ -19,7 +19,7 @@ class TransactionServiceTest {
     val transactionRepository: TransactionRepository = mock(TransactionRepository::class.java)
 
     val account = Account("bob@example.com", Account.Region.PH, 1).let {
-        it.provisioned = true
+        it.familyToken = "exampletoken"
         return@let it
     }
 
@@ -70,7 +70,7 @@ class TransactionServiceTest {
 
     @Test
     fun testNothingHappensWhenAccountIsNotProvisioned() {
-        account.provisioned = false
+        account.familyToken = null
 
         transactionService.refreshAccountTransactions(account)
 

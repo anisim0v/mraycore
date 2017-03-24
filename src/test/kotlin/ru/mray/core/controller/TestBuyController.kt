@@ -40,7 +40,7 @@ class TestBuyController {
         Assert.assertEquals("bob@example.com", account.email)
         Assert.assertEquals(3, account.renewPeriod)
         Assert.assertEquals(Account.Region.PH,account.region)
-        Assert.assertEquals(false, account.provisioned)
+        Assert.assertEquals(null, account.familyToken)
 
         val transactionCaptor = ArgumentCaptor.forClass(Transaction::class.java)
         verify(transactionRepository, times(2)).save(transactionCaptor.capture())

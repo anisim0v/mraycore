@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!--suppress HtmlFormInputWithoutLabel -->
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Add family</title>
+</head>
+<body>
+<form method="POST" th:action="@{/admin/families/add}">
+    <table>
+        <tr>
+            <td>
+                <label for="login">Login</label>
+                <input th:required="required" name="login" id="login"/>
+
+                <label for="password">Password</label>
+                <input th:required="required" name="password" id="password"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="region">Region</label>
+                <select th:required="required" id="region" name="region">
+                    <option value="PH">PH</option>
+                    <option value="US">US</option>
+                </select>
+
+                <label for="city">City</label>
+                <input th:required="required" name="city" id="city"/>
+
+                <label for="streetName">Street name</label>
+                <input th:required="required" name="streetName" id="streetName"/>
+
+                <label for="streetNumber">Street number</label>
+                <input th:required="required" name="streetNumber" id="streetNumber"/>
+
+                <label for="zipCode">Zip code</label>
+                <input th:required="required" name="zipCode" id="zipCode"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="paidUntil">Paid until</label>
+                <input th:required="required" name="paidUntil" id="paidUntil" type="date"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>Tokens</label>
+                <input th:required="required" name="tokens"/>
+                <input th:required="required" name="tokens"/>
+                <input th:required="required" name="tokens"/>
+                <input th:required="required" name="tokens"/>
+                <input th:required="required" name="tokens"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit" class="button" id="submit">Добавить</button>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
