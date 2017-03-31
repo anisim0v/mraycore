@@ -56,13 +56,7 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
         familyRepository.save(family)
 
         tokens
-                .map {
-                    val familyToken = FamilyToken()
-                    familyToken.familyLogin = family.login
-                    familyToken.region = region
-                    familyToken.token = it
-                    return@map familyToken
-                }
+                .mapIndexed { i, it -> FamilyToken(region, family.login, i, it) }
                 .toList()
                 .let { familyTokenRepository.save(it) }
 
