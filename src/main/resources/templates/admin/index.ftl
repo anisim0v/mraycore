@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>All accounts</title>
-</head>
-<body>
+<#include 'library/standardAdminPage.ftl'>
+
+<@standardAdminPage title="Admin index">
 <table>
     <tr>
         <td><a href="/admin/accounts">Accounts</a></td>
@@ -21,5 +18,4 @@
         <td><a href="/admin/families/tokens">Family tokens</a></td>
     </tr>
 </table>
-</body>
-</html>
+</@standardAdminPage>
