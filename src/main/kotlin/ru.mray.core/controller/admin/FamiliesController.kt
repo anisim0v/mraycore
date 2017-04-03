@@ -85,7 +85,7 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
                @RequestParam newToken: String): String {
         val account = accountRepository.findByEmail(email) ?: throw NotFoundException("Cannot find requested account")
 
-        val familyToken = familyTokenRepository.findByAccount(account.id)
+        val familyToken = familyTokenRepository.findByAccount(account.id) ?: throw NotFoundException("Cannot find requested FamilyToken")
         familyToken.account = null
         familyToken.token = newToken
         familyTokenRepository.save(familyToken)
