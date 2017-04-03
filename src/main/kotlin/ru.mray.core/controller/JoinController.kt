@@ -40,7 +40,7 @@ class JoinController(val accountRepository: AccountRepository,
         if (accountRepository.findByEmail(email) != null) {
             httpServletResponse.status = 400
             model.addAttribute("message", "Этот email уже связан с другим акканутом")
-            return "error" // TODO: Create error page
+            return "error"
         }
 
         val account = Account(email, region, period)
