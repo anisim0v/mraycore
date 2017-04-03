@@ -68,6 +68,10 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
         val tokens = familyTokenRepository.findAll()
         model.addAttribute("familyTokens", tokens)
         return "admin/familyTokens"
+    }
 
+    @RequestMapping("/unlink")
+    fun unlinkPage(model: Model): String {
+        return "admin/familyUnlink"
     }
 }
