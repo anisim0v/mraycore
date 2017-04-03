@@ -5,9 +5,11 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
+import ru.mray.core.exceptions.NotFoundException
 import ru.mray.core.model.Account
 import ru.mray.core.model.Family
 import ru.mray.core.model.FamilyToken
+import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.FamilyRepository
 import ru.mray.core.repository.FamilyTokenRepository
 import java.time.LocalDate
@@ -16,7 +18,8 @@ import java.time.LocalDate
 @Controller
 @RequestMapping("/admin/families")
 class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
-                         val familyRepository: FamilyRepository) {
+                         val familyRepository: FamilyRepository,
+                         val accountRepository: AccountRepository) {
     @RequestMapping
     fun familyTokens(model: Model): String {
         val families = familyRepository.findAll()
@@ -71,7 +74,22 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
     }
 
     @RequestMapping("/unlink")
-    fun unlinkPage(model: Model): String {
+    fun unlinkPage(): String {
+        return "admin/familyUnlink"
+    }
+
+    @RequestMapping("/unlink", method = arrayOf(RequestMethod.POST))
+    fun unlink(@RequestParam email: String,
+               @RequestParam newToken: String): String {
+        val account = accountRepository.findByEmail(email) ?: throw NotFoundException("Cannot find requested account")
+
+        val familyToken = familyTokenRepository.findByAccount(account.id)
+        familyToken.account = null
+        familyToken.token = newToken
+        familyTokenRepository.save(familyToken)
+
+        account.familyToken = null
+        accountRepository.save(account)
         return "admin/familyUnlink"
     }
 }

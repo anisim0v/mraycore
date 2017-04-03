@@ -6,7 +6,7 @@
     <table>
         <tr>
             <td>
-                <label for="login">Account email (to unlink)</label>
+                <label for="email">Account email (to unlink)</label>
                 <input required name="email" id="email"/>
             </td>
         </tr>
