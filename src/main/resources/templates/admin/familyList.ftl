@@ -18,7 +18,7 @@
             <td>${family.login}</td>
             <td>${family.region}</td>
             <td>${family.password}</td>
-            <td>${family.paidUntil}</td>
+            <td><a href="/admin/families/${family.login}/renew">${family.paidUntil}</a></td>
             <td>${family.streetName}</td>
             <td>${family.streetNumber}</td>
             <td>${family.zipCode}</td>

@@ -20,5 +20,8 @@
     <tr>
         <td><a href="/admin/families/unlink">Unlink account</a></td>
     </tr>
+    <tr>
+        <td><a href="/admin/families/renew">Renew family</a></td>
+    </tr>
 </table>
 </@standardAdminPage>

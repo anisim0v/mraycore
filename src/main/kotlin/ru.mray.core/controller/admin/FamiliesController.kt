@@ -2,6 +2,7 @@ package ru.mray.core.controller.admin
 
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
@@ -13,6 +14,7 @@ import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.FamilyRepository
 import ru.mray.core.repository.FamilyTokenRepository
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 
 @Controller
@@ -91,5 +93,20 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
         account.familyToken = null
         accountRepository.save(account)
         return "admin/familyUnlink"
+    }
+
+    @RequestMapping("{family}/renew")
+    fun familyRenewPage(@PathVariable family: Family, model: Model): String {
+        val paidUntil = family.paidUntil.plusMonths(1).format(DateTimeFormatter.ISO_DATE)
+        model.addAttribute("familyLogin", family.login)
+        model.addAttribute("paidUntil", paidUntil)
+        return "admin/familyRenew"
+    }
+
+    @RequestMapping("{family}/renew", method = arrayOf(RequestMethod.POST))
+    fun familyRenew(@PathVariable family: Family, @RequestParam paidUntil: String): String {
+        family.paidUntil = LocalDate.parse(paidUntil)
+        familyRepository.save(family)
+        return "redirect:/admin/families"
     }
 }
