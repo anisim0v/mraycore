@@ -15,11 +15,13 @@ class AdminIndexController(val accountRepository: AccountRepository,
     @RequestMapping
     fun index(model: Model): String {
         val accountsCount = accountRepository.count()
+        val activeCount = accountRepository.countByfamilyTokenIsNotNull()
         val pendingCount = accountRepository.findPending().count()
         val unassignedTokens = familyTokenRepository.countByAccountIsNull()
         val tokenCountToAssign = arrayOf(pendingCount, unassignedTokens).min()
 
         model.addAttribute("accountsCount", accountsCount)
+        model.addAttribute("activeCount", activeCount)
         model.addAttribute("pendingCount", pendingCount)
         model.addAttribute("unassignedTokens", unassignedTokens)
         model.addAttribute("tokenCountToAssign", tokenCountToAssign)

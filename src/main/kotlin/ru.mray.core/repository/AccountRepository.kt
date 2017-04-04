@@ -9,6 +9,7 @@ import ru.mray.core.model.Account
 
 interface AccountRepository : MongoRepository<Account, String>, AccountRepositoryCustom {
     fun findByEmail(email: String): Account?
+    fun countByfamilyTokenIsNotNull(): Int
 }
 
 interface AccountRepositoryCustom {
