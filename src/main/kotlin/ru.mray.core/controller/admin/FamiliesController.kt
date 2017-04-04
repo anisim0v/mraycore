@@ -90,6 +90,11 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
         return "redirect:/admin/families"
     }
 
+    @RequestMapping("/byToken/{familyToken}")
+    fun familyDetailsByToken(familyToken: FamilyToken): String {
+        return "redirect:/admin/families/${familyToken.familyLogin}"
+    }
+
     @RequestMapping("/{family}")
     fun familyDetails(family: Family, model: Model): String {
         val familyTokens = familyTokenRepository.findByFamilyLogin(family.login)

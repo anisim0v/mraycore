@@ -27,7 +27,7 @@
     </tr>
     <tr>
         <td>Street number</td>
-        <td>${family.streetName}</td>
+        <td>${family.streetNumber}</td>
     </tr>
     <tr>
         <td>Zip code</td>
