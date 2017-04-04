@@ -8,7 +8,7 @@
 <div>ID токена в семье: ${account.familyToken!"Вы не присоединены к семье"}</div>
 <div>Подписка активна до: ${account.activeUntil!"Вы пока еще не присоединены к семье. Дата окончания подписки появится позже"}</div>
 <p>
-<form>
+<form method="post">
     <label for="renewPeriod">Продлить подписку на: </label>
     <select id="renewPeriod" name="renewPeriod">
         <option value="1">1 месяц</option>
