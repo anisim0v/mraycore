@@ -43,7 +43,7 @@ class TransactionService(private val transactionRepository: TransactionRepositor
             latestActiveAccountTransaction = it
         }
 
-        account.activeUntil = latestActiveAccountTransaction?.activeUntil
+        account.activeUntil = latestActiveAccountTransaction?.activeUntil ?: account.activeUntil
         accountRepository.save(account)
     }
 

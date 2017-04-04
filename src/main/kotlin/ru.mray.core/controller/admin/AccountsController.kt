@@ -1,5 +1,6 @@
 package ru.mray.core.controller.admin
 
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PathVariable
@@ -30,7 +31,7 @@ class AccountsController(val accountRepository: AccountRepository,
 
     @RequestMapping("/pending")
     fun pendingAccounts(model: Model): String {
-        val accounts = accountRepository.findByFamilyTokenIsNull()
+        val accounts = accountRepository.findPending()
         model.addAttribute("title", "Pending accounts")
         model.addAttribute("accounts", accounts)
 
@@ -55,6 +56,12 @@ class AccountsController(val accountRepository: AccountRepository,
     fun assignToken(@PathVariable account: Account): String {
         familyTokenService.assignTokenToAccount(account)
         return "redirect:/admin/accounts/${account.id}"
+    }
+
+    @RequestMapping("/assignTokens", method = arrayOf(RequestMethod.POST))
+    fun assignTokens(@RequestParam tokenCountToAssign: Int): String {
+        familyTokenService.assignTokens(tokenCountToAssign)
+        return "redirect:/admin"
     }
 
     @RequestMapping("/{account}/unlink")

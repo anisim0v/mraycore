@@ -1,3 +1,5 @@
+<#-- @ftlvariable name="tokenCountToAssign" type="java.lang.Number" -->
+<#-- @ftlvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" -->
 <#-- @ftlvariable name="unassignedTokens" type="java.lang.Number" -->
 <#-- @ftlvariable name="pendingCount" type="java.lang.Number" -->
 <#-- @ftlvariable name="accountsCount" type="java.lang.Number" -->
@@ -15,6 +17,14 @@
         <td>Unassigned tokens: ${unassignedTokens}</td>
     </tr>
 </table>
+<p>
+<form>
+    <label for="tokenCountToAssign">Token count to assign:</label>
+    <input id="tokenCountToAssign" name="tokenCountToAssign"
+           value="${tokenCountToAssign}" type="number" min="1" max="${tokenCountToAssign}"/>
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    <input type="submit" value="Assign tokens"/>
+</form>
 <p>
 <table>
     <tr>

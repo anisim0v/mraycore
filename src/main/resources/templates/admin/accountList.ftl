@@ -11,6 +11,7 @@
         <td>Region</td>
         <td>Token</td>
         <td>Active until</td>
+        <td>Registered at</td>
     </tr>
     <#list accounts as account>
         <tr>
@@ -20,6 +21,7 @@
             <td>${account.region}</td>
             <td>${account.familyToken!}</td>
             <td>${account.activeUntil!}</td>
+            <td>${account.registeredAt}</td>
         </tr>
     </#list>
 </table>

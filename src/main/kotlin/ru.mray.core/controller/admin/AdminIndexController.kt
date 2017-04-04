@@ -17,10 +17,12 @@ class AdminIndexController(val accountRepository: AccountRepository,
         val accountsCount = accountRepository.count()
         val pendingCount = transactionRepository.countAccountInactivePaidTransactions()
         val unassignedTokens = familyTokenRepository.countByAccountIsNull()
+        val tokenCountToAssign = arrayOf(pendingCount, unassignedTokens).min()
 
         model.addAttribute("accountsCount", accountsCount)
         model.addAttribute("pendingCount", pendingCount)
         model.addAttribute("unassignedTokens", unassignedTokens)
+        model.addAttribute("tokenCountToAssign", tokenCountToAssign)
 
         return "admin/index"
     }

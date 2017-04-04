@@ -10,9 +10,10 @@ import java.util.*
 class Account() : UserDetails {
     lateinit var email: String
     lateinit var region: Region
+    var registeredAt: Instant = Instant.now()
     var renewPeriod: Int = 1
     var familyToken: String? = null
-    var activeUntil: Instant? = null
+    var activeUntil: Instant = Instant.now()
     var admin: Boolean = false
     @Field("password") var _password: String? = null
 

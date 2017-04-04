@@ -32,6 +32,10 @@
         <td>Active until</td>
         <td>${account.activeUntil!}</td>
     </tr>
+    <tr>
+        <td>Registered at</td>
+        <td>${account.registeredAt}</td>
+    </tr>
 </table>
 <p>
 <table border="1">
