@@ -25,7 +25,9 @@
     </tr>
     <tr>
         <td>Token</td>
-        <td><a href="/admin/families/byToken/${account.familyToken}">${account.familyToken!}</a></td>
+        <#if account.familyToken??>
+            <td><a href="/admin/families/byToken/${account.familyToken}">${account.familyToken}</a></td>
+        </#if>
     </tr>
     <tr>
         <td>Active until</td>
