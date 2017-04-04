@@ -18,7 +18,7 @@
     </tr>
 </table>
 <p>
-<form>
+<form method="post" action="/admin/accounts/assignTokens">
     <label for="tokenCountToAssign">Token count to assign:</label>
     <input id="tokenCountToAssign" name="tokenCountToAssign"
            value="${tokenCountToAssign}" type="number" min="1" max="${tokenCountToAssign}"/>

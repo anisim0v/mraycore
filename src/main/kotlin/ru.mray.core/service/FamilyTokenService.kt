@@ -1,6 +1,5 @@
 package ru.mray.core.service
 
-import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import ru.mray.core.exceptions.NotFoundException
@@ -29,8 +28,8 @@ class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepositor
     }
 
     fun assignTokens(tokenCountToAssign: Int) {
-        val tokens = familyTokenRepository.findByAccountIsNull(PageRequest(0, tokenCountToAssign))
-        val accpunts = accountRepository.findPending(tokenCountToAssign, Sort(Sort.Direction.ASC, "registeredAt"))
+        val accounts = accountRepository.findPending(tokenCountToAssign, Sort(Sort.Direction.ASC, "registeredAt"))
+        accounts.forEach { assignTokenToAccount(it) }
     }
 
     fun unlinkAccount(account: Account, newToken: String) {
