@@ -14,6 +14,7 @@ class Account() : UserDetails {
     var renewPeriod: Int = 1
     var familyToken: String? = null
     var activeUntil: Instant? = null
+    var renewNotificationSentAt: Instant? = null
     var admin: Boolean = false
     @Field("password") var _password: String? = null
 

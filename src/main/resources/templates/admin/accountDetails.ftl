@@ -24,9 +24,12 @@
     </tr>
     <tr>
         <td>Token</td>
-        <#if account.familyToken??>
-            <td><a href="/admin/families/byToken/${account.familyToken}">${account.familyToken}</a></td>
-        </#if>
+        <td>
+            <#if account.familyToken??>
+
+                <a href="/admin/families/byToken/${account.familyToken}">${account.familyToken}</a>
+            </#if>
+        </td>
     </tr>
     <tr>
         <td>Active until</td>
@@ -35,6 +38,10 @@
     <tr>
         <td>Registered at</td>
         <td>${account.registeredAt}</td>
+    </tr>
+    <tr>
+        <td>Renew notification sent at</td>
+        <td>${account.renewNotificationSentAt!}</td>
     </tr>
 </table>
 <p>
@@ -60,10 +67,10 @@
         </tr>
     </#list>
 </table>
-<#if !account.familyToken??>
-<p><a href="/admin/accounts/${account.id}/assignToken">Assign token</a></p>
-<#else>
-<p><a href="/admin/accounts/${account.id}/refresh">Refresh transactions</a></p>
-<p><a href="/admin/accounts/${account.id}/unlink">Unlink</a></p>
-</#if>
+    <#if !account.familyToken??>
+    <p><a href="/admin/accounts/${account.id}/assignToken">Assign token</a></p>
+    <#else>
+    <p><a href="/admin/accounts/${account.id}/refresh">Refresh transactions</a></p>
+    <p><a href="/admin/accounts/${account.id}/unlink">Unlink</a></p>
+    </#if>
 </@standardAdminPage>
