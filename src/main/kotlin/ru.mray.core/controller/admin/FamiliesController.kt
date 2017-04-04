@@ -75,26 +75,6 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
         return "admin/familyTokens"
     }
 
-    @RequestMapping("/unlink")
-    fun unlinkPage(): String {
-        return "admin/familyUnlink"
-    }
-
-    @RequestMapping("/unlink", method = arrayOf(RequestMethod.POST))
-    fun unlink(@RequestParam email: String,
-               @RequestParam newToken: String): String {
-        val account = accountRepository.findByEmail(email) ?: throw NotFoundException("Cannot find requested account")
-
-        val familyToken = familyTokenRepository.findByAccount(account.id) ?: throw NotFoundException("Cannot find requested FamilyToken")
-        familyToken.account = null
-        familyToken.token = newToken
-        familyTokenRepository.save(familyToken)
-
-        account.familyToken = null
-        accountRepository.save(account)
-        return "admin/familyUnlink"
-    }
-
     @RequestMapping("{family}/renew")
     fun familyRenewPage(@PathVariable family: Family, model: Model): String {
         val paidUntil = family.paidUntil.plusMonths(1).format(DateTimeFormatter.ISO_DATE)

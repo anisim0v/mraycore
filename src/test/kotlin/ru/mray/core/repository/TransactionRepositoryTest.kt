@@ -36,7 +36,7 @@ class TransactionRepositoryTest {
 
         val paidActiveTransaction = Transaction(accountId, Account.Region.PH, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
         paidActiveTransaction.paidAt = Instant.now()
-        paidActiveTransaction.activatedAt = Instant.now()
+        paidActiveTransaction.activeSince = Instant.now()
 
         transactionRepository.save(listOf(newTransaction, paidInactiveTransaction, paidActiveTransaction))
 
@@ -58,7 +58,7 @@ class TransactionRepositoryTest {
                     val period = Period.ofMonths(it)
                     val now = OffsetDateTime.now()
                     transaction.paidAt = now.minus(period).toInstant()
-                    transaction.activatedAt = transaction.paidAt!!.plusSeconds(30)
+                    transaction.activeSince = transaction.paidAt!!.plusSeconds(30)
                     return@map transaction
                 }
                 .toList()

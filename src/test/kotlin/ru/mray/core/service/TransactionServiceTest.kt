@@ -24,7 +24,7 @@ class TransactionServiceTest {
     }
 
     val activatedTransaction = Transaction(account.id, Account.Region.PH, Period.ofMonths(1), Transaction.TransactionType.PAYMENT).let {
-        it.activatedAt = Instant.now()
+        it.activeSince = Instant.now()
         it.activeUntil = Instant.now().plus(10, ChronoUnit.DAYS)
         it.paidAt = Instant.now()
         return@let it
@@ -50,7 +50,7 @@ class TransactionServiceTest {
         transactionService.refreshAccountTransactions(account)
 
         assertThat(paidTransaction.previousTransactionId).isEqualTo(activatedTransaction.id)
-        assertThat(paidTransaction.activatedAt).isNotNull()
+        assertThat(paidTransaction.activeSince).isNotNull()
         assertThat(paidTransaction.activeUntil)
                 .isEqualTo(OffsetDateTime.ofInstant(activatedTransaction.activeUntil!!, ZoneId.of("UTC"))
                         .plus(paidTransaction.period)
@@ -75,7 +75,7 @@ class TransactionServiceTest {
         transactionService.refreshAccountTransactions(account)
 
         assertThat(paidTransaction.previousTransactionId).isNull()
-        assertThat(paidTransaction.activatedAt).isNull()
+        assertThat(paidTransaction.activeSince).isNull()
         assertThat(paidTransaction.activeUntil).isNull()
     }
 }

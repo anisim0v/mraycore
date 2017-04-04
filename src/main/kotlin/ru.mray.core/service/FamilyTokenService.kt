@@ -25,4 +25,15 @@ class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepositor
 
         transactionService.refreshAccountTransactions(account)
     }
+
+    fun unlinkAccount(account: Account, newToken: String) {
+        val familyToken = familyTokenRepository.findByAccount(account.id)
+                ?: throw NotFoundException("Cannot find requested FamilyToken")
+        familyToken.account = null
+        familyToken.token = newToken
+        familyTokenRepository.save(familyToken)
+
+        account.familyToken = null
+        accountRepository.save(account)
+    }
 }

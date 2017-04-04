@@ -11,10 +11,10 @@ import ru.mray.core.model.Transaction
 interface TransactionRepository : TransactionRepositoryCustom, MongoRepository<Transaction, String> {
     fun findByAccountId(accountId: String): List<Transaction>
 
-    @Query("{ 'accountId': ?0, 'paidAt': { \$ne: null }, 'activatedAt': { \$exists: false } }")
+    @Query("{ 'accountId': ?0, 'paidAt': { \$ne: null }, 'activeSince': { \$exists: false } }")
     fun findAccountInactivePaidTransactions(accountId: String): List<Transaction>
 
-    @Query("{ 'paidAt': { \$ne: null }, 'activatedAt': { \$exists: false } }", count = true)
+    @Query("{ 'paidAt': { \$ne: null }, 'activeSince': { \$exists: false } }", count = true)
     fun countAccountInactivePaidTransactions(): Int
 }
 
@@ -28,8 +28,8 @@ class TransactionRepositoryImpl(val mongoTemplate: MongoTemplate) : TransactionR
         val query = query(
                 Criteria
                         .where("accountId").`is`(accountId)
-                        .and("activatedAt").ne(null))
-                .with(Sort(Sort.Direction.DESC, "activatedAt"))
+                        .and("activeSince").ne(null))
+                .with(Sort(Sort.Direction.DESC, "activeSince"))
 
         val result = mongoTemplate.findOne(query, Transaction::class.java)
         return result

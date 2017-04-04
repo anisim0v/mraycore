@@ -32,7 +32,6 @@
         <td>${account.activeUntil!}</td>
     </tr>
 </table>
-</p>
 <p>
 <table border="1">
     <tr>
@@ -51,14 +50,15 @@
             <td>${transaction.type}</td>
             <td>${transaction.issueDate}</td>
             <td>${transaction.paidAt!}</td>
-            <td>${transaction.activatedAt!}</td>
+            <td>${transaction.activeSince!}</td>
             <td>${transaction.activeUntil!}</td>
         </tr>
     </#list>
 </table>
-</p>
-<p><a href="/admin/accounts/${account.id}/refresh">Refresh transactions</a></p>
 <#if !account.familyToken??>
 <p><a href="/admin/accounts/${account.id}/assignToken">Assign token</a></p>
+<#else>
+<p><a href="/admin/accounts/${account.id}/refresh">Refresh transactions</a></p>
+<p><a href="/admin/accounts/${account.id}/unlink">Unlink</a></p>
 </#if>
 </@standardAdminPage>

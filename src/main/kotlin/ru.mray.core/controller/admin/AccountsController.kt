@@ -4,6 +4,8 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.RequestParam
 import ru.mray.core.model.Account
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.TransactionRepository
@@ -52,6 +54,18 @@ class AccountsController(val accountRepository: AccountRepository,
     @RequestMapping("/{account}/assignToken")
     fun assignToken(@PathVariable account: Account): String {
         familyTokenService.assignTokenToAccount(account)
+        return "redirect:/admin/accounts/${account.id}"
+    }
+
+    @RequestMapping("/{account}/unlink")
+    fun unlinkPage(@PathVariable account: Account, model: Model): String {
+        model.addAttribute("account", account)
+        return "admin/accountUnlink"
+    }
+
+    @RequestMapping("/{account}/unlink", method = arrayOf(RequestMethod.POST))
+    fun unlink(@PathVariable account: Account, @RequestParam newToken: String): String {
+        familyTokenService.unlinkAccount(account, newToken)
         return "redirect:/admin/accounts/${account.id}"
     }
 }

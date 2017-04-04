@@ -12,7 +12,7 @@ class Transaction() {
     var issueDate: Instant = Instant.now()
     var previousTransactionId: String? = null
     var paidAt: Instant? = null
-    var activatedAt: Instant? = null
+    var activeSince: Instant? = null
     var activeUntil: Instant? = null
     var id: String = UUID.randomUUID().toString()
 

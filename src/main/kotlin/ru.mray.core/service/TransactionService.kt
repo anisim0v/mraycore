@@ -31,17 +31,20 @@ class TransactionService(private val transactionRepository: TransactionRepositor
                     .filter { it != null }
                     .maxBy { it!! }!!
 
-            val activeUntil = OffsetDateTime.ofInstant(activationStartTime, ZoneId.of("UTC"))
+            val lastTransactionActiveUntil = OffsetDateTime.ofInstant(activationStartTime, ZoneId.of("UTC"))
                     .plus(it.period)
                     .toInstant()
 
-            it.activatedAt = Instant.now()
-            it.activeUntil = activeUntil
+            it.activeSince = activationStartTime
+            it.activeUntil = lastTransactionActiveUntil
             it.previousTransactionId = latestActiveAccountTransaction?.id
 
             transactionRepository.save(it)
             latestActiveAccountTransaction = it
         }
+
+        account.activeUntil = latestActiveAccountTransaction?.activeUntil
+        accountRepository.save(account)
     }
 
     fun refreshAccountTransactions(accountId: String) {
