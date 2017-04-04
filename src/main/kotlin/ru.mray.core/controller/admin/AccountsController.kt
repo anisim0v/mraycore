@@ -7,12 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping
 import ru.mray.core.model.Account
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.TransactionRepository
+import ru.mray.core.service.TransactionService
 
 
 @Controller
 @RequestMapping("/admin/accounts")
 class AccountsController(val accountRepository: AccountRepository,
-                         val transactionRepository: TransactionRepository) {
+                         val transactionRepository: TransactionRepository,
+                         val transactionService: TransactionService) {
     @RequestMapping
     fun users(model: Model): String {
         val accounts = accountRepository.findAll()
@@ -38,4 +40,11 @@ class AccountsController(val accountRepository: AccountRepository,
         model.addAttribute("transactions", accountTransactions)
         return "admin/accountDetails"
     }
+
+    @RequestMapping("/{account}/refresh")
+    fun refreshAccountTransactions(@PathVariable account: Account): String {
+        transactionService.refreshAccountTransactions(account)
+        return "redirect:/admin/accounts/${account.id}"
+    }
+
 }
