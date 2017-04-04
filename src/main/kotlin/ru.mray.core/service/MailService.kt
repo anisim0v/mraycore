@@ -1,15 +1,45 @@
 package ru.mray.core.service
 
+import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
 import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.mock.web.MockHttpServletResponse
+import org.springframework.retry.backoff.ExponentialBackOffPolicy
+import org.springframework.retry.policy.TimeoutRetryPolicy
+import org.springframework.retry.support.RetryTemplate
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor
 import org.springframework.stereotype.Service
 import org.springframework.ui.Model
+import org.springframework.web.client.RestTemplate
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver
+import ru.mray.core.model.Account
 import java.util.*
 
 @Service
-class MailService(val viewResolver: FreeMarkerViewResolver) {
-    fun renderTemplate(templateName: String, model: Model): String? {
+class MailService(private val viewResolver: FreeMarkerViewResolver) {
+
+    @Value("\${mray.mailhandler-key?:}") private val apiKey: String = ""
+
+    val logger = LoggerFactory.getLogger(MailService::class.java)
+    val restTemplate = RestTemplate()
+    private val retryTemplate = RetryTemplate().let {
+        it.setBackOffPolicy(ExponentialBackOffPolicy())
+        it.setRetryPolicy(
+                TimeoutRetryPolicy().let { it.timeout = 30000L; it }
+        )
+        return@let it
+    }
+
+    private val taskExecutor = ThreadPoolTaskExecutor().let {
+        it.initialize()
+        it
+    }
+
+
+    fun renderTemplate(templateName: String, model: Model): String {
         val view = viewResolver.resolveViewName(templateName, Locale.forLanguageTag("RU"))
         val mockHttpServletResponse = MockHttpServletResponse()
         val mockHttpServletRequest = MockHttpServletRequest()
@@ -17,5 +47,38 @@ class MailService(val viewResolver: FreeMarkerViewResolver) {
 
         val result = mockHttpServletResponse.contentAsString
         return result
+    }
+
+    fun sendMail(account: Account, subject: String, templateName: String, model: Model) {
+
+         if (apiKey == "") {
+            logger.warn("Email service is disabled due to mray.mailhandler-key has not been provided")
+            return
+        }
+
+        val renderedTemplate = renderTemplate(templateName, model)
+
+        val headers = HttpHeaders()
+        headers.contentType = MediaType.APPLICATION_JSON
+        headers.accept = listOf(MediaType.APPLICATION_JSON)
+        headers.set("X-Secure-Token", apiKey)
+
+        val body = mapOf(
+                "from" to "mail@music-ray.ru",
+                "to" to listOf(account.email),
+                "subject" to subject,
+                "html_body" to renderedTemplate
+        )
+
+        val request = HttpEntity<Map<String, Any>>(body, headers)
+
+        taskExecutor.execute {
+            retryTemplate.execute<Unit, Exception> {
+                logger.info("Sending email...")
+                restTemplate.postForEntity("https://api.mailhandler.ru/message/send/", request,
+                        String::class.java, emptyMap<String, String>())
+                logger.info("Email sent to ${account.email}")
+            }
+        }
     }
 }

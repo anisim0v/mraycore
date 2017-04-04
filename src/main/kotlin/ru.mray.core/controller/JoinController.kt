@@ -5,6 +5,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Controller
+import org.springframework.ui.ExtendedModelMap
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
@@ -13,6 +14,7 @@ import ru.mray.core.model.Account
 import ru.mray.core.model.Transaction
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.TransactionRepository
+import ru.mray.core.service.MailService
 import java.time.Instant
 import java.time.Period
 import javax.servlet.http.HttpServletResponse
@@ -21,7 +23,8 @@ import javax.servlet.http.HttpServletResponse
 @RequestMapping("/join")
 class JoinController(val accountRepository: AccountRepository,
                      val transactionRepository: TransactionRepository,
-                     val passwordEncoder: PasswordEncoder) {
+                     val passwordEncoder: PasswordEncoder,
+                     val mailService: MailService) {
 
     val logger: Logger = LoggerFactory.getLogger(JoinController::class.java)
 
@@ -54,11 +57,17 @@ class JoinController(val accountRepository: AccountRepository,
 
         val paymentTransaction = Transaction(account.id, account.region, Period.ofMonths(period), Transaction.TransactionType.PAYMENT)
 
+        val mailModel = ExtendedModelMap()
+        mailModel.addAttribute("email", email)
+        mailModel.put("transactionId", paymentTransaction.id)
+        mailService.sendMail(account, "Welcome to Music Ray", "mail/welcome", mailModel)
+
         listOf(bonusTransaction, paymentTransaction).forEach { transaction ->
             transactionRepository.save(transaction)
             logger.info("New transaction: Type: ${transaction.type}. Account: ${transaction.accountId}. " +
                     "Period: ${transaction.period}. Region: ${transaction.region}. ID: ${transaction.id}")
         }
+
 
         model.addAttribute("email", email)
         model.addAttribute("transactionId", paymentTransaction.id)
