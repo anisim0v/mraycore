@@ -2,13 +2,17 @@ package ru.mray.core.controller.admin
 
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import ru.mray.core.model.Account
 import ru.mray.core.repository.AccountRepository
+import ru.mray.core.repository.TransactionRepository
 
 
 @Controller
 @RequestMapping("/admin/accounts")
-class AccountsController(val accountRepository: AccountRepository) {
+class AccountsController(val accountRepository: AccountRepository,
+                         val transactionRepository: TransactionRepository) {
     @RequestMapping
     fun users(model: Model): String {
         val accounts = accountRepository.findAll()
@@ -25,5 +29,13 @@ class AccountsController(val accountRepository: AccountRepository) {
         model.addAttribute("accounts", accounts)
 
         return "admin/accountList"
+    }
+
+    @RequestMapping("/{account}")
+    fun accountDetails(@PathVariable account: Account, model: Model): String {
+        val accountTransactions = transactionRepository.findByAccountId(account.id)
+        model.addAttribute("account", account)
+        model.addAttribute("transactions", accountTransactions)
+        return "admin/accountDetails"
     }
 }
