@@ -15,7 +15,7 @@
     <#list accounts as account>
         <tr>
             <td>${account.email}</td>
-            <td>${account.id}</td>
+            <td><a href="/admin/accounts/${account.id}">${account.id}</a></td>
             <td>${account.renewPeriod}</td>
             <td>${account.region}</td>
             <td>${account.familyToken!}</td>

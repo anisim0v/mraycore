@@ -8,7 +8,8 @@ import ru.mray.core.repository.FamilyTokenRepository
 
 @Service
 class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepository,
-                         private val accountRepository: AccountRepository) {
+                         private val accountRepository: AccountRepository,
+                         private val transactionService: TransactionService) {
     fun assignTokenToAccount(account: Account) {
         if (account.familyToken != null) {
             return
@@ -21,5 +22,7 @@ class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepositor
 
         accountRepository.save(account)
         familyTokenRepository.save(familyToken)
+
+        transactionService.refreshAccountTransactions(account)
     }
 }

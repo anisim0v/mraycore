@@ -14,7 +14,11 @@
             <td>${token.token}</td>
             <td>${token.region}</td>
             <td>${token.familyLogin}</td>
-            <td>${token.account!}</td>
+            <td>
+                <#if token.account??>
+                <a href="/admin/accounts/${token.account}">${token.account}</a>
+                </#if>
+            </td>
         </tr>
     </#list>
 </table>

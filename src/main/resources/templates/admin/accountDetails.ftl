@@ -58,4 +58,7 @@
 </table>
 </p>
 <p><a href="/admin/accounts/${account.id}/refresh">Refresh transactions</a></p>
+<#if !account.familyToken??>
+<p><a href="/admin/accounts/${account.id}/assignToken">Assign token</a></p>
+</#if>
 </@standardAdminPage>

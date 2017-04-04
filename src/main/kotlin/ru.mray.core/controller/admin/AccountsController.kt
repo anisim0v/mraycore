@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import ru.mray.core.model.Account
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.TransactionRepository
+import ru.mray.core.service.FamilyTokenService
 import ru.mray.core.service.TransactionService
 
 
@@ -14,7 +15,8 @@ import ru.mray.core.service.TransactionService
 @RequestMapping("/admin/accounts")
 class AccountsController(val accountRepository: AccountRepository,
                          val transactionRepository: TransactionRepository,
-                         val transactionService: TransactionService) {
+                         val transactionService: TransactionService,
+                         val familyTokenService: FamilyTokenService) {
     @RequestMapping
     fun users(model: Model): String {
         val accounts = accountRepository.findAll()
@@ -47,4 +49,9 @@ class AccountsController(val accountRepository: AccountRepository,
         return "redirect:/admin/accounts/${account.id}"
     }
 
+    @RequestMapping("/{account}/assignToken")
+    fun assignToken(@PathVariable account: Account): String {
+        familyTokenService.assignTokenToAccount(account)
+        return "redirect:/admin/accounts/${account.id}"
+    }
 }
