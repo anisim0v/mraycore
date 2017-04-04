@@ -13,7 +13,7 @@ open class IndexController(val accountRepository: AccountRepository,
     @RequestMapping
     fun index(model: Model): String {
         val accountsCount = accountRepository.count()
-        val provisioningCount = transactionRepository.countAccountInactivePaidTransactions()
+        val provisioningCount = transactionRepository.countInactivePaidTransactions()
 
         model.addAttribute("accountsCount", accountsCount)
         model.addAttribute("provisioningCount", provisioningCount)

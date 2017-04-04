@@ -30,8 +30,7 @@ class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepositor
 
     fun assignTokens(tokenCountToAssign: Int) {
         val tokens = familyTokenRepository.findByAccountIsNull(PageRequest(0, tokenCountToAssign))
-        val accpunts = accountRepository.findByFamilyTokenIsNull(
-                PageRequest(0, tokenCountToAssign, Sort(Sort.Direction.ASC, "registeredAt")))
+        val accpunts = accountRepository.findPending(tokenCountToAssign, Sort(Sort.Direction.ASC, "registeredAt"))
     }
 
     fun unlinkAccount(account: Account, newToken: String) {

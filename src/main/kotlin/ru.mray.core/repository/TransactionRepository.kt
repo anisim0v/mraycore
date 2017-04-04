@@ -15,7 +15,10 @@ interface TransactionRepository : TransactionRepositoryCustom, MongoRepository<T
     fun findAccountInactivePaidTransactions(accountId: String): List<Transaction>
 
     @Query("{ 'paidAt': { \$ne: null }, 'activeSince': { \$exists: false } }", count = true)
-    fun countAccountInactivePaidTransactions(): Int
+    fun countInactivePaidTransactions(): Int
+
+    @Query("{ 'paidAt': { \$ne: null }, 'activeSince': { \$exists: false } }")
+    fun findInactivePaidTransactions(): List<Transaction>
 }
 
 

@@ -13,7 +13,7 @@ class Account() : UserDetails {
     var registeredAt: Instant = Instant.now()
     var renewPeriod: Int = 1
     var familyToken: String? = null
-    var activeUntil: Instant = Instant.now()
+    var activeUntil: Instant? = null
     var admin: Boolean = false
     @Field("password") var _password: String? = null
 
