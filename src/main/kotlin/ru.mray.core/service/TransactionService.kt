@@ -17,7 +17,7 @@ class TransactionService(private val transactionRepository: TransactionRepositor
      * This method should be called every time account.provisioned flag changes or transaction becomes paid
      */
     fun refreshAccountTransactions(account: Account) {
-        if (account.familyToken == null) { // TODO: assign familyToken from pool to account if paid
+        if (account.familyToken == null) {
             return
         }
 
