@@ -17,7 +17,6 @@
     <tr>
         <td>Period</td>
         <td>${account.renewPeriod}</td>
-
     </tr>
     <tr>
         <td>Region</td>

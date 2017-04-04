@@ -1,6 +1,21 @@
+<#-- @ftlvariable name="unassignedTokens" type="java.lang.Number" -->
+<#-- @ftlvariable name="pendingCount" type="java.lang.Number" -->
+<#-- @ftlvariable name="accountsCount" type="java.lang.Number" -->
 <#include 'library/standardAdminPage.ftl'>
 
 <@standardAdminPage title="Admin index">
+<table>
+    <tr>
+        <td>Total accounts: ${accountsCount}</td>
+    </tr>
+    <tr>
+        <td>Pending accounts: ${pendingCount}</td>
+    </tr>
+    <tr>
+        <td>Unassigned tokens: ${unassignedTokens}</td>
+    </tr>
+</table>
+<p>
 <table>
     <tr>
         <td><a href="/admin/accounts">Accounts</a></td>

@@ -1,16 +1,27 @@
 package ru.mray.core.controller.admin
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseBody
+import ru.mray.core.repository.AccountRepository
+import ru.mray.core.repository.FamilyTokenRepository
+import ru.mray.core.repository.TransactionRepository
 
 @Controller
 @RequestMapping("/admin")
-class AdminIndexController {
+class AdminIndexController(val accountRepository: AccountRepository,
+                           val transactionRepository: TransactionRepository,
+                           val familyTokenRepository: FamilyTokenRepository) {
     @RequestMapping
-    fun index(@AuthenticationPrincipal principal: UserDetails): String {
+    fun index(model: Model): String {
+        val accountsCount = accountRepository.count()
+        val pendingCount = transactionRepository.countAccountInactivePaidTransactions()
+        val unassignedTokens = familyTokenRepository.countByAccountIsNull()
+
+        model.addAttribute("accountsCount", accountsCount)
+        model.addAttribute("pendingCount", pendingCount)
+        model.addAttribute("unassignedTokens", unassignedTokens)
+
         return "admin/index"
     }
 }
