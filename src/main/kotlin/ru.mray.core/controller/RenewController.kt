@@ -16,7 +16,11 @@ import java.time.Period
 class RenewController(val transactionRepository: TransactionRepository) {
     @RequestMapping("/{account}")
     fun renewPage(@PathVariable account: Account, model: Model): String {
+        val latestTransaction = transactionRepository.findFirstByAccountId(account.id)
+
         model.addAttribute("account", account)
+        model.addAttribute("transaction", latestTransaction)
+        model.addAttribute("showRenewForm", (latestTransaction == null) or (latestTransaction!!.paidAt != null) )
         return "renew/index"
     }
 

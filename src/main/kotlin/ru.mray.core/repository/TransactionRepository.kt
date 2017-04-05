@@ -9,7 +9,8 @@ import org.springframework.data.mongodb.repository.Query
 import ru.mray.core.model.Transaction
 
 interface TransactionRepository : TransactionRepositoryCustom, MongoRepository<Transaction, String> {
-    fun findByAccountId(accountId: String): List<Transaction>
+    fun findByAccountId(accountId: String, sort: Sort? = Sort(Sort.Direction.DESC, "issueDate")): List<Transaction>
+    fun findFirstByAccountId(accountId: String, sort: Sort? = Sort(Sort.Direction.DESC, "issueDate")): Transaction?
 
     @Query("{ 'accountId': ?0, 'paidAt': { \$ne: null }, 'activeSince': { \$exists: false } }")
     fun findAccountInactivePaidTransactions(accountId: String): List<Transaction>

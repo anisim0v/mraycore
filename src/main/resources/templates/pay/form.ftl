@@ -8,7 +8,7 @@
 <#-- @ftlvariable name="WMI_MERCHANT_ID" type="java.lang.String" -->
 <#include '../library/standardPage.ftl'>
 
-<@standardPage title="Что-то пошло не так">
+<@standardPage title="Оплата подписки">
 <div>
     <span>К оплате: ${WMI_PAYMENT_AMOUNT}</span>
     <form method="post" action="https://wl.walletone.com/checkout/checkout/Index">
@@ -20,7 +20,7 @@
         <input name="WMI_FAIL_URL" type="hidden" value="${WMI_FAIL_URL}"/>
         <input name="WMI_PAYMENT_NO" type="hidden" value="${WMI_PAYMENT_NO}"/>
         <input name="WMI_SIGNATURE" type="hidden" value="${WMI_SIGNATURE}"/>
-        <input type="submit"/>
+        <input type="submit" value="Оплатить">
     </form>
 </div>
 </@standardPage>
