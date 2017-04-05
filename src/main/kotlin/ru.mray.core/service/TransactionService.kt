@@ -15,10 +15,11 @@ class TransactionService(private val transactionRepository: TransactionRepositor
      * Считает Transaction.activeUntil для всех оплаченных, но еще не активированных транзакций. Этот метод
      * должен вызываться каждый раз при подтверждении оплаты транзакции / выдаче FamilyToken'а
      *
-     * @param interpretAsNewSubscription Если True и текущая подписка уже закончилась, то считать текущий момент началом
-     * действия новых транзакций. False - использовать время окончания предыдущей транзакции в качестве начала для новой
+     * @param newTransactionsStartInstant Момент начала отсчета для новых транзакций в случае, если последняя
+     * активированная уже истекла. Иначе (или в случае == null) началом отсчета будет момент истечения предыдущей
+     * транзакции.
      */
-    fun refreshAccountTransactions(account: Account, interpretAsNewSubscription: Boolean = false) {
+    fun refreshAccountTransactions(account: Account, newTransactionsStartInstant: Instant? = null) {
         if (account.familyToken == null) {
             return
         }
@@ -31,8 +32,8 @@ class TransactionService(private val transactionRepository: TransactionRepositor
         inactivePaidTransactions.forEach {
             var activationStartTime = latestActiveAccountTransaction?.activeUntil ?: Instant.now()
 
-            if (interpretAsNewSubscription) {
-                activationStartTime = listOf(activationStartTime, Instant.now()).max()
+            if (newTransactionsStartInstant != null) {
+                activationStartTime = listOf(activationStartTime, newTransactionsStartInstant).max()
             }
 
             val lastTransactionActiveUntil = OffsetDateTime.ofInstant(activationStartTime, ZoneId.of("UTC"))

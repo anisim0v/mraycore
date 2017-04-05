@@ -5,6 +5,7 @@ import ru.mray.core.exceptions.NotFoundException
 import ru.mray.core.model.Account
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.FamilyTokenRepository
+import java.time.Instant
 
 @Service
 class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepository,
@@ -23,7 +24,7 @@ class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepositor
         accountRepository.save(account)
         familyTokenRepository.save(familyToken)
 
-        transactionService.refreshAccountTransactions(account, true)
+        transactionService.refreshAccountTransactions(account, Instant.now())
     }
 
     fun assignTokens(tokenCountToAssign: Int) {

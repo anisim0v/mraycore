@@ -32,7 +32,7 @@ class TransactionRepositoryImpl(val mongoTemplate: MongoTemplate) : TransactionR
                 Criteria
                         .where("accountId").`is`(accountId)
                         .and("activeSince").ne(null))
-                .with(Sort(Sort.Direction.DESC, "activeSince"))
+                .with(Sort(Sort.Direction.DESC, "issueDate"))
 
         val result = mongoTemplate.findOne(query, Transaction::class.java)
         return result

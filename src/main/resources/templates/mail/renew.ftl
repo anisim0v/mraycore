@@ -11,6 +11,6 @@
 
 <p>Как и всегда, <a href="https://music-ray.ru/pay/renew/${account.id}">вот ваша ссылка на продление</a>.</p>
 
-<p>Спасибо,что пользуетесь нами,<br>MusicRay</p>
+<p>Спасибо, что пользуетесь нами,<br>MusicRay</p>
 </body>
 </html>
