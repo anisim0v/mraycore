@@ -14,6 +14,7 @@ import ru.mray.core.exceptions.NotFoundException
 import ru.mray.core.model.Transaction
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.TransactionRepository
+import ru.mray.core.service.FamilyTokenService
 import ru.mray.core.service.TransactionService
 import ru.mray.core.service.W1Service
 import ru.mray.core.util.describe
@@ -29,7 +30,8 @@ class PayController(val w1Service: W1Service,
                     val transactionRepository: TransactionRepository,
                     val accountsRepository: AccountRepository,
                     val objMapper: ObjectMapper,
-                    val transactionService: TransactionService) {
+                    val transactionService: TransactionService,
+                    val familyTokenService: FamilyTokenService) {
 
     val logger: Logger = LoggerFactory.getLogger(PayController::class.java)
 
@@ -98,8 +100,25 @@ class PayController(val w1Service: W1Service,
 
         logger.info("Transaction paid: ${transaction.id}")
 
-        transactionService.refreshAccountTransactions(transaction.accountId)
+        val account = accountsRepository.findOne(transaction.accountId)
 
+        if (account == null) {
+            val errorStr = "Can't find account for transaction ${transaction.id}"
+            logger.warn(errorStr)
+            val respStr = URLEncoder.encode("WMI_RESULT=RETRY&WMI_DESCRIPTION=$errorStr", "UTF-8")
+            return respStr
+        }
+
+        if (account.familyToken == null) {
+            try {
+                familyTokenService.assignTokenToAccount(account)
+                return "WMI_RESULT=OK"
+            } catch (e: NotFoundException) {
+                logger.warn("Failed to autoassign token to user", e)
+            }
+        }
+
+        transactionService.refreshAccountTransactions(account)
         return "WMI_RESULT=OK"
     }
 

@@ -20,7 +20,7 @@ class RenewController(val transactionRepository: TransactionRepository) {
 
         model.addAttribute("account", account)
         model.addAttribute("transaction", latestTransaction)
-        model.addAttribute("showRenewForm", (latestTransaction == null) or (latestTransaction!!.paidAt != null) )
+        model.addAttribute("showRenewForm", latestTransaction == null || latestTransaction.paidAt != null)
         return "renew/index"
     }
 

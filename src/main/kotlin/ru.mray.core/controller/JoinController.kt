@@ -15,7 +15,6 @@ import ru.mray.core.model.Transaction
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.TransactionRepository
 import ru.mray.core.service.MailService
-import java.time.Instant
 import java.time.Period
 import javax.servlet.http.HttpServletResponse
 
@@ -52,24 +51,18 @@ class JoinController(val accountRepository: AccountRepository,
         accountRepository.save(account)
         logger.info("New account: Email: $email. Region: $region. Period: $period")
 
-        val bonusTransaction = Transaction(account.id, account.region, Period.ofDays(1), Transaction.TransactionType.BONUS)
-        bonusTransaction.paidAt = Instant.now()
+        val transaction = Transaction(account.id, account.region, Period.ofMonths(period), Transaction.TransactionType.PAYMENT)
 
-        val paymentTransaction = Transaction(account.id, account.region, Period.ofMonths(period), Transaction.TransactionType.PAYMENT)
+        transactionRepository.save(transaction)
+        logger.info("New transaction: Type: ${transaction.type}. Account: ${transaction.accountId}. " +
+                "Period: ${transaction.period}. Region: ${transaction.region}. ID: ${transaction.id}")
 
         val mailModel = ExtendedModelMap()
         mailModel.addAttribute("account", account)
         mailService.sendMail(account, "Welcome to Music Ray", "mail/welcome", mailModel)
 
-        listOf(bonusTransaction, paymentTransaction).forEach { transaction ->
-            transactionRepository.save(transaction)
-            logger.info("New transaction: Type: ${transaction.type}. Account: ${transaction.accountId}. " +
-                    "Period: ${transaction.period}. Region: ${transaction.region}. ID: ${transaction.id}")
-        }
-
-
         model.addAttribute("email", email)
-        model.addAttribute("transactionId", paymentTransaction.id)
+        model.addAttribute("transactionId", transaction.id)
         return "join/done"
     }
 }

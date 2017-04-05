@@ -17,6 +17,8 @@ open class SecurityConfig : WebSecurityConfigurerAdapter() {
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/**").permitAll()
                 .and().formLogin().loginPage("/login").failureUrl("/login-fail")
+
+        http.csrf().ignoringAntMatchers("/pay/confirm")
     }
 
     @Bean
