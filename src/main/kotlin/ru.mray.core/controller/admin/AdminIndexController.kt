@@ -3,6 +3,7 @@ package ru.mray.core.controller.admin
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
+import ru.mray.core.model.Account
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.FamilyTokenRepository
 import ru.mray.core.repository.TransactionRepository
@@ -18,7 +19,7 @@ class AdminIndexController(val accountRepository: AccountRepository,
         val activeCount = accountRepository.countByFamilyTokenIsNotNull()
         val pendingCount = accountRepository.findPending().count()
         val expiredCount = accountRepository.countExpired()
-        val unassignedTokens = familyTokenRepository.countUnassigned()
+        val unassignedTokens = familyTokenRepository.countUnassigned(Account.Region.PH)
         val tokenCountToAssign = arrayOf(pendingCount, unassignedTokens).min()
 
         model.addAttribute("accountsCount", accountsCount)

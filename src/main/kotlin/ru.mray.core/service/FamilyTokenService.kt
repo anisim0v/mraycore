@@ -15,7 +15,7 @@ class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepositor
             return
         }
 
-        val familyToken = familyTokenRepository.findFirstUnassigned()
+        val familyToken = familyTokenRepository.findFirstUnassigned(account.region)
                 ?: throw NotFoundException("No free tokens available")
         familyToken.account = account.id
         account.familyToken = familyToken.id
