@@ -28,7 +28,8 @@ class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepositor
     }
 
     fun assignTokens(tokenCountToAssign: Int) {
-        val accounts = accountRepository.findPending(tokenCountToAssign, Sort(Sort.Direction.ASC, "registeredAt"))
+        val accounts = accountRepository.findPending(tokenCountToAssign)
+        print(accounts.size)
         accounts.forEach { assignTokenToAccount(it) }
     }
 

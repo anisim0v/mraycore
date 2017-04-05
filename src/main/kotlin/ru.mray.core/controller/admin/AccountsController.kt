@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
 import ru.mray.core.model.Account
 import ru.mray.core.repository.AccountRepository
+import ru.mray.core.repository.FamilyRepository
+import ru.mray.core.repository.FamilyTokenRepository
 import ru.mray.core.repository.TransactionRepository
 import ru.mray.core.service.FamilyTokenService
 import ru.mray.core.service.TransactionService
@@ -18,6 +20,8 @@ import ru.mray.core.service.TransactionService
 @RequestMapping("/admin/accounts")
 class AccountsController(val accountRepository: AccountRepository,
                          val transactionRepository: TransactionRepository,
+                         val familyTokenRepository: FamilyTokenRepository,
+                         val familyRepository: FamilyRepository,
                          val transactionService: TransactionService,
                          val familyTokenService: FamilyTokenService) {
     @RequestMapping
@@ -66,7 +70,11 @@ class AccountsController(val accountRepository: AccountRepository,
 
     @RequestMapping("/{account}/unlink")
     fun unlinkPage(@PathVariable account: Account, model: Model): String {
+        val familyToken = familyTokenRepository.findOne(account.familyToken)!!
+        val family = familyRepository.findOne(familyToken.familyLogin)!!
         model.addAttribute("account", account)
+        model.addAttribute("token", familyToken)
+        model.addAttribute("family", family)
         return "admin/accountUnlink"
     }
 

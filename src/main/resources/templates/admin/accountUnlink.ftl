@@ -1,3 +1,5 @@
+<#-- @ftlvariable name="token" type="ru.mray.core.model.FamilyToken" -->
+<#-- @ftlvariable name="family" type="ru.mray.core.model.Family" -->
 <#-- @ftlvariable name="account" type="ru.mray.core.model.Account" -->
 <#-- @ftlvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" -->
 <#include 'library/standardAdminPage.ftl'>
@@ -8,6 +10,30 @@
         <tr>
             <td>
                 Account to unlink: <a href="/admin/accounts/${account.id}">${account.id}</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Account email: ${account.email}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Family login: ${family.login}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Family password: ${family.password}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Slot (0-based): ${token.slot}
+            </td>
+        </tr>
+            <td>
+
             </td>
         </tr>
         <tr>

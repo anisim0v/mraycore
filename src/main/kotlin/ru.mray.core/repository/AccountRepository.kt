@@ -22,9 +22,8 @@ class AccountRepositoryImpl(val transactionRepository: TransactionRepository,
         val pendingAccounts = transactionRepository.findInactivePaidTransactions()
                 .map { it.accountId }
                 .toSet()
-                .take(count)
                 .let {
-                    mongoTemplate.find(query(where("_id").`in`(it)).with(sort), Account::class.java)
+                    mongoTemplate.find(query(where("_id").`in`(it)).with(sort).limit(count), Account::class.java)
                 }
 
         return pendingAccounts
