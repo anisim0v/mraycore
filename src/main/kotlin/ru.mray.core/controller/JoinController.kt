@@ -58,8 +58,7 @@ class JoinController(val accountRepository: AccountRepository,
         val paymentTransaction = Transaction(account.id, account.region, Period.ofMonths(period), Transaction.TransactionType.PAYMENT)
 
         val mailModel = ExtendedModelMap()
-        mailModel.addAttribute("email", email)
-        mailModel.put("transactionId", paymentTransaction.id)
+        mailModel.addAttribute("account", account)
         mailService.sendMail(account, "Welcome to Music Ray", "mail/welcome", mailModel)
 
         listOf(bonusTransaction, paymentTransaction).forEach { transaction ->
