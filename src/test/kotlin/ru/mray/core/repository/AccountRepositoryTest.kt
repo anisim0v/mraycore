@@ -63,21 +63,43 @@ class AccountRepositoryTest {
         val daySeconds: Long = 60 * 60 * 24
         accountRepository.save(listOf(
                 Account("bob@example.com", Account.Region.PH, 1).let {
+                    it.familyToken = "test"
                     it.activeUntil = Instant.now().plusSeconds(daySeconds)
                     it.renewNotificationSentAt = Instant.now().minusSeconds(10 * daySeconds)
                     return@let it
                 },
 
                 Account("alice@example.com", Account.Region.PH, 1).let {
+                    it.familyToken = "test"
                     it.activeUntil = Instant.now().plusSeconds(daySeconds)
                     it.renewNotificationSentAt = Instant.now().minusSeconds(daySeconds)
                     return@let it
+                },
+
+                Account("hillary@example.com", Account.Region.PH, 1).let {
+                    it.familyToken = "test"
+                    it.activeUntil = Instant.now().plusSeconds(daySeconds)
+                    it.renewNotificationSentAt = null
+                    return@let it
+                },
+
+                Account("donald@example.com", Account.Region.PH, 1).let {
+                    it.familyToken = null
+                    it.activeUntil = Instant.now().plusSeconds(daySeconds)
+                    it.renewNotificationSentAt = null
+                    return@let it
+                },
+
+                Account("rex@example.com", Account.Region.PH, 1).let {
+                    it.familyToken = null
+                    it.activeUntil = Instant.now().plusSeconds(daySeconds)
+                    it.renewNotificationSentAt = Instant.now().minusSeconds(10 * daySeconds)
+                    return@let it
                 }
         ))
-        // TODO: add renewNotificationSentAt == null case
 
         val result = accountRepository.findAccountsToNotify(Instant.now().plusSeconds(3 * daySeconds),
                 Instant.now().minusSeconds(3 * daySeconds))
-        assertThat(result.count()).isEqualTo(1)
+        assertThat(result.map { it.email }).containsExactly("bob@example.com", "hillary@example.com")
     }
 }

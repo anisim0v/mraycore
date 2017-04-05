@@ -19,8 +19,7 @@ interface AccountRepository : MongoRepository<Account, String>, AccountRepositor
     @Query("{ 'activeUntil': { \$lt: ?0 }, 'familyToken': { \$exists: true } }", count = true)
     fun countExpired(instant: Instant = Instant.now()): Int
 
-//    TODO: renewNotificationSentAt can be null
-    @Query("{ 'activeUntil': { \$lt: ?0 }, 'renewNotificationSentAt': { \$lt: ?1 } }, 'familyToken': { \$exists: true } }")
+    @Query("{ 'activeUntil': { \$lt: ?0 }, \$or: [{'renewNotificationSentAt': {\$lt: ?1}}, {'renewNotificationSentAt': {\$eq: null}}], 'familyToken': { \$exists: true } }")
     fun findAccountsToNotify(expiresBefore: Instant, lastNotifiedBefore: Instant): List<Account>
 }
 
