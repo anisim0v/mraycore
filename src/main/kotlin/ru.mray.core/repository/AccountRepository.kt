@@ -36,6 +36,7 @@ class AccountRepositoryImpl(val transactionRepository: TransactionRepository,
                 .let {
                     mongoTemplate.find(query(where("_id").`in`(it)).with(sort).limit(count), Account::class.java)
                 }
+                .filter { it.familyToken == null }
 
         return pendingAccounts
     }
