@@ -64,5 +64,8 @@
     <tr>
         <td><a href="/admin/families/tokens">Family tokens</a></td>
     </tr>
+    <tr>
+        <td><a href="/admin/service/sendRenewNotifications">Send renew notifications</a></td>
+    </tr>
 </table>
 </@standardAdminPage>
