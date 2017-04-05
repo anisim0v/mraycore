@@ -1,3 +1,4 @@
+<#-- @ftlvariable name="expiredCount" type="java.lang.Number" -->
 <#-- @ftlvariable name="activeCount" type="java.lang.Number" -->
 <#-- @ftlvariable name="tokenCountToAssign" type="java.lang.Number" -->
 <#-- @ftlvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" -->
@@ -16,6 +17,9 @@
     </tr>
     <tr>
         <td>Pending accounts: ${pendingCount}</td>
+    </tr>
+    <tr>
+        <td>Expired accounts: ${expiredCount}</td>
     </tr>
     <tr>
         <td>Unassigned tokens: ${unassignedTokens}</td>

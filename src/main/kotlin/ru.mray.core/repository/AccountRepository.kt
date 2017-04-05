@@ -17,7 +17,7 @@ interface AccountRepository : MongoRepository<Account, String>, AccountRepositor
     fun findExpired(instant: Instant = Instant.now()): List<Account>
 
     @Query("{ 'activeUntil': { \$lt: ?0 } }, 'familyToken': { \$exists: true }", count = true)
-    fun countExpired(instant: Instant = Instant.now()): List<Account>
+    fun countExpired(instant: Instant = Instant.now()): Int
 }
 
 interface AccountRepositoryCustom {

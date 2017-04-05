@@ -17,6 +17,7 @@ class AdminIndexController(val accountRepository: AccountRepository,
         val accountsCount = accountRepository.count()
         val activeCount = accountRepository.countByFamilyTokenIsNotNull()
         val pendingCount = accountRepository.findPending().count()
+        val expiredCount = accountRepository.countExpired()
         val unassignedTokens = familyTokenRepository.countUnassigned()
         val tokenCountToAssign = arrayOf(pendingCount, unassignedTokens).min()
 
@@ -25,6 +26,7 @@ class AdminIndexController(val accountRepository: AccountRepository,
         model.addAttribute("pendingCount", pendingCount)
         model.addAttribute("unassignedTokens", unassignedTokens)
         model.addAttribute("tokenCountToAssign", tokenCountToAssign)
+        model.addAttribute("expiredCount", expiredCount)
 
         return "admin/index"
     }
