@@ -13,11 +13,15 @@ interface AccountRepository : MongoRepository<Account, String>, AccountRepositor
     fun findByEmail(email: String): Account?
     fun countByFamilyTokenIsNotNull(): Int
 
-    @Query("{ 'activeUntil': { \$lt: ?0 } }, 'familyToken': { \$exists: true }")
+    @Query("{ 'activeUntil': { \$lt: ?0 }, 'familyToken': { \$exists: true } }")
     fun findExpired(instant: Instant = Instant.now()): List<Account>
 
-    @Query("{ 'activeUntil': { \$lt: ?0 } }, 'familyToken': { \$exists: true }", count = true)
+    @Query("{ 'activeUntil': { \$lt: ?0 }, 'familyToken': { \$exists: true } }", count = true)
     fun countExpired(instant: Instant = Instant.now()): Int
+
+//    TODO: renewNotificationSentAt can be null
+    @Query("{ 'activeUntil': { \$lt: ?0 }, 'renewNotificationSentAt': { \$lt: ?1 } }, 'familyToken': { \$exists: true } }")
+    fun findAccountsToNotify(expiresBefore: Instant, lastNotifiedBefore: Instant): List<Account>
 }
 
 interface AccountRepositoryCustom {

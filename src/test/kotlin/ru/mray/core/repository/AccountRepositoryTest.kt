@@ -57,4 +57,27 @@ class AccountRepositoryTest {
         assertThat(pending.size).isEqualTo(1)
         assertThat(pending.first().email).isEqualTo("bob@example.com")
     }
+
+    @Test
+    fun testFindAccountsToNotify() {
+        val daySeconds: Long = 60 * 60 * 24
+        accountRepository.save(listOf(
+                Account("bob@example.com", Account.Region.PH, 1).let {
+                    it.activeUntil = Instant.now().plusSeconds(daySeconds)
+                    it.renewNotificationSentAt = Instant.now().minusSeconds(10 * daySeconds)
+                    return@let it
+                },
+
+                Account("alice@example.com", Account.Region.PH, 1).let {
+                    it.activeUntil = Instant.now().plusSeconds(daySeconds)
+                    it.renewNotificationSentAt = Instant.now().minusSeconds(daySeconds)
+                    return@let it
+                }
+        ))
+        // TODO: add renewNotificationSentAt == null case
+
+        val result = accountRepository.findAccountsToNotify(Instant.now().plusSeconds(3 * daySeconds),
+                Instant.now().minusSeconds(3 * daySeconds))
+        assertThat(result.count()).isEqualTo(1)
+    }
 }
