@@ -1,6 +1,5 @@
 package ru.mray.core.controller.admin
 
-import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PathVariable

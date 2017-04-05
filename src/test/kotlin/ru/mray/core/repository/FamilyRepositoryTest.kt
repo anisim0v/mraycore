@@ -31,16 +31,21 @@ class FamilyRepositoryTest {
     fun testFindLatestActiveAccountTransactionNull() {
         val familyToken = FamilyToken(Account.Region.PH, "testFamily", 0, "qwe", LocalDate.now().plusDays(10))
         familyTokenRepository.save(familyToken)
-        assertThat(familyTokenRepository.findFirstByAccountIsNull()).isNotNull()
+        assertThat(familyTokenRepository.findFirstUnassigned()).isNotNull()
 
         familyToken.account = "testAccountId"
         familyTokenRepository.save(familyToken)
 
-        assertThat(familyTokenRepository.findFirstByAccountIsNull()).isNull()
+        assertThat(familyTokenRepository.findFirstUnassigned()).isNull()
+
+        familyToken.account = null
+        familyToken.paidUntil = LocalDate.now().minusDays(10)
+        familyTokenRepository.save(familyToken)
+        assertThat(familyTokenRepository.findFirstUnassigned()).isNull()
 
         val familyToken2 = FamilyToken(Account.Region.PH, "testFamily2", 0, "qwe2", LocalDate.now().plusDays(10))
         familyTokenRepository.save(familyToken2)
 
-        assertThat(familyTokenRepository.findFirstByAccountIsNull()).isNotNull()
+        assertThat(familyTokenRepository.findFirstUnassigned()).isNotNull()
     }
 }

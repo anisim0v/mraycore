@@ -19,7 +19,7 @@ import ru.mray.core.model.Account
 import java.util.*
 
 @Service
-class MailService(private val viewResolver: FreeMarkerViewResolver,
+open class MailService(private val viewResolver: FreeMarkerViewResolver,
                   private val environment: Environment) {
 
     private var apiKey: String? = environment.getProperty("mray.mailhandler-key")
@@ -44,7 +44,7 @@ class MailService(private val viewResolver: FreeMarkerViewResolver,
     }
 
 
-    fun renderTemplate(templateName: String, model: Model): String {
+    open fun renderTemplate(templateName: String, model: Model): String {
         val view = viewResolver.resolveViewName(templateName, Locale.forLanguageTag("RU"))
         val mockHttpServletResponse = MockHttpServletResponse()
         val mockHttpServletRequest = MockHttpServletRequest()
@@ -54,7 +54,7 @@ class MailService(private val viewResolver: FreeMarkerViewResolver,
         return result
     }
 
-    fun sendMail(account: Account, subject: String, templateName: String, model: Model) {
+    open fun sendMail(account: Account, subject: String, templateName: String, model: Model) {
 
          if (apiKey == null) {
             logger.warn("Email service is disabled due to mray.mailhandler-key has not been provided")
