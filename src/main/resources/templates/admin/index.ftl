@@ -46,8 +46,5 @@
     <tr>
         <td><a href="/admin/families/tokens">Family tokens</a></td>
     </tr>
-    <tr>
-        <td><a href="/admin/families/unlink">Unlink account</a></td>
-    </tr>
 </table>
 </@standardAdminPage>
