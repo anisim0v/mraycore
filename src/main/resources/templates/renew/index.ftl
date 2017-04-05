@@ -6,6 +6,7 @@
 
 <@standardPage title="Продление подписки">
 <div>Email: ${account.email}</div>
+<div>Регион: ${account.region}</div>
 <div>ID: ${account.id}</div>
 <div>ID токена в семье: ${account.familyToken!"Вы не присоединены к семье"}</div>
 <div>Подписка активна
@@ -57,6 +58,10 @@
                 <td>${transaction.activeUntil!}</td>
             </tr>
         </#if>
+        <tr>
+            <td>ID</td>
+            <td>${transaction.id}</td>
+        </tr>
     </table>
     </#if>
 

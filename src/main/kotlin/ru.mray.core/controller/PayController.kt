@@ -103,6 +103,17 @@ class PayController(val w1Service: W1Service,
         return "WMI_RESULT=OK"
     }
 
+    @RequestMapping("/cancel/{transaction}")
+    fun cancel(@PathVariable transaction: Transaction): String {
+        val redirectStr = "redirect:/renew/${transaction.accountId}"
+        if (transaction.paidAt != null) {
+            return redirectStr
+        }
+
+        transactionRepository.delete(transaction)
+        return redirectStr
+    }
+
     @RequestMapping("/error/{transaction}")
     fun error(@PathVariable transaction: String,
               model: Model): String {
