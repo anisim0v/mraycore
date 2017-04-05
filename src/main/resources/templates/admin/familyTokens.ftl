@@ -8,6 +8,7 @@
         <td>Slot (0-based)</td>
         <td>Region</td>
         <td>Token</td>
+        <td>Family paid until</td>
         <td>Account id</td>
     </tr>
     <#list familyTokens as token>
@@ -16,6 +17,7 @@
             <td>${token.slot}</td>
             <td>${token.region}</td>
             <td>${token.token}</td>
+            <td>${token.paidUntil}</td>
             <td>
                 <#if token.account??>
                 <a href="/admin/accounts/${token.account}">${token.account}</a>

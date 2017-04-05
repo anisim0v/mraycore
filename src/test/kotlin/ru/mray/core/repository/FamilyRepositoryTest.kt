@@ -11,6 +11,7 @@ import ru.mray.core.model.Account
 import ru.mray.core.model.FamilyToken
 import ru.mray.core.model.Transaction
 import java.time.Instant
+import java.time.LocalDate
 import java.time.OffsetDateTime
 import java.time.Period
 import java.util.*
@@ -28,7 +29,7 @@ class FamilyRepositoryTest {
 
     @Test
     fun testFindLatestActiveAccountTransactionNull() {
-        val familyToken = FamilyToken(Account.Region.PH, "testFamily", 0, "qwe")
+        val familyToken = FamilyToken(Account.Region.PH, "testFamily", 0, "qwe", LocalDate.now().plusDays(10))
         familyTokenRepository.save(familyToken)
         assertThat(familyTokenRepository.findFirstByAccountIsNull()).isNotNull()
 
@@ -37,7 +38,7 @@ class FamilyRepositoryTest {
 
         assertThat(familyTokenRepository.findFirstByAccountIsNull()).isNull()
 
-        val familyToken2 = FamilyToken(Account.Region.PH, "testFamily2", 0, "qwe2")
+        val familyToken2 = FamilyToken(Account.Region.PH, "testFamily2", 0, "qwe2", LocalDate.now().plusDays(10))
         familyTokenRepository.save(familyToken2)
 
         assertThat(familyTokenRepository.findFirstByAccountIsNull()).isNotNull()
