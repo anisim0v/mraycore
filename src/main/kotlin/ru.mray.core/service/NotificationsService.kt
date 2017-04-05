@@ -16,8 +16,7 @@ open class NotificationsService(val accountRepository: AccountRepository, val ma
 
     fun sendNotifications(): List<Account> {
         val now = OffsetDateTime.now()
-        val accountsToNotify = accountRepository.findAccountsToNotify(now.plusDays(3).toInstant(),
-                now.minusDays(3).toInstant())
+        val accountsToNotify = accountRepository.findAccountsToNotify(now.plusDays(3).toInstant())
 
         accountsToNotify.forEach { account ->
             logger.info("Sending renew notification to ${account.email}")

@@ -84,8 +84,8 @@ class AccountRepositoryTest {
                 },
 
                 Account("donald@example.com", Account.Region.PH, 1).let {
-                    it.familyToken = null
-                    it.activeUntil = Instant.now().plusSeconds(daySeconds)
+                    it.familyToken = "test"
+                    it.activeUntil = Instant.now().plusSeconds(10 * daySeconds)
                     it.renewNotificationSentAt = null
                     return@let it
                 },
@@ -93,13 +93,12 @@ class AccountRepositoryTest {
                 Account("rex@example.com", Account.Region.PH, 1).let {
                     it.familyToken = null
                     it.activeUntil = Instant.now().plusSeconds(daySeconds)
-                    it.renewNotificationSentAt = Instant.now().minusSeconds(10 * daySeconds)
+                    it.renewNotificationSentAt = null
                     return@let it
                 }
         ))
 
-        val result = accountRepository.findAccountsToNotify(Instant.now().plusSeconds(3 * daySeconds),
-                Instant.now().minusSeconds(3 * daySeconds))
-        assertThat(result.map { it.email }).containsExactly("bob@example.com", "hillary@example.com")
+        val result = accountRepository.findAccountsToNotify(Instant.now().plusSeconds(3 * daySeconds))
+        assertThat(result.map { it.email }).containsExactly("hillary@example.com")
     }
 }

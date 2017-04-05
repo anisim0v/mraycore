@@ -18,17 +18,17 @@ interface AccountRepository : MongoRepository<Account, String>, AccountRepositor
 
     @Query("{ 'activeUntil': { \$lt: ?0 }, 'familyToken': { \$exists: true } }", count = true)
     fun countExpired(instant: Instant = Instant.now()): Int
-
-    @Query("{ 'activeUntil': { \$lt: ?0 }, \$or: [{'renewNotificationSentAt': {\$lt: ?1}}, {'renewNotificationSentAt': {\$eq: null}}], 'familyToken': { \$exists: true } }")
-    fun findAccountsToNotify(expiresBefore: Instant, lastNotifiedBefore: Instant): List<Account>
 }
 
 interface AccountRepositoryCustom {
     fun findPending(count: Int = Int.MAX_VALUE, sort: Sort = Sort(Sort.Direction.ASC, "registeredAt")): List<Account>
+    fun findAccountsToNotify(expiresBefore: Instant): List<Account>
+
 }
 
 class AccountRepositoryImpl(val transactionRepository: TransactionRepository,
                             val mongoTemplate: MongoTemplate) : AccountRepositoryCustom {
+
     override fun findPending(count: Int, sort: Sort): List<Account> {
         val pendingAccounts = transactionRepository.findInactivePaidTransactions()
                 .map { it.accountId }
@@ -38,5 +38,13 @@ class AccountRepositoryImpl(val transactionRepository: TransactionRepository,
                 }
 
         return pendingAccounts
+    }
+
+    override fun findAccountsToNotify(expiresBefore: Instant): List<Account> {
+        return mongoTemplate.find(query(
+                where("activeUntil").`lt`(expiresBefore)
+                        .and("renewNotificationSentAt").`is`(null)
+                        .and("familyToken").exists(true)
+        ), Account::class.java)
     }
 }

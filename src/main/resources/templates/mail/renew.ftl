@@ -7,7 +7,7 @@
 <body>
 <p>Привет, ${account.email}.</p>
 
-<p>Кажется, пришло время продлить подписку на Spotify.</p>
+<p>Кажется, пришло время продлить подписку на Spotify. Она закончится ${account.activeUntil}</p>
 
 <p>Как и всегда, <a href="https://music-ray.ru/pay/renew/${account.id}">вот ваша ссылка на продление</a>.</p>
 
