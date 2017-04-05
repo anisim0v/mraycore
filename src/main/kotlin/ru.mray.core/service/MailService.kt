@@ -79,7 +79,7 @@ open class MailService(private val viewResolver: FreeMarkerViewResolver,
 
         taskExecutor.execute {
             retryTemplate.execute<Unit, Exception> {
-                logger.info("Sending email...")
+                logger.info("Sending email to ${account.email}...")
                 restTemplate.postForEntity("https://api.mailhandler.ru/message/send/", request,
                         String::class.java, emptyMap<String, String>())
                 logger.info("Email sent to ${account.email}")

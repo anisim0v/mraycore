@@ -9,8 +9,7 @@
 <div>Регион: ${account.region}</div>
 <div>ID: ${account.id}</div>
 <div>ID токена в семье: ${account.familyToken!"Вы не присоединены к семье"}</div>
-<div>Подписка активна
-    до: ${account.activeUntil!"Вы пока еще не присоединены к семье. Дата окончания подписки появится позже"}</div>
+<div>Подписка активна до: ${account.activeUntil!"Вы пока еще не присоединены к семье. Дата окончания подписки появится позже"}</div>
 <p>
     <#if showRenewForm>
     <form method="post">
