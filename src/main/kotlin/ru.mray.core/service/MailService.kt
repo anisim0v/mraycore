@@ -2,6 +2,7 @@ package ru.mray.core.service
 
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.core.env.Environment
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
@@ -19,9 +20,10 @@ import ru.mray.core.model.Account
 import java.util.*
 
 @Service
-class MailService(private val viewResolver: FreeMarkerViewResolver) {
+class MailService(private val viewResolver: FreeMarkerViewResolver,
+                  private val environment: Environment) {
 
-    @Value("\${mray.mailhandler-key?:}") private val apiKey: String = ""
+    private var apiKey: String? = environment.getProperty("mray.mailhandler-key")
 
     val logger = LoggerFactory.getLogger(MailService::class.java)
     val restTemplate = RestTemplate()
@@ -38,6 +40,10 @@ class MailService(private val viewResolver: FreeMarkerViewResolver) {
         it
     }
 
+    init {
+        logger.warn("Email service is disabled due to mray.mailhandler-key has not been provided")
+    }
+
 
     fun renderTemplate(templateName: String, model: Model): String {
         val view = viewResolver.resolveViewName(templateName, Locale.forLanguageTag("RU"))
@@ -51,7 +57,7 @@ class MailService(private val viewResolver: FreeMarkerViewResolver) {
 
     fun sendMail(account: Account, subject: String, templateName: String, model: Model) {
 
-         if (apiKey == "") {
+         if (apiKey == null) {
             logger.warn("Email service is disabled due to mray.mailhandler-key has not been provided")
             return
         }
@@ -75,7 +81,7 @@ class MailService(private val viewResolver: FreeMarkerViewResolver) {
         taskExecutor.execute {
             retryTemplate.execute<Unit, Exception> {
                 logger.info("Sending email...")
-                restTemplate.postForEntity("https://api.mailhandler.ru/message/send/", request,
+                restTemplate.postForEntity("https://api.ma2ilhandler.ru/message/send/", request,
                         String::class.java, emptyMap<String, String>())
                 logger.info("Email sent to ${account.email}")
             }
