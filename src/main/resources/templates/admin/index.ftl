@@ -1,3 +1,4 @@
+<#-- @ftlvariable name="regionsStats" type="ru.mray.core.controller.admin.AdminIndexController.RegionStats[]" -->
 <#-- @ftlvariable name="expiredCount" type="java.lang.Number" -->
 <#-- @ftlvariable name="activeCount" type="java.lang.Number" -->
 <#-- @ftlvariable name="tokenCountToAssign" type="java.lang.Number" -->
@@ -16,23 +17,33 @@
         <td>Active accounts: ${activeCount}</td>
     </tr>
     <tr>
-        <td>Pending accounts: ${pendingCount}</td>
-    </tr>
-    <tr>
         <td>Expired accounts: ${expiredCount}</td>
     </tr>
-    <tr>
-        <td>Unassigned tokens: ${unassignedTokens}</td>
-    </tr>
 </table>
-<p>
-<form method="post" action="/admin/accounts/assignTokens">
-    <label for="tokenCountToAssign">Token count to assign:</label>
-    <input id="tokenCountToAssign" name="tokenCountToAssign"
-           value="${tokenCountToAssign}" type="number" min="1" max="${tokenCountToAssign}"/>
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-    <input type="submit" value="Assign tokens"/>
-</form>
+
+    <#list regionsStats as regionStats>
+    <p>
+    <table>
+        <tr>
+            <td>Pending accounts [${regionStats.region}]: ${regionStats.pendingCount}</td>
+        </tr>
+        <tr>
+            <td>Unassigned tokens [${regionStats.region}]: ${regionStats.unassignedTokenCount}</td>
+        </tr>
+        <tr>
+            <td>
+                <form method="post" action="/admin/accounts/assignTokens">
+                    <label for="tokenCountToAssign">Token count to assign [${regionStats.region}]:</label>
+                    <input id="tokenCountToAssign" name="tokenCountToAssign"
+                           value="${regionStats.tokenCountToAssign}" type="number" min="1" max="${regionStats.tokenCountToAssign}"/>
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    <input type="submit" value="Assign ${regionStats.region} tokens"/>
+                </form>
+            </td>
+        </tr>
+    </table>
+    </#list>
+
 <p>
 <table>
     <tr>

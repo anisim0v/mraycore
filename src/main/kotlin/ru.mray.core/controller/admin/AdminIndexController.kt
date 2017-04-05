@@ -17,18 +17,26 @@ class AdminIndexController(val accountRepository: AccountRepository,
     fun index(model: Model): String {
         val accountsCount = accountRepository.count()
         val activeCount = accountRepository.countByFamilyTokenIsNotNull()
-        val pendingCount = accountRepository.findPending().count()
         val expiredCount = accountRepository.countExpired()
-        val unassignedTokens = familyTokenRepository.countUnassigned(Account.Region.PH)
-        val tokenCountToAssign = arrayOf(pendingCount, unassignedTokens).min()
+
+        val pendingAccounts = accountRepository.findPending()
+
+        val regionsStats = Account.Region.values().map { region ->
+            val pendingCount = pendingAccounts.filter { it.region == region }.count()
+            val unassignedTokensCount = familyTokenRepository.countUnassigned(region)
+            val tokenCountToAssign = arrayOf(pendingCount, unassignedTokensCount).min()!!
+
+            RegionStats(region, pendingCount, unassignedTokensCount, tokenCountToAssign)
+        }
 
         model.addAttribute("accountsCount", accountsCount)
         model.addAttribute("activeCount", activeCount)
-        model.addAttribute("pendingCount", pendingCount)
-        model.addAttribute("unassignedTokens", unassignedTokens)
-        model.addAttribute("tokenCountToAssign", tokenCountToAssign)
         model.addAttribute("expiredCount", expiredCount)
+        model.addAttribute("regionsStats", regionsStats)
 
         return "admin/index"
     }
+
+    data class RegionStats(val region: Account.Region, val pendingCount: Int,
+                           val unassignedTokenCount: Int, val tokenCountToAssign: Int)
 }
