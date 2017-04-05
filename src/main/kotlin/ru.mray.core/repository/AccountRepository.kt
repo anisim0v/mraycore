@@ -5,11 +5,19 @@ import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria.where
 import org.springframework.data.mongodb.core.query.Query.query
 import org.springframework.data.mongodb.repository.MongoRepository
+import org.springframework.data.mongodb.repository.Query
 import ru.mray.core.model.Account
+import java.time.Instant
 
 interface AccountRepository : MongoRepository<Account, String>, AccountRepositoryCustom {
     fun findByEmail(email: String): Account?
-    fun countByfamilyTokenIsNotNull(): Int
+    fun countByFamilyTokenIsNotNull(): Int
+
+    @Query("{ 'activeUntil': { \$lt: ?0 } }, 'familyToken': { \$exists: true }")
+    fun findExpired(instant: Instant = Instant.now()): List<Account>
+
+    @Query("{ 'activeUntil': { \$lt: ?0 } }, 'familyToken': { \$exists: true }", count = true)
+    fun countExpired(instant: Instant = Instant.now()): List<Account>
 }
 
 interface AccountRepositoryCustom {

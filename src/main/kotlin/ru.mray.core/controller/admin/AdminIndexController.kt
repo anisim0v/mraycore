@@ -15,7 +15,7 @@ class AdminIndexController(val accountRepository: AccountRepository,
     @RequestMapping
     fun index(model: Model): String {
         val accountsCount = accountRepository.count()
-        val activeCount = accountRepository.countByfamilyTokenIsNotNull()
+        val activeCount = accountRepository.countByFamilyTokenIsNotNull()
         val pendingCount = accountRepository.findPending().count()
         val unassignedTokens = familyTokenRepository.countUnassigned()
         val tokenCountToAssign = arrayOf(pendingCount, unassignedTokens).min()

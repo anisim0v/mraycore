@@ -38,6 +38,9 @@
         <td><a href="/admin/accounts/pending">Pending accounts</a></td>
     </tr>
     <tr>
+        <td><a href="/admin/accounts/expired">Expired accounts</a></td>
+    </tr>
+    <tr>
         <td><a href="/admin/families">Families</a></td>
     </tr>
     <tr>
