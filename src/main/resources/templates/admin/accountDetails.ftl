@@ -54,6 +54,7 @@
         <td>PaidAt</td>
         <td>Activated at</td>
         <td>Active until</td>
+        <td>Remove</td>
     </tr>
     <#list transactions as transaction>
         <tr>
@@ -64,6 +65,7 @@
             <td>${transaction.paidAt!}</td>
             <td>${transaction.activeSince!}</td>
             <td>${transaction.activeUntil!}</td>
+            <td><a href="/admin/transactions/${transaction.id}/remove">Remove</a></td>
         </tr>
     </#list>
 </table>

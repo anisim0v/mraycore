@@ -32,12 +32,15 @@ class TransactionService(private val transactionRepository: TransactionRepositor
         var newTransactionsStartInstantApplied = false
 
         inactivePaidTransactions.forEach {
-            var activationStartTime = latestActiveAccountTransaction?.activeUntil ?: Instant.now()
+            var activationStartTime = latestActiveAccountTransaction?.activeUntil
 
             if (newTransactionsStartInstant != null && !newTransactionsStartInstantApplied) {
-                activationStartTime = listOf(activationStartTime, newTransactionsStartInstant).max()
+                activationStartTime = listOf(activationStartTime, newTransactionsStartInstant)
+                        .filter { it != null }.maxBy { it!! }
                 newTransactionsStartInstantApplied = true
             }
+
+            activationStartTime = activationStartTime ?: Instant.now()
 
             val lastTransactionActiveUntil = OffsetDateTime.ofInstant(activationStartTime, ZoneId.of("UTC"))
                     .plus(it.period)
