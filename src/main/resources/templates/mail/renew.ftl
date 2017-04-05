@@ -5,11 +5,12 @@
     <meta charset="UTF-8">
 </head>
 <body>
-Привет, ${account.email}.
+<p>Привет, ${account.email}.</p>
 
-Кажется пришло время продлить подписку на Spotify. Как и всегда,
-<a href="https://music-ray.ru/pay/renew/${account.id}">вот ваша ссылка на продление</a>.
+<p>Кажется, пришло время продлить подписку на Spotify.</p>
 
-Спасибо,что пользуетесь нами.
+<p>Как и всегда, <a href="https://music-ray.ru/pay/renew/${account.id}">вот ваша ссылка на продление</a>.</p>
+
+<p>Спасибо,что пользуетесь нами,<br>MusicRay</p>
 </body>
 </html>

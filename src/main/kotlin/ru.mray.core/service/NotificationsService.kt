@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service
 import org.springframework.ui.ExtendedModelMap
 import ru.mray.core.model.Account
 import ru.mray.core.repository.AccountRepository
+import java.time.Instant
 import java.time.OffsetDateTime
 
 @Service
@@ -23,6 +24,9 @@ open class NotificationsService(val accountRepository: AccountRepository, val ma
             val model = ExtendedModelMap()
             model.addAttribute("account", account)
             mailService.sendMail(account, "MusicRay: Оповещение о продлении", "mail/renew", model)
+
+            account.renewNotificationSentAt = Instant.now()
+            accountRepository.save(account)
         }
 
         return accountsToNotify
