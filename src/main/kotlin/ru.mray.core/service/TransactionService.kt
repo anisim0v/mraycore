@@ -12,11 +12,13 @@ import java.time.ZoneId
 class TransactionService(private val transactionRepository: TransactionRepository,
                          private val accountRepository: AccountRepository) {
     /**
-     * Calculates Transaction.activeUntil instants for all paid, but not activated yet account transactions
+     * Считает Transaction.activeUntil для всех оплаченных, но еще не активированных транзакций. Этот метод
+     * должен вызываться каждый раз при подтверждении оплаты транзакции / выдаче FamilyToken'а
      *
-     * This method should be called every time account.provisioned flag changes or transaction becomes paid
+     * @param interpretAsNewSubscription Если True и текущая подписка уже закончилась, то считать текущий момент началом
+     * действия новых транзакций. False - использовать время окончания предыдущей транзакции в качестве начала для новой
      */
-    fun refreshAccountTransactions(account: Account) {
+    fun refreshAccountTransactions(account: Account, interpretAsNewSubscription: Boolean = false) {
         if (account.familyToken == null) {
             return
         }
@@ -26,10 +28,14 @@ class TransactionService(private val transactionRepository: TransactionRepositor
 
         var latestActiveAccountTransaction = transactionRepository.findLatestActiveAccountTransaction(account.id)
 
+
         inactivePaidTransactions.forEach {
-            val activationStartTime = listOf(latestActiveAccountTransaction?.activeUntil, Instant.now())
-                    .filter { it != null }
-                    .maxBy { it!! }!!
+            var activationStartTime = latestActiveAccountTransaction?.activeUntil ?: Instant.now()
+
+            if (interpretAsNewSubscription) {
+                activationStartTime = listOf(activationStartTime, Instant.now())
+                        .max()
+            }
 
             val lastTransactionActiveUntil = OffsetDateTime.ofInstant(activationStartTime, ZoneId.of("UTC"))
                     .plus(it.period)

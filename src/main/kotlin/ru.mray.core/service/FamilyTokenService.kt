@@ -23,7 +23,7 @@ class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepositor
         accountRepository.save(account)
         familyTokenRepository.save(familyToken)
 
-        transactionService.refreshAccountTransactions(account)
+        transactionService.refreshAccountTransactions(account, true)
     }
 
     fun assignTokens(tokenCountToAssign: Int) {
