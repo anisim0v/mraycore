@@ -28,6 +28,15 @@ class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepositor
         accountRepository.save(account)
         familyTokenRepository.save(familyToken)
 
+        emailInvite(account)
+
+        transactionService.refreshAccountTransactions(account, Instant.now())
+    }
+
+    fun emailInvite(account: Account) {
+        val familyToken = familyTokenRepository.findOne(account.familyToken)
+                ?: throw NotFoundException("Cannot find familyToken ${account.familyToken}")
+
         val family = familyRepository.findOne(familyToken.familyLogin)
                 ?: throw NotFoundException("Cannot find family ${familyToken.familyLogin}")
 
@@ -37,8 +46,6 @@ class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepositor
         model.put("token", familyToken)
 
         mailService.sendMail(account, "Приглашение в семью MusicRay", "mail/tokenAssigned", model)
-
-        transactionService.refreshAccountTransactions(account, Instant.now())
     }
 
     fun assignTokens(tokenCountToAssign: Int) {

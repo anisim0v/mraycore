@@ -91,4 +91,10 @@ class AccountsController(val accountRepository: AccountRepository,
         familyTokenService.unlinkAccount(account, newToken)
         return "redirect:/admin/accounts/${account.id}"
     }
+
+    @RequestMapping("/{account}/emailInvite")
+    fun emailInvite(@PathVariable account: Account): String {
+        familyTokenService.emailInvite(account)
+        return "redirect:/admin/accounts/${account.id}"
+    }
 }
