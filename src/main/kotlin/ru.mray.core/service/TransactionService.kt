@@ -28,13 +28,11 @@ class TransactionService(private val transactionRepository: TransactionRepositor
 
         var latestActiveAccountTransaction = transactionRepository.findLatestActiveAccountTransaction(account.id)
 
-
         inactivePaidTransactions.forEach {
             var activationStartTime = latestActiveAccountTransaction?.activeUntil ?: Instant.now()
 
             if (interpretAsNewSubscription) {
-                activationStartTime = listOf(activationStartTime, Instant.now())
-                        .max()
+                activationStartTime = listOf(activationStartTime, Instant.now()).max()
             }
 
             val lastTransactionActiveUntil = OffsetDateTime.ofInstant(activationStartTime, ZoneId.of("UTC"))
