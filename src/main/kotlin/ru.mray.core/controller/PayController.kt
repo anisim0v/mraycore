@@ -3,6 +3,7 @@ package ru.mray.core.controller;
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.core.env.Environment
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PathVariable
@@ -31,9 +32,12 @@ class PayController(val w1Service: W1Service,
                     val accountsRepository: AccountRepository,
                     val objMapper: ObjectMapper,
                     val transactionService: TransactionService,
-                    val familyTokenService: FamilyTokenService) {
+                    val familyTokenService: FamilyTokenService,
+                    environment: Environment) {
 
     val logger: Logger = LoggerFactory.getLogger(PayController::class.java)
+
+    val autoassignmentEnabled: Boolean = environment.getProperty("mray.autoassignment")?.toBoolean() ?: false
 
     @RequestMapping("/{transaction}")
     fun createForm(@PathVariable transaction: Transaction?,
@@ -109,7 +113,7 @@ class PayController(val w1Service: W1Service,
             return respStr
         }
 
-        if (account.familyToken == null) {
+        if (account.familyToken == null && autoassignmentEnabled) {
             try {
                 familyTokenService.assignTokenToAccount(account)
                 return "WMI_RESULT=OK"
