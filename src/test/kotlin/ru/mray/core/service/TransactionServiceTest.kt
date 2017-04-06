@@ -63,7 +63,7 @@ class TransactionServiceTest {
 
         transactionService.refreshAccountTransactions(account)
 
-        assertThat(paidTransaction.activeUntil).isGreaterThan(OffsetDateTime.ofInstant(activatedTransaction.activeUntil!!, ZoneId.of("UTC"))
+        assertThat(paidTransaction.activeUntil).isGreaterThanOrEqualTo(OffsetDateTime.ofInstant(activatedTransaction.activeUntil!!, ZoneId.of("UTC"))
                 .plus(paidTransaction.period)
                 .toInstant())
     }

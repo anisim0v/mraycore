@@ -58,13 +58,14 @@ class TransactionRepositoryTest {
                     val period = Period.ofMonths(it)
                     val now = OffsetDateTime.now()
                     transaction.paidAt = now.minus(period).toInstant()
+                    transaction.issueDate = now.minus(period).toInstant()
                     transaction.activeSince = transaction.paidAt!!.plusSeconds(30)
                     return@map transaction
                 }
                 .toList()
                 .let {
                     transactionRepository.save(it)
-                    it.last()
+                    it.maxBy { it.issueDate }!!
                 }
 
         val foundLastActiveTransaction = transactionRepository.findLatestActiveAccountTransaction(accountId)
