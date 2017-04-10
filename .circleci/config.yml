@@ -17,6 +17,7 @@ jobs:
           key: mray-core-gradle-{{ checksum "build.gradle" }}
           paths:
             - ~/.gradle
+            - ~/.embedmongo
       - save_cache:
           key: mray-core-{{ .Revision }}
           paths:
