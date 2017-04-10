@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/mray-core
     docker:
-      - image: openjdk:9
+      - image: openjdk:8
     environment:
       TERM: dumb
     steps:
