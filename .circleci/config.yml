@@ -1,0 +1,26 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/mray-core
+    docker:
+      - image: openjdk:9
+    environment:
+      TERM: dumb
+    steps:
+      - checkout
+      - restore_cache:
+          key: mray-core-gradle-{{ checksum "build.gradle" }}
+      - run: |
+          ./gradlew build
+          rm build/dist/*.original
+      - save_cache:
+          key: mray-core-gradle-{{ checksum "build.gradle" }}
+          paths:
+            - ~/.gradle
+      - save_cache:
+          key: mray-core-{{ .Revision }}
+          paths:
+            - ~/mray-core/build/dist
+      - store_artifacts:
+          path: ~/mray-core/build/dist
+          destination: mray-core
