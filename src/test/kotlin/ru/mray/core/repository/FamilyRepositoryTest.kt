@@ -48,4 +48,15 @@ class FamilyRepositoryTest {
 
         assertThat(familyTokenRepository.findFirstUnassigned(Account.Region.PH)).isNotNull()
     }
+
+    @Test
+    fun testCountUnassigned() {
+        val tokens = listOf(5, 2, 0, 3, 1, 7).reversed().map {
+            FamilyToken(Account.Region.PH, "musicray-test$it", 0, "qwe", LocalDate.now().plusDays(10))
+        }
+        familyTokenRepository.save(tokens)
+
+        val firstUnassigned = familyTokenRepository.findFirstUnassigned(Account.Region.PH)
+        assertThat(firstUnassigned!!.familyLogin).isEqualTo("musicray-test0")
+    }
 }
