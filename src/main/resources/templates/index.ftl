@@ -7,7 +7,7 @@
 <section class="parallax-window" data-parallax="scroll" data-image-src="../img/pic-min.jpg" id="one">
     <div>
         <h1 class="main">Spotify Premium</h1>
-        <h4 class="main">От 80 р/мес.</h4><br>
+        <h4 class="main">От 100 р/мес.</h4><br>
         <a href="/join">
             <button class="want">Хочу!</button>
         </a>
