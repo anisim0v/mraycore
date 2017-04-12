@@ -4,7 +4,11 @@
 <#include 'library/standardPage.ftl'>
 
 <@standardPage title="Что-то пошло не так">
-<p>Ошибка: ${status!}</p>
-<p>${exception!}</p>
-<p>${message!}</p>
+<main>
+    <div class="container">
+        <p>Ошибка: ${message}</p>
+        <p>Exception: ${exception!}</p>
+        <p>Status: ${status!}</p>
+    </div>
+</main>
 </@standardPage>

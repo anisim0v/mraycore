@@ -9,7 +9,8 @@
 <#include '../library/standardPage.ftl'>
 
 <@standardPage title="Оплата подписки">
-<div>
+<main>
+<div class="container">
     <span>К оплате: ${WMI_PAYMENT_AMOUNT}</span>
     <form method="post" action="https://wl.walletone.com/checkout/checkout/Index">
         <input name="WMI_MERCHANT_ID" type="hidden" value="${WMI_MERCHANT_ID}"/>
@@ -23,4 +24,5 @@
         <input type="submit" value="Оплатить">
     </form>
 </div>
+</main>
 </@standardPage>

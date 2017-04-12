@@ -2,5 +2,9 @@
 <#include '../library/standardPage.ftl'>
 
 <@standardPage title="Получилось!">
+<main>
+    <div class="container">
 <span>${text}</span>
+    </div>
+</main>
 </@standardPage>
