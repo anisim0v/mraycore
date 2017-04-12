@@ -18,7 +18,7 @@
         <label for="renewPeriod">Продлить подписку на: </label>
         <select id="renewPeriod" name="renewPeriod">
             <option value="1">1 месяц</option>
-            <option value="2">2 месяца</option>
+            <#--<option value="2">2 месяца</option>-->
         </select>
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <input type="submit" value="Продлить"/>
