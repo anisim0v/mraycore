@@ -3,12 +3,13 @@
 <#include "library/standardPage.ftl" />
 
 <@standardPage title="MusicRay">
-<section class="parallax-window" data-parallax="scroll" data-image-src="img/pic-min.jpg" id="one">
+<main>
+<section class="parallax-window" data-parallax="scroll" data-image-src="../img/pic-min.jpg" id="one">
     <div>
         <h1 class="main">Spotify Premium</h1>
         <h4 class="main">От 80 р/мес.</h4><br>
         <a href="/join">
-            <button class="buy">Хочу!</button>
+            <button class="want">Хочу!</button>
         </a>
     </div>
 </section>
@@ -34,7 +35,7 @@
     </div>
 </section>
 <br><br><br><br><br>
-<section id="three" class="parallax-window" data-parallax="scroll" data-image-src="img/pic2-min.jpg">
+<section id="three" class="parallax-window" data-parallax="scroll" data-image-src="./img/pic2-min.jpg">
     <div class="container">
         <div class="class"><h3>Чем различаются аккаунты разных стран в Spotify?</h3></div>
         <div class="row">
@@ -46,7 +47,7 @@
             </div>
 
             <a href="/join">
-                <button class="buy">Купить!</button>
+                <button class="want">Купить!</button>
             </a><br><br>
         </div>
 </section>
@@ -67,17 +68,9 @@
                 <br>
             </div>
         </div>
+    </div>
 </section>
 </main>
-<script>
-    if (device.desktop()) {
-        var footer = '<footer><div class="contacts"><a href="https://vk.com/spotify_musicray" target="_blank"><i class="fa fa-vk" aria-hidden="true"></i></a><a href="https://t.me/music_ray" style="margin-left:20px;" target="_blank"><i class="fa fa-telegram" aria-hidden="true"></i></a><a href="mailto:support@music-ray.ru" style="margin-left:20px;" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i><span class="mail"> support@music-ray.ru</span></a></footer>';
-        document.write(footer);
-    }
-</script>
-<script src="nav/fastclick.js"></script>
-<script src="nav/scroll.js"></script>
-<script src="nav/fixed-responsive-nav.js"></script>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript"> (function (d, w, c) {
     (w[c] = w[c] || []).push(function () {
@@ -106,31 +99,7 @@
 })(document, window, "yandex_metrika_callbacks"); </script>
 <noscript>
     <div><img src="https://mc.yandex.ru/watch/42258604" style="position:absolute; left:-9999px;" alt=""/></div>
-</noscript> <!-- /Yandex.Metrika counter --><!-- BEGIN JIVOSITE CODE {literal} -->
-<script type='text/javascript'>
-    (function () {
-        var widget_id = 'zwzCHj5vQI';
-        var d = document;
-        var w = window;
-        function l() {
-            var s = document.createElement('script');
-            s.type = 'text/javascript';
-            s.async = true;
-            s.src = '//code.jivosite.com/script/widget/' + widget_id;
-            var ss = document.getElementsByTagName('script')[0];
-            ss.parentNode.insertBefore(s, ss);
-        }
-        if (d.readyState == 'complete') {
-            l();
-        } else {
-            if (w.attachEvent) {
-                w.attachEvent('onload', l);
-            } else {
-                w.addEventListener('load', l, false);
-            }
-        }
-    })();</script>
-<!-- {/literal} END JIVOSITE CODE -->
+</noscript> <!-- /Yandex.Metrika counter -->
 <script>
     (function (i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
