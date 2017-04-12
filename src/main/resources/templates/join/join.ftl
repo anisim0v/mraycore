@@ -4,7 +4,7 @@
 <@standardPage title="Регистрация">
 <main class="buy">
     <join>
-        <div class="container margin">
+        <div class="container">
             <h3>Купить</h3>
             <div class="row">
                 <div class="six columns" id="buy-form">
@@ -44,4 +44,5 @@
             </div></div>
     </join>
 </main>
+
 </@standardPage>
