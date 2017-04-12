@@ -332,7 +332,7 @@ body {
     font-family: "Gotham Pro Medium", serif;
 }
 
-main.buy {
+main:not(.index) {
     margin-top: 80px;
     flex: 1 0 auto;
 }
@@ -341,9 +341,11 @@ body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
-    overflow-x:hidden;
+    overflow-x: hidden;
 }
-
+.contacts{
+    overflow-x: hidden;
+}
 .buy h3 {
     font-family: Gotham Pro Black;
 }
@@ -464,6 +466,7 @@ footer{
     position:relative;
     top:17%;
     left: 25px;
+    width: 75%;
 }
 .contacts>a{
     font-size: 25px;
