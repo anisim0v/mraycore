@@ -5,6 +5,8 @@
 <#include '../library/standardPage.ftl'>
 
 <@standardPage title="Продление подписки">
+<main>
+    <div class="container">
 <div>Email: ${account.email}</div>
 <div>Регион: ${account.region}</div>
 <div>ID: ${account.id}</div>
@@ -63,5 +65,6 @@
         </tr>
     </table>
     </#if>
-
+    </div>
+</main>
 </@standardPage>
