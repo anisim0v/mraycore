@@ -64,7 +64,7 @@ class AccountsController(val accountRepository: AccountRepository,
 
     @RequestMapping("/{account}/refresh")
     fun refreshAccountTransactions(@PathVariable account: Account): String {
-        transactionService.refreshAccountTransactions(account)
+        transactionService.refreshAccountTransactions(account, force = true)
         return "redirect:/admin/accounts/${account.id}"
     }
 
@@ -131,7 +131,7 @@ class AccountsController(val accountRepository: AccountRepository,
 
         transactionRepository.save(transaction)
 
-        transactionService.refreshAccountTransactions(account, startInstant)
+        transactionService.refreshAccountTransactions(account, startInstant, true)
 
         return "redirect:/admin/accounts/${account.id}"
     }

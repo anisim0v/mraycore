@@ -73,8 +73,8 @@
 </table>
     <#if !account.familyToken??>
     <p><a href="/admin/accounts/${account.id}/assignToken">Assign token</a></p>
-    <#else>
     <p><a href="/admin/accounts/${account.id}/refresh">Refresh transactions</a></p>
+    <#else>
     <p><a href="/admin/accounts/${account.id}/unlink">Unlink</a></p>
     <p><a href="/admin/accounts/${account.id}/emailInvite">Email invite</a></p>
     </#if>

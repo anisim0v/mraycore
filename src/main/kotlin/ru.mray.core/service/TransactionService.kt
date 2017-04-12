@@ -19,8 +19,8 @@ class TransactionService(private val transactionRepository: TransactionRepositor
      * активированная уже истекла. Иначе (или в случае == null) началом отсчета будет момент истечения предыдущей
      * транзакции.
      */
-    fun refreshAccountTransactions(account: Account, newTransactionsStartInstant: Instant? = null) {
-        if (account.familyToken == null) {
+    fun refreshAccountTransactions(account: Account, newTransactionsStartInstant: Instant? = null, force: Boolean = false) {
+        if (account.familyToken == null && !force) {
             return
         }
 
