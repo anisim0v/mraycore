@@ -3,7 +3,7 @@
 <#include "library/standardPage.ftl" />
 
 <@standardPage title="MusicRay">
-<main>
+<main class="index">
 <section class="parallax-window" data-parallax="scroll" data-image-src="../img/pic-min.jpg" id="one">
     <div>
         <h1 class="main">Spotify Premium</h1>
