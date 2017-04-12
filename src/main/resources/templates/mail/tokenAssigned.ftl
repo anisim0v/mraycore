@@ -39,6 +39,6 @@
     </tr>
 </table>
 
-<p>Спасибо, что пользуетесь нами,<br>MusicRay</p>
+<p>Спасибо, что пользуетесь нами,<br><a href="http://music-ray.ru">MusicRay</a></p>
 </body>
 </html>
