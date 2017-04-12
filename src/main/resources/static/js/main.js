@@ -658,7 +658,6 @@ $(document).ready(function() {
             $('#three').parallax({imageSrc: 'img/pic2-min.jpg'});
             break;
         case "/join":
-        case "/mraytest/musicray/buy/index.php":
             document.querySelector( "form" )
                 .addEventListener( "invalid", function( event ) {
                     event.preventDefault();
@@ -679,5 +678,21 @@ $(document).ready(function() {
                     $('#submit').removeClass('button-primary').addClass('button').attr('disabled',true);
                 }
             });
+            break;
+        case "/faq":
+            $(".answer").hide();
+            $(".question").click(function(){
+                if($(this).next().is(":visible")){
+                    $(this).next().hide();
+                    $(this).parent().css('margin-bottom', '5px')
+                }
+                else{
+                    $(this).next().fadeIn('slow');
+                    $(this).parent().css('margin-bottom', '10px')
+                }
+            });
+            if(device.mobile()){
+                $('.answer').addClass('mobile');
+            }
     }
 });

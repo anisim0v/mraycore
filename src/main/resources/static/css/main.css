@@ -486,6 +486,23 @@ footer{
 .closedtext a{
     color:white;
 }
+
+.question{
+    text-decoration: underline;
+    cursor: pointer;
+    margin-bottom: 5px;
+    font-size: 1.4em;
+}
+.answer{
+    font-size: 1.2em;
+    display: none;
+}
+.answer.mobile{
+    font-size: 1.1em;
+}
+.qa{
+    transition-duration: 0.34s;
+}
 /* Global */
 
 .jBox-wrapper {
