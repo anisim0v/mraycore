@@ -1,4 +1,4 @@
-<#-- @ftlvariable name="text" type="java.lang.String" -->
+с<#-- @ftlvariable name="text" type="java.lang.String" -->
 <#include 'library/standardPage.ftl'>
 
 <@standardPage title="FAQ">
@@ -50,18 +50,14 @@
                     </span>
                 </div>
                 <div class="qa">
-                    <h5 class="question">Когда будет США?</h5>
-                    <span class="answer">Как только научимся стабильно оплачивать американские аккаунты. Надеемся начать в течение 1-2 недель.</span>
-                </div>
-                <div class="qa">
-                    <h5 class="question">Прошло 8 часов, мне ничего не пришло! Вы кидалы?</h5>
-                    <span class="answer">Нет, мы не кидалы. Мы стремимся сделать сервис, который будет доставлять аккаунты мгновенно, однако из-за отчаянного сопротивления Spotify не всегда это получается. Можете написать нам на почту, мы вернем деньги.</span>
-                </div>
-                <div class="qa">
                     <h5 class="question">Как с вами связаться?</h5>
                     <span class="answer"><a target="_blank" href="mailto:support@music-ray.ru">support@music-ray.ru</a><br>
                     <a target="_blank" href="https://vk.com/spotify_musicray">Группа ВКонтакте</a><br>
                     <a target="_blank" href="https://t.me/music_ray">Чат в Telegram</a> </span>
+                </div>
+                <div class="qa">
+                    <h5 class="question">Я старый юзер, выкинуло. Что за?</h5>
+                    <span class="answer">Читать <a href="http://telegra.ph/MusicRay-20-04-12">здесь</a></span>
                 </div>
             </div>
         </div>
