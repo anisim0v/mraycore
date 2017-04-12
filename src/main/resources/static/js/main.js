@@ -673,7 +673,7 @@ $(document).ready(function() {
             $('input').change(function(){
                 if($("#email").val()!==""&&$('#twiceayear').prop('checked')&&$('#agree').prop('checked')){
                     console.log("qwe");
-                    $('#submit').removeClass('button').addClass('button-primary');
+                    $('#submit').removeClass('button').addClass('button-primary').attr('disabled',false);
                 }
                 else{
                     $('#submit').removeClass('button-primary').addClass('button').attr('disabled',true);
