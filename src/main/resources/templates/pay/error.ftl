@@ -3,6 +3,8 @@
 
 <@standardPage title="Что-то пошло не так">
 <main>
-<span>Что-то пошло не так. <a href="/pay/${transactionId}">Попробуйте еще раз</a>.</span>
+    <div class="container">
+        <p>Что-то пошло не так. <a href="/pay/${transactionId}">Попробуйте еще раз</a>.</p>
+    </div>
 </main>
 </@standardPage>

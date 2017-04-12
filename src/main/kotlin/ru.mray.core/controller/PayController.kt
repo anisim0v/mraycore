@@ -148,12 +148,10 @@ class PayController(val w1Service: W1Service,
     fun done(@PathVariable transaction: Transaction?,
              model: Model): String {
         transaction ?: throw NotFoundException("Unknown transaction")
-        val user = accountsRepository.findOne(transaction.accountId)
-        if (user.familyToken != null) {
-            model.addAttribute("text", "Продление совершено успешно")
-        } else {
-            model.addAttribute("text", "Покупка совершена успешно")
-        }
+        val account = accountsRepository.findOne(transaction.accountId)
+
+        model.addAttribute("account", account)
+
         return "pay/done"
     }
 }
