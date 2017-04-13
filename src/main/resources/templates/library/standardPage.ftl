@@ -12,21 +12,21 @@
     <link rel="shortcut icon" href="favicon/favicon.ico">
     <meta name="msapplication-config" content="favicon/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="/css/main.css">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://use.fontawesome.com/205197df0c.js"></script>
-    <script src="../../js/main.js"></script>
+    <script src="/js/main.js"></script>
 </head>
 <body>
 
 <header>
-    <a href="../" class="logo" data-scroll>MusicRay</a>
+    <a href="/" class="logo" data-scroll>MusicRay</a>
     <nav class="nav-collapse">
         <ul>
-            <li class="menu-item"><a href="../" data-scroll>Главная</a></li>
-            <li class="menu-item"><a href="../join" data-scroll>Купить</a></li>
-            <li class="menu-item"><a href="../faq" data-scroll>Помощь</a></li>
-            <li class="menu-item"><a href="../donate" data-scroll>Помочь проекту</a></li>
+            <li class="menu-item"><a href="/" data-scroll>Главная</a></li>
+            <li class="menu-item"><a href="/join" data-scroll>Купить</a></li>
+            <li class="menu-item"><a href="/faq" data-scroll>Помощь</a></li>
+            <li class="menu-item"><a href="/donate" data-scroll>Помочь проекту</a></li>
 
         </ul>
     </nav>
