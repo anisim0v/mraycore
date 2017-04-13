@@ -5,7 +5,7 @@
 <main class="buy">
     <join>
         <div class="container">
-            <h3>Купить</h3>
+            <h3>Присоединиться</h3>
             <div class="row">
                 <div class="six columns" id="buy-form">
                     <form method="POST" th:action="@{/join}">
@@ -37,7 +37,7 @@
                         </div>
                         <div>
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                            <button type="submit" class="button" id="submit">Купить! (100р.)</button>
+                            <button type="submit" class="button" id="submit">Присоединиться! (100₽/мес.)</button>
                         </div>
                     </form>
                 </div>
@@ -55,10 +55,10 @@
     $("#region").change(function() {
         switch($("#region option:checked").val()){
             case "US":
-                $("#submit").html("Купить! (220р.)");
+                $("#submit").html("Присоединиться! (220₽/мес.)");
                 break;
             case "PH":
-                $("#submit").html("Купить! (100р.)");
+                $("#submit").html("Присоединиться! (100₽/мес.)");
                 break;
         }
     });

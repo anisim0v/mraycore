@@ -24,9 +24,9 @@
     <nav class="nav-collapse">
         <ul>
             <li class="menu-item"><a href="/" data-scroll>Главная</a></li>
-            <li class="menu-item"><a href="/join" data-scroll>Купить</a></li>
-            <li class="menu-item"><a href="/faq" data-scroll>Помощь</a></li>
-            <li class="menu-item"><a href="/donate" data-scroll>Помочь проекту</a></li>
+            <li class="menu-item"><a href="/join" data-scroll>Присоединиться</a></li>
+            <li class="menu-item"><a href="/faq" data-scroll>FAQ</a></li>
+            <li class="menu-item"><a href="/donate" data-scroll>Поддержать проект</a></li>
 
         </ul>
     </nav>
