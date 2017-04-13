@@ -48,12 +48,14 @@ class PayController(val w1Service: W1Service,
             return "redirect:/pay/done/${transaction.id}"
         }
 
+        val account = accountsRepository.findOne(transaction.accountId) ?: throw NotFoundException("Cannot find account with id ${transaction.accountId}")
+
         val formFields = mapOf(
                 "WMI_MERCHANT_ID" to "141130336213", // TODO: Move to config
                 "WMI_CURRENCY_ID" to "643",
                 "WMI_PAYMENT_NO" to transaction.id,
                 "WMI_PAYMENT_AMOUNT" to pricesHolder.getFormattedPrice(transaction.region, transaction.period),
-                "WMI_DESCRIPTION" to "MusicRay Spotify Premium: ${transaction.period.describe()}",
+                "WMI_DESCRIPTION" to "MusicRay Spotify Premium: ${transaction.period.describe()} (${account.email})",
                 "WMI_SUCCESS_URL" to "http://music-ray.ru/pay/done/${transaction.id}",
                 "WMI_FAIL_URL" to "http://music-ray.ru/pay/fail/${transaction.id}"
         )
