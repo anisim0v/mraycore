@@ -4,7 +4,7 @@
 
 <@standardPage title="MusicRay">
 <main class="index">
-<section class="parallax-window" data-parallax="scroll" data-image-src="../img/pic-min.jpg" id="one">
+<section class="parallax-window" data-parallax="scroll" data-image-src="/img/pic-min.jpg" id="one">
     <div>
         <h1 class="main">Spotify Premium</h1>
         <h4 class="main">От 100 р/мес.</h4><br>
@@ -29,7 +29,7 @@
     </div>
 </section>
 <br><br><br><br><br>
-<section id="three" class="parallax-window" data-parallax="scroll" data-image-src="./img/pic2-min.jpg">
+<section id="three" class="parallax-window" data-parallax="scroll" data-image-src="/img/pic2-min.jpg">
     <div class="container">
         <div class="class"><h3>Чем отличается филиппинский аккаунт от американского?</h3></div>
         <div class="row">
