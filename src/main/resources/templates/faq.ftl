@@ -13,7 +13,7 @@
                 </div>
                 <div class="qa">
                     <h5 class="question">Как сменить страну аккаунта Spotify?</h5>
-                    Инструкция для Филиппин. Другие страны по аналогии. Сменить страну можно только при отстутствии активной подписки
+                    Инструкция для Филиппин. Другие страны по аналогии. Сменить страну можно только при отсутствии активной подписки
                     <div class="answer"><span>1. Скачайте клиент<a href="https://www.goldenfrog.com/vyprvpn/vpn-apps" target="_blank">&nbsp;VyprVPN</a>*
 	<a data-external-url="https://www.goldenfrog.com/vyprvpn/vpn-apps)" href="https://vk.com/away.php?to=https%3A%2F%2Fwww.goldenfrog.com%2Fvyprvpn%2Fvpn-apps%29" target="_blank"></a>. Зарегистрируйтесь (при регистрации через клиент, в отличие от сайта, не нужно вводить данные для оплаты).&nbsp;</span><br>
 
