@@ -37,12 +37,31 @@
                         </div>
                         <div>
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                            <button type="submit" class="button" id="submit">Попробовать!</button>
+                            <button type="submit" class="button" id="submit">Купить! (100р.)</button>
                         </div>
                     </form>
                 </div>
-            </div></div>
+                <#--<div class="offset-by-six">-->
+                    <#--<h5>Наши цены:</h5>-->
+                    <#--<span>Филиппины - 100 р.</span><br>-->
+                    <#--<span>США - 220 р.</span>-->
+                <#--</div>-->
+            </div>
+        </div>
     </join>
 </main>
+
+<script>
+    $("#region").change(function() {
+        switch($("#region option:checked").val()){
+            case "US":
+                $("#submit").html("Купить! (220р.)");
+                break;
+            case "PH":
+                $("#submit").html("Купить! (100р.)");
+                break;
+        }
+    });
+</script>
 
 </@standardPage>

@@ -4,10 +4,10 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
-@RequestMapping("/faq")
-class FaqController {
+@RequestMapping("/donate")
+class DonateController {
     @RequestMapping
-    fun faqPage(): String {
-        return "faq"
+    fun donatePage(): String {
+        return "donate"
     }
 }

@@ -4,7 +4,7 @@
 
 <@standardPage title="MusicRay">
 <main class="index">
-<section class="parallax-window" data-parallax="scroll" data-image-src="../img/pic-min.jpg" id="one">
+<section class="parallax-window" data-parallax="scroll" data-image-src="/img/pic-min.jpg" id="one">
     <div>
         <h1 class="main">Spotify Premium</h1>
         <h4 class="main">От 100 р/мес.</h4><br>
@@ -29,7 +29,7 @@
     </div>
 </section>
 <br><br><br><br><br>
-<section id="three" class="parallax-window" data-parallax="scroll" data-image-src="./img/pic2-min.jpg">
+<section id="three" class="parallax-window" data-parallax="scroll" data-image-src="/img/pic2-min.jpg">
     <div class="container">
         <div class="class"><h3>Чем отличается филиппинский аккаунт от американского?</h3></div>
         <div class="row">
@@ -48,7 +48,7 @@
             <h3>Почему мы?</h3>
             <div class="row">
                 <div class="feature four columns"><h5 class="class2">Просто</h5>
-                    <p>Не хочешь мучиться с настройками VPN и искать какой-нибудь филиппинский почтовый адрес? Просто напиши нам в поддержку (ссылки ниже) – и мы поможем тебе зарегистрировать аккаунт!</p></div>
+                    <p>От тебя не потребуется никаких специальных знаний или умений. Для всего есть подробные инструкции, а наша поддержка всегда готова помочь</p></div>
                 <div class="feature four columns"><h5 class="class2">Быстро</h5>
                     <p>Ты получишь письмо для активации премиум-аккаунта в Spotify сразу после оплаты! Максимум – через несколько часов. А если что-то пошло не так, наша техподдержка всего придет на помощь! </p></div>
                 <div class="feature four columns"><h5 class="class2">Дёшево</h5>
