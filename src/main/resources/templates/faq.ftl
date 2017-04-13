@@ -1,4 +1,4 @@
-с<#-- @ftlvariable name="text" type="java.lang.String" -->
+<#-- @ftlvariable name="text" type="java.lang.String" -->
 <#include 'library/standardPage.ftl'>
 
 <@standardPage title="FAQ">
@@ -9,13 +9,16 @@
                 <h3>FAQ</h3>
                 <div class="qa">
                     <h5 class="question">Как зарегистрироваться в Spotify?</h5>
-                    <span class="answer">Вот <a target="_blank" href="https://vk.com/spotify_musicray?w=page-138752802_53975255">здесь</a> есть хорошая инструкция!</span>
+                    <span class="answer">Вот <a target="_blank"
+                                                href="https://vk.com/spotify_musicray?w=page-138752802_53975255">здесь</a> есть хорошая инструкция!</span>
                 </div>
                 <div class="qa">
                     <h5 class="question">Как сменить страну аккаунта Spotify?</h5>
-                    Инструкция для Филиппин. Другие страны по аналогии. Сменить страну можно только при отсутствии активной подписки
-                    <div class="answer"><span>1. Скачайте клиент<a href="https://www.goldenfrog.com/vyprvpn/vpn-apps" target="_blank">&nbsp;VyprVPN</a>*
-	<a data-external-url="https://www.goldenfrog.com/vyprvpn/vpn-apps)" href="https://vk.com/away.php?to=https%3A%2F%2Fwww.goldenfrog.com%2Fvyprvpn%2Fvpn-apps%29" target="_blank"></a>. Зарегистрируйтесь (при регистрации через клиент, в отличие от сайта, не нужно вводить данные для оплаты).&nbsp;</span><br>
+                    <div class="answer"><span>
+                                            Инструкция для Филиппин. Другие страны по аналогии. Сменить страну можно только при отсутствии активной подписки
+<br>1. Скачайте клиент<a href="https://www.goldenfrog.com/vyprvpn/vpn-apps" target="_blank">&nbsp;VyprVPN</a>*
+	<a data-external-url="https://www.goldenfrog.com/vyprvpn/vpn-apps)"
+       href="https://vk.com/away.php?to=https%3A%2F%2Fwww.goldenfrog.com%2Fvyprvpn%2Fvpn-apps%29" target="_blank"></a>. Зарегистрируйтесь (при регистрации через клиент, в отличие от сайта, не нужно вводить данные для оплаты).&nbsp;</span><br>
 
                         <span>2. Выберите Филиппины из списка стран. Подключитесь к VPN.&nbsp;</span><br>
 
@@ -52,7 +55,8 @@
                 </div>
                 <div class="qa">
                     <h5 class="question">Как с вами связаться?</h5>
-                    <span class="answer"><a target="_blank" href="mailto:support@music-ray.ru">support@music-ray.ru</a><br>
+                    <span class="answer"><a target="_blank"
+                                            href="mailto:support@music-ray.ru">support@music-ray.ru</a><br>
                     <a target="_blank" href="https://vk.com/spotify_musicray">Группа ВКонтакте</a><br>
                     <a target="_blank" href="https://t.me/music_ray">Чат в Telegram</a> </span>
                 </div>
