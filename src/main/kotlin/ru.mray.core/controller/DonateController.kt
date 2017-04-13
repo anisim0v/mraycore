@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 @RequestMapping("/donate")
 class DonateController {
     @RequestMapping
-    fun donatepage(): String {
+    fun donatePage(): String {
         return "donate"
     }
 }

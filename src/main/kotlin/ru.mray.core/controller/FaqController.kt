@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 @RequestMapping("/faq")
 class FaqController {
     @RequestMapping
-    fun faqpage(): String {
+    fun faqPage(): String {
         return "faq"
     }
 }
