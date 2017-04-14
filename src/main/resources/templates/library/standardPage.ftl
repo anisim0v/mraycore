@@ -25,6 +25,7 @@
         <ul>
             <li class="menu-item"><a href="/" data-scroll>Главная</a></li>
             <li class="menu-item"><a href="/join" data-scroll>Присоединиться</a></li>
+            <li class="menu-item"><a href="/status" data-scroll>Состояние подписки</a></li>
             <li class="menu-item"><a href="/faq" data-scroll>FAQ</a></li>
             <li class="menu-item"><a href="/donate" data-scroll>Поддержать проект</a></li>
 

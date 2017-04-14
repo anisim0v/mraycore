@@ -2,7 +2,7 @@
 <#-- @ftlvariable name="transaction" type="ru.mray.core.model.Transaction" -->
 <#-- @ftlvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" -->
 <#-- @ftlvariable name="account" type="ru.mray.core.model.Account" -->
-<#include 'library/standardPage.ftl'>
+<#include '../library/standardPage.ftl'>
 
 <@standardPage title="Состояние аккаунта">
 <main>
