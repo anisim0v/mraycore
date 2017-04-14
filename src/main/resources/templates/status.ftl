@@ -2,9 +2,9 @@
 <#-- @ftlvariable name="transaction" type="ru.mray.core.model.Transaction" -->
 <#-- @ftlvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" -->
 <#-- @ftlvariable name="account" type="ru.mray.core.model.Account" -->
-<#include '../library/standardPage.ftl'>
+<#include 'library/standardPage.ftl'>
 
-<@standardPage title="Продление подписки">
+<@standardPage title="Состояние аккаунта">
 <main>
     <div class="container">
 <div>Email: ${account.email}</div>
@@ -14,7 +14,7 @@
 <div>Подписка активна до: ${account.activeUntil!"Дата окончания подписки появится после присоединения к семье"}</div>
 <p>
     <#if showRenewForm>
-    <form method="post">
+    <form method="post" action="/status/${account.id}/renew">
         <label for="renewPeriod">Продлить подписку на: </label>
         <select id="renewPeriod" name="renewPeriod">
             <option value="1">1 месяц</option>

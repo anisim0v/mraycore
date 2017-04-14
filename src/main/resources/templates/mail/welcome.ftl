@@ -8,7 +8,7 @@
 <body>
 <p>Привет, ${account.email}.</p>
 
-<p>Вот <a href="https://music-ray.ru/renew/${account.id}">ссылка на ваш личный кабинет.</a> В нем вы можете посмотреть
+<p>Вот <a href="https://music-ray.ru/status/${account.id}">ссылка на ваш личный кабинет.</a> В нем вы можете посмотреть
     информацию о состоянии своей подписки, а так же продлить ее</p>
 
 <p>Спасибо, что пользуетесь нами,<br><a href="http://music-ray.ru">MusicRay</a></p>

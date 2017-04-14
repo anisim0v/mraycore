@@ -9,7 +9,7 @@
 
 <p>Кажется, пришло время продлить подписку на Spotify. Она закончится ${account.activeUntil}</p>
 
-<p>Как и всегда, <a href="https://music-ray.ru/pay/renew/${account.id}">вот ваша ссылка на продление</a>.</p>
+<p>Вы можете сделать это в своем <a href="https://music-ray.ru/status/${account.id}">личном кабинете</a>.</p>
 
 <p>Спасибо, что пользуетесь нами,<br><a href="http://music-ray.ru">MusicRay</a></p>
 </body>
