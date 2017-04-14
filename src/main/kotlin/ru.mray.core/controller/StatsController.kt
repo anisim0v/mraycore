@@ -17,6 +17,7 @@ class StatsController(val accountRepository: AccountRepository,
     @RequestMapping
     fun statsPage(model: Model): String {
         val activeCount = accountRepository.countByFamilyTokenIsNotNull()
+        val totalCount = accountRepository.count()
 
         val pendingAccounts = accountRepository.findPending()
 
@@ -28,6 +29,7 @@ class StatsController(val accountRepository: AccountRepository,
             AdminIndexController.RegionStats(region, pendingCount, unassignedTokensCount, tokenCountToAssign)
         }
 
+        model.addAttribute("totalCount", totalCount)
         model.addAttribute("activeCount", activeCount)
         model.addAttribute("regionsStats", regionsStats)
         return "stats"

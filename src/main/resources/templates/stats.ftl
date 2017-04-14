@@ -1,3 +1,4 @@
+<#-- @ftlvariable name="totalCount" type="java.lang.Number" -->
 <#include 'library/standardPage.ftl'>
 <#-- @ftlvariable name="regionsStats" type="ru.mray.core.controller.admin.AdminIndexController.RegionStats[]" -->
 <#-- @ftlvariable name="activeCount" type="java.lang.Number" -->
@@ -8,6 +9,7 @@
         <div class="row">
             <div class="twelwe columns" id="stats">
                 <h3>Текущая статистика:</h3>
+                <div>Зарегистрировано аккаунтов: ${totalCount}</div>
                 <div>Активных аккаунтов: ${activeCount}</div>
                 <#list regionsStats as regionStats>
                     <p>
