@@ -24,7 +24,7 @@
         <input name="WMI_SIGNATURE" type="hidden" value="${WMI_SIGNATURE}"/>
         <#--<input type="submit" value="Оплатить">-->
     </form>
-    <div>Оплата пока не доступна, полноценный запуск новой платформы MusicRay состоится в ближайшее время.
+    <div>Оплата пока недоступна, полноценный запуск новой платформы MusicRay состоится в ближайшее время.
         Следите за новостями в <a href="https://t.me/music_ray">Telegram</a></div>
 </div>
 </main>
