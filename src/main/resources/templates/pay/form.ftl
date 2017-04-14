@@ -10,6 +10,7 @@
 
 <@standardPage title="Оплата подписки">
 <main>
+
 <div class="container">
     <span>К оплате: ${WMI_PAYMENT_AMOUNT}</span>
     <form method="post" action="https://wl.walletone.com/checkout/checkout/Index">
@@ -21,8 +22,10 @@
         <input name="WMI_FAIL_URL" type="hidden" value="${WMI_FAIL_URL}"/>
         <input name="WMI_PAYMENT_NO" type="hidden" value="${WMI_PAYMENT_NO}"/>
         <input name="WMI_SIGNATURE" type="hidden" value="${WMI_SIGNATURE}"/>
-        <input type="submit" value="Оплатить">
+        <#--<input type="submit" value="Оплатить">-->
     </form>
+    <div>Оплата пока не доступна, полноценный запуск новой платформы MusicRay состоится в ближайшее время.
+        Следите за новостями в <a href="https://t.me/music_ray">Telegram</a></div>
 </div>
 </main>
 </@standardPage>
