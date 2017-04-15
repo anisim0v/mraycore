@@ -3,7 +3,7 @@
 <#-- @ftlvariable name="regionsStats" type="ru.mray.core.controller.admin.AdminIndexController.RegionStats[]" -->
 <#-- @ftlvariable name="activeCount" type="java.lang.Number" -->
 
-<@standardPage title="FAQ">
+<@standardPage title="Текущая статистика">
 <main class="buy">
     <div class="container">
         <div class="row">

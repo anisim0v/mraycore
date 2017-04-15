@@ -1,7 +1,7 @@
 <#-- @ftlvariable name="text" type="java.lang.String" -->
 <#include 'library/standardPage.ftl'>
 
-<@standardPage title="FAQ">
+<@standardPage title="Поддержать проект">
 <main class="buy">
     <div class="container">
         <div class="row">

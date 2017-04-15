@@ -11,6 +11,6 @@
 
 <p>Вы можете сделать это в своем <a href="https://music-ray.ru/status/${account.id}">личном кабинете</a>.</p>
 
-<p>Спасибо, что пользуетесь нами,<br><a href="http://music-ray.ru">MusicRay</a></p>
+<p>Спасибо, что выбрали <a href="http://music-ray.ru">MusicRay</a></p>
 </body>
 </html>
