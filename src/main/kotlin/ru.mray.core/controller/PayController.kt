@@ -41,6 +41,7 @@ class PayController(val w1Service: W1Service,
     val logger: Logger = LoggerFactory.getLogger(PayController::class.java)
 
     val autoassignmentEnabled: Boolean = environment.getProperty("mray.autoassignment")?.toBoolean() ?: false
+    val paymentsEnabled: Boolean = environment.getProperty("mray.payments")?.toBoolean() ?: false
 
     @RequestMapping("/{transaction}")
     fun createForm(@PathVariable transaction: Transaction?,
@@ -73,6 +74,7 @@ class PayController(val w1Service: W1Service,
         model.addAttribute("account", account)
         model.addAttribute("unassignedTokensCount", unassignedTokensCount)
         model.addAttribute("pendingAccounts", pendingAccounts)
+        model.addAttribute("paymentsEnabled", paymentsEnabled)
 
         return "pay/form"
     }

@@ -1,3 +1,4 @@
+<#-- @ftlvariable name="paymentsEnabled" type="java.lang.Boolean" -->
 <#-- @ftlvariable name="pendingAccounts" type="java.lang.Number" -->
 <#-- @ftlvariable name="unassignedTokensCount" type="java.lang.Number" -->
 <#-- @ftlvariable name="account" type="ru.mray.core.model.Account" -->
@@ -29,7 +30,8 @@
                     Количество человек в очереди перед вами: ${pendingAccounts}.<br><br>
                     Следить за наличием свободных слотов можно на <a href="/stats">этой странице</a>
                 </#if>
-            </div><br>
+            </div>
+            <br>
         </#if>
         <form method="post" action="https://wl.walletone.com/checkout/checkout/Index">
             <input name="WMI_MERCHANT_ID" type="hidden" value="${WMI_MERCHANT_ID}"/>
@@ -40,10 +42,13 @@
             <input name="WMI_FAIL_URL" type="hidden" value="${WMI_FAIL_URL}"/>
             <input name="WMI_PAYMENT_NO" type="hidden" value="${WMI_PAYMENT_NO}"/>
             <input name="WMI_SIGNATURE" type="hidden" value="${WMI_SIGNATURE}"/>
-            <#--<input type="submit" value="Оплатить">-->
+            <input type="submit" <#if !paymentsEnabled>style="display: none"</#if> value="Оплатить">
+
+            <#if !paymentsEnabled>
+                <div>Оплата пока недоступна. Полноценный запуск новой платформы MusicRay состоится в ближайшее время.
+                    Следите за новостями в <a href="https://t.me/music_ray">Telegram</a></div>
+            </#if>
         </form>
-        <div>Оплата пока недоступна, полноценный запуск новой платформы MusicRay состоится в ближайшее время.
-            Следите за новостями в <a href="https://t.me/music_ray">Telegram</a></div>
     </div>
 </main>
 </@standardPage>
