@@ -15,6 +15,7 @@ import ru.mray.core.exceptions.NoFreeFamilyTokenAvailableException
 import ru.mray.core.exceptions.NotFoundException
 import ru.mray.core.model.Transaction
 import ru.mray.core.repository.AccountRepository
+import ru.mray.core.repository.FamilyTokenRepository
 import ru.mray.core.repository.TransactionRepository
 import ru.mray.core.service.FamilyTokenService
 import ru.mray.core.service.TransactionService
@@ -34,6 +35,7 @@ class PayController(val w1Service: W1Service,
                     val objMapper: ObjectMapper,
                     val transactionService: TransactionService,
                     val familyTokenService: FamilyTokenService,
+                    val familyTokenRepository: FamilyTokenRepository,
                     environment: Environment) {
 
     val logger: Logger = LoggerFactory.getLogger(PayController::class.java)
@@ -64,6 +66,13 @@ class PayController(val w1Service: W1Service,
         val signature = w1Service.sign(formFields)
         model.addAllAttributes(formFields)
         model.addAttribute("WMI_SIGNATURE", signature)
+
+        val unassignedTokensCount = familyTokenRepository.countUnassigned(transaction.region)
+        val pendingAccounts = accountsRepository.findPending().filter { it.region == transaction.region }.count()
+
+        model.addAttribute("account", account)
+        model.addAttribute("unassignedTokensCount", unassignedTokensCount)
+        model.addAttribute("pendingAccounts", pendingAccounts)
 
         return "pay/form"
     }
