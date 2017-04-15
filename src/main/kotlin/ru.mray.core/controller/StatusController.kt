@@ -11,6 +11,7 @@ import ru.mray.core.model.Account
 import ru.mray.core.model.Transaction
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.TransactionRepository
+import java.time.OffsetDateTime
 import java.time.Period
 
 @Controller
@@ -33,10 +34,12 @@ class StatusController(val transactionRepository: TransactionRepository,
     @RequestMapping("/{account}")
     fun statusPage(@PathVariable account: Account, model: Model): String {
         val latestTransaction = transactionRepository.findFirstByAccountId(account.id)
+        val showRenewForm = latestTransaction == null || (account.activeUntil != null
+                && account.activeUntil!! < OffsetDateTime.now().plusDays(10).toInstant())
 
         model.addAttribute("account", account)
         model.addAttribute("transaction", latestTransaction)
-        model.addAttribute("showRenewForm", latestTransaction == null || latestTransaction.paidAt != null)
+        model.addAttribute("showRenewForm", showRenewForm)
         return "status/status"
     }
 
