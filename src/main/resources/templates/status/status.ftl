@@ -47,6 +47,7 @@
             <table border="0" cellspacing="5px">
                 <tr>
                     <td><b>Последняя операция:</b></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td>Период</td>
