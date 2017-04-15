@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.data.mongodb.repository.Query
 import ru.mray.core.model.Account
 import java.time.Instant
+import java.time.OffsetDateTime
 
 interface AccountRepository : MongoRepository<Account, String>, AccountRepositoryCustom {
     fun findByEmail(email: String): Account?
@@ -22,8 +23,8 @@ interface AccountRepository : MongoRepository<Account, String>, AccountRepositor
 
 interface AccountRepositoryCustom {
     fun findPending(count: Int = Int.MAX_VALUE, sort: Sort = Sort(Sort.Direction.ASC, "registeredAt")): List<Account>
-    fun findAccountsToNotify(expiresBefore: Instant): List<Account>
-
+    fun findAccountsToNotify(expiresBefore: Instant = OffsetDateTime.now().plusDays(3).toInstant()): List<Account>
+    fun countAccountsToNotify(expiresBefore: Instant = OffsetDateTime.now().plusDays(3).toInstant()): Long
 }
 
 class AccountRepositoryImpl(val transactionRepository: TransactionRepository,
@@ -43,6 +44,14 @@ class AccountRepositoryImpl(val transactionRepository: TransactionRepository,
 
     override fun findAccountsToNotify(expiresBefore: Instant): List<Account> {
         return mongoTemplate.find(query(
+                where("activeUntil").`lt`(expiresBefore)
+                        .and("renewNotificationSentAt").`is`(null)
+                        .and("familyToken").exists(true)
+        ), Account::class.java)
+    }
+
+    override fun countAccountsToNotify(expiresBefore: Instant): Long {
+        return mongoTemplate.count(query(
                 where("activeUntil").`lt`(expiresBefore)
                         .and("renewNotificationSentAt").`is`(null)
                         .and("familyToken").exists(true)

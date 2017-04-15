@@ -1,3 +1,4 @@
+<#-- @ftlvariable name="accountsToNotifyCount" type="java.lang.Number" -->
 <#-- @ftlvariable name="regionsStats" type="ru.mray.core.controller.admin.AdminIndexController.RegionStats[]" -->
 <#-- @ftlvariable name="expiredCount" type="java.lang.Number" -->
 <#-- @ftlvariable name="activeCount" type="java.lang.Number" -->
@@ -18,6 +19,9 @@
     </tr>
     <tr>
         <td>Expired accounts: ${expiredCount}</td>
+    </tr>
+    <tr>
+        <td>Pending renew notifications: ${accountsToNotifyCount}</td>
     </tr>
 </table>
 

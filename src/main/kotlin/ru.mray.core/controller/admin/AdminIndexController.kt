@@ -18,6 +18,7 @@ class AdminIndexController(val accountRepository: AccountRepository,
         val accountsCount = accountRepository.count()
         val activeCount = accountRepository.countByFamilyTokenIsNotNull()
         val expiredCount = accountRepository.countExpired()
+        val accountsToNotifyCount = accountRepository.countAccountsToNotify()
 
         val pendingAccounts = accountRepository.findPending()
 
@@ -32,6 +33,7 @@ class AdminIndexController(val accountRepository: AccountRepository,
         model.addAttribute("accountsCount", accountsCount)
         model.addAttribute("activeCount", activeCount)
         model.addAttribute("expiredCount", expiredCount)
+        model.addAttribute("accountsToNotifyCount", accountsToNotifyCount)
         model.addAttribute("regionsStats", regionsStats)
 
         return "admin/index"
