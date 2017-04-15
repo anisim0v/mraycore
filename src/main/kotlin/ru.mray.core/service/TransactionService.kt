@@ -20,14 +20,16 @@ class TransactionService(private val transactionRepository: TransactionRepositor
      * транзакции.
      */
     fun refreshAccountTransactions(account: Account, newTransactionsStartInstant: Instant? = null, force: Boolean = false) {
+        var latestActiveAccountTransaction = transactionRepository.findLatestActiveAccountTransaction(account.id)
+
         if (account.familyToken == null && !force) {
+            account.activeUntil = latestActiveAccountTransaction?.activeUntil
+            accountRepository.save(account)
             return
         }
 
         val inactivePaidTransactions = transactionRepository.findAccountInactivePaidTransactions(account.id)
                 .sortedBy { it.paidAt }
-
-        var latestActiveAccountTransaction = transactionRepository.findLatestActiveAccountTransaction(account.id)
 
         var newTransactionsStartInstantApplied = false
 
@@ -54,15 +56,15 @@ class TransactionService(private val transactionRepository: TransactionRepositor
             latestActiveAccountTransaction = it
         }
 
-        account.activeUntil = latestActiveAccountTransaction?.activeUntil ?: account.activeUntil
+        account.activeUntil = latestActiveAccountTransaction?.activeUntil
         account.renewNotificationSentAt = null
         accountRepository.save(account)
     }
 
-    fun refreshAccountTransactions(accountId: String) {
+    fun refreshAccountTransactions(accountId: String, newTransactionsStartInstant: Instant? = null, force: Boolean = false) {
         val account = accountRepository.findOne(accountId)
                 ?: throw NoSuchElementException("Failed to refresh account transactions: can't find " +
                 "account with requested user id")
-        refreshAccountTransactions(account)
+        refreshAccountTransactions(account, newTransactionsStartInstant, force)
     }
 }

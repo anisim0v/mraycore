@@ -16,7 +16,6 @@ import ru.mray.core.service.FamilyTokenService
 import ru.mray.core.service.TransactionService
 import java.time.Instant
 import java.time.Period
-import java.time.format.DateTimeFormatter
 
 
 @Controller
@@ -63,8 +62,8 @@ class AccountsController(val accountRepository: AccountRepository,
     }
 
     @RequestMapping("/{account}/refresh")
-    fun refreshAccountTransactions(@PathVariable account: Account): String {
-        transactionService.refreshAccountTransactions(account, force = true)
+    fun refreshAccountTransactions(@PathVariable account: Account, @RequestParam(defaultValue = "false") force: Boolean): String {
+        transactionService.refreshAccountTransactions(account, force = force)
         return "redirect:/admin/accounts/${account.id}"
     }
 
@@ -116,8 +115,14 @@ class AccountsController(val accountRepository: AccountRepository,
                           @RequestParam type: Transaction.TransactionType,
                           @RequestParam period: Period,
                           @RequestParam(required = false) startInstant: Instant?,
-                          @RequestParam(value = "paid", defaultValue = "off") paidFlag: String): String {
-        val paid = when(paidFlag) {
+                          @RequestParam(value = "paid", defaultValue = "off") paidFlag: String,
+                          @RequestParam(value = "forceRefresh", defaultValue = "off") forceRefreshFlag: String): String {
+        val paid = when (paidFlag) {
+            "on" -> true
+            "off" -> false
+            else -> throw IllegalArgumentException("Incorrect paid value")
+        }
+        val forceRefresh = when (forceRefreshFlag) {
             "on" -> true
             "off" -> false
             else -> throw IllegalArgumentException("Incorrect paid value")
@@ -131,7 +136,7 @@ class AccountsController(val accountRepository: AccountRepository,
 
         transactionRepository.save(transaction)
 
-        transactionService.refreshAccountTransactions(account, startInstant, true)
+        transactionService.refreshAccountTransactions(account, startInstant, forceRefresh)
 
         return "redirect:/admin/accounts/${account.id}"
     }

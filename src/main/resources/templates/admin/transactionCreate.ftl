@@ -44,6 +44,14 @@ Target account: <a href="/admin/accounts/${account.id}">${account.id}</a>
         </tr>
         <tr>
             <td>
+                <label for="forceRefresh">Force refresh</label>
+            </td>
+            <td>
+                <input type="checkbox" name="forceRefresh" id="forceRefresh">
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <button type="submit" class="button" id="submit">Выполнить</button>
             </td>

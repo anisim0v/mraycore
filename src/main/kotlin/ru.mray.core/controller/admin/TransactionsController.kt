@@ -24,6 +24,7 @@ class TransactionsController(val transactionRepository: TransactionRepository,
         transaction.activeSince = null
         transaction.activeUntil = null
         transactionRepository.save(transaction)
+        transactionService.refreshAccountTransactions(transaction.accountId)
         return "redirect:/admin/accounts/${transaction.accountId}"
     }
 }
