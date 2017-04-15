@@ -15,7 +15,7 @@
     </tr>
     <#list families as family>
         <tr>
-            <td>${family.login}</td>
+            <td><a href="/admin/families/${family.login}">${family.login}</a></td>
             <td>${family.region}</td>
             <td>${family.password}</td>
             <td><a href="/admin/families/${family.login}/renew">${family.paidUntil}</a></td>

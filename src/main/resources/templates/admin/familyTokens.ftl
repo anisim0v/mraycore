@@ -5,17 +5,21 @@
 <table border="1">
     <tr>
         <td>Family login</td>
-        <td>Slot (0-based)</td>
         <td>Region</td>
+        <td>ID</td>
+        <td>Slot (0-based)</td>
+        <td>Assign manually</td>
         <td>Token</td>
         <td>Family paid until</td>
         <td>Account id</td>
     </tr>
     <#list familyTokens as token>
         <tr>
-            <td>${token.familyLogin}</td>
-            <td>${token.slot}</td>
+            <td><a href="/admin/families/${token.familyLogin}">${token.familyLogin}</a></td>
             <td>${token.region}</td>
+            <td>${token.id}</td>
+            <td>${token.slot}</td>
+            <td>${token.assignManually?c}</td>
             <td>${token.token}</td>
             <td>${token.paidUntil}</td>
             <td>

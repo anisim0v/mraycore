@@ -11,7 +11,7 @@ class FamilyToken() {
     lateinit var token: String
     lateinit var paidUntil: LocalDate
     var account: String? = null
-
+    var assignManually: Boolean = false
 
     constructor(region: Account.Region, familyLogin: String,
                 slot: Int, token: String, paidUntil: LocalDate) : this() {
@@ -21,5 +21,4 @@ class FamilyToken() {
         this.token = token
         this.paidUntil = paidUntil
     }
-
 }

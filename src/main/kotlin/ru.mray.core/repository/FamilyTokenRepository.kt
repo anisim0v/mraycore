@@ -11,11 +11,11 @@ interface FamilyTokenRepository : MongoRepository<FamilyToken, String> {
     fun findByAccount(accountId: String): FamilyToken?
     fun findByFamilyLogin(familyLogin: String): List<FamilyToken>
 
-    @Query("{ 'account': null, 'paidUntil': { \$gt: ?1 }, 'region': ?0 }")
+    @Query("{ 'account': null, 'assignManually': { \$ne: true }, 'paidUntil': { \$gt: ?1 }, 'region': ?0 }")
     fun findFirstUnassigned(region: Account.Region,
                             expiresAfter: LocalDate = LocalDate.now(),
                             sort: Sort = Sort(Sort.Order(Sort.Direction.ASC, "familyLogin"))): FamilyToken?
 
-    @Query("{ 'account': null, 'paidUntil': { \$gt: ?1 }, 'region': ?0 }", count = true)
+    @Query("{ 'account': null, 'assignManually': { \$ne: true }, 'paidUntil': { \$gt: ?1 }, 'region': ?0 }", count = true)
     fun countUnassigned(region: Account.Region, expiresAfter: LocalDate = LocalDate.now()): Int
 }
