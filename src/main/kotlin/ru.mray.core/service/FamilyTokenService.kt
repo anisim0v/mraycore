@@ -2,6 +2,7 @@ package ru.mray.core.service
 
 import org.springframework.stereotype.Service
 import org.springframework.ui.ExtendedModelMap
+import ru.mray.core.exceptions.NoFreeFamilyTokenAvailableException
 import ru.mray.core.exceptions.NotFoundException
 import ru.mray.core.model.Account
 import ru.mray.core.repository.AccountRepository
@@ -21,7 +22,7 @@ class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepositor
         }
 
         val familyToken = familyTokenRepository.findFirstUnassigned(account.region)
-                ?: throw NotFoundException("No free tokens available")
+                ?: throw NoFreeFamilyTokenAvailableException("No free tokens available")
         familyToken.account = account.id
         account.familyToken = familyToken.id
 

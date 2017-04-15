@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 import ru.mray.core.component.PricesHolder
 import ru.mray.core.exceptions.BadRequestException
+import ru.mray.core.exceptions.NoFreeFamilyTokenAvailableException
 import ru.mray.core.exceptions.NotFoundException
 import ru.mray.core.model.Transaction
 import ru.mray.core.repository.AccountRepository
@@ -119,7 +120,7 @@ class PayController(val w1Service: W1Service,
             try {
                 familyTokenService.assignTokenToAccount(account)
                 return "WMI_RESULT=OK"
-            } catch (e: NotFoundException) {
+            } catch (e: NoFreeFamilyTokenAvailableException) {
                 logger.warn("Failed to autoassign token to user", e)
             }
         }
