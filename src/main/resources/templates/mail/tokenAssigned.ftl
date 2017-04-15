@@ -22,6 +22,10 @@
         </td>
     </tr>
     <tr>
+        <td>Full name</td>
+        <td>Имя и фамилия, обязательно латиницей. Можно ваши, можно случайные.</td>
+    </tr>
+    <tr>
         <td>Street name</td>
         <td>${family.streetName}</td>
     </tr>
