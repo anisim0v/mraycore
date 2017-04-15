@@ -67,11 +67,11 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
         familyRepository.save(family)
 
         tokens
-                .mapIndexed { i, it -> FamilyToken(region, family.login, i, it, family.paidUntil, assignManually) }
+                .mapIndexed { i, it -> FamilyToken(region, family.id, i, it, family.paidUntil, assignManually) }
                 .toList()
                 .let { familyTokenRepository.save(it) }
 
-        return "admin/familyAdd"
+        return "redirect:/admin/families"
     }
 
     @RequestMapping("/tokens")
@@ -84,7 +84,7 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
     @RequestMapping("{family}/renew")
     fun familyRenewPage(@PathVariable family: Family, model: Model): String {
         val paidUntil = family.paidUntil.plusMonths(1).format(DateTimeFormatter.ISO_DATE)
-        model.addAttribute("familyLogin", family.login)
+        model.addAttribute("family", family)
         model.addAttribute("paidUntil", paidUntil)
         return "admin/familyRenew"
     }
@@ -93,22 +93,22 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
     fun familyRenew(@PathVariable family: Family, @RequestParam paidUntil: String): String {
         family.paidUntil = LocalDate.parse(paidUntil)
 
-        val tokens = familyTokenRepository.findByFamilyLogin(family.login)
+        val tokens = familyTokenRepository.findByFamily(family.id)
                 .map { it.paidUntil = family.paidUntil; it }
 
         familyRepository.save(family)
         familyTokenRepository.save(tokens)
-        return "redirect:/admin/families"
+        return "redirect:/admin/families/${family.id}"
     }
 
     @RequestMapping("/byToken/{familyToken}")
     fun familyDetailsByToken(familyToken: FamilyToken): String {
-        return "redirect:/admin/families/${familyToken.familyLogin}"
+        return "redirect:/admin/families/${familyToken.family}"
     }
 
     @RequestMapping("/{family}")
     fun familyDetails(@PathVariable family: Family, model: Model): String {
-        val familyTokens = familyTokenRepository.findByFamilyLogin(family.login)
+        val familyTokens = familyTokenRepository.findByFamily(family.id)
         model.addAttribute("family", family)
         model.addAttribute("familyTokens", familyTokens)
         return "admin/familyDetails"

@@ -83,7 +83,7 @@ class AccountsController(val accountRepository: AccountRepository,
     @RequestMapping("/{account}/unlink")
     fun unlinkPage(@PathVariable account: Account, model: Model): String {
         val familyToken = familyTokenRepository.findOne(account.familyToken)!!
-        val family = familyRepository.findOne(familyToken.familyLogin)!!
+        val family = familyRepository.findOne(familyToken.id)!!
         model.addAttribute("account", account)
         model.addAttribute("token", familyToken)
         model.addAttribute("family", family)

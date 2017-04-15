@@ -6,17 +6,17 @@ import java.util.*
 class FamilyToken() {
     var id: String = UUID.randomUUID().toString()
     lateinit var region: Account.Region
-    lateinit var familyLogin: String
+    lateinit var family: String
     var slot: Int = 0 // Initialization is required for primitive types
     lateinit var token: String
     lateinit var paidUntil: LocalDate
     var account: String? = null
     var assignManually: Boolean = false
 
-    constructor(region: Account.Region, familyLogin: String,
+    constructor(region: Account.Region, family: String,
                 slot: Int, token: String, paidUntil: LocalDate, assignManually: Boolean = false) : this() {
         this.region = region
-        this.familyLogin = familyLogin
+        this.family = family
         this.slot = slot
         this.token = token
         this.paidUntil = paidUntil

@@ -18,7 +18,7 @@
     </tr>
     <tr>
         <td>Paid until</td>
-        <td><a href="/admin/families/${family.login}/renew">${family.paidUntil}</a></td>
+        <td><a href="/admin/families/${family.id}/renew">${family.paidUntil}</a></td>
     </tr>
     <tr>
         <td>Street name</td>
@@ -42,8 +42,6 @@
     <tr>
         <td>ID</td>
         <td>Token</td>
-        <td>Region</td>
-        <td>Family login</td>
         <td>Account id</td>
         <td>Assign manually</td>
     </tr>
@@ -51,8 +49,6 @@
         <tr>
             <td>${token.id}</td>
             <td>${token.token}</td>
-            <td>${token.region}</td>
-            <td>${token.familyLogin}</td>
             <td>
                 <#if token.account??>
                 <a href="/admin/accounts/${token.account}">${token.account}</a>

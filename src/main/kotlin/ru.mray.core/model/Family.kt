@@ -1,10 +1,11 @@
 package ru.mray.core.model
 
-import org.springframework.data.annotation.Id
 import java.time.LocalDate
+import java.util.*
 
 class Family {
-    @Id lateinit var login: String
+    var id: String = UUID.randomUUID().toString()
+    lateinit var login: String
     lateinit var region: Account.Region
     lateinit var password: String
     lateinit var paidUntil: LocalDate

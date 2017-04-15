@@ -1,14 +1,14 @@
+<#-- @ftlvariable name="family" type="ru.mray.core.model.Family" -->
 <#-- @ftlvariable name="paidUntil" type="java.lang.String" -->
-<#-- @ftlvariable name="familyLogin" type="java.lang.String" -->
 <#-- @ftlvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" -->
 <#include 'library/standardAdminPage.ftl'>
 
 <@standardAdminPage title="Renew family">
-<form method="POST" action="/admin/families/${familyLogin}/renew">
+<form method="POST" action="/admin/families/${family.id}/renew">
     <table>
         <tr>
             <td>
-                Family login: ${familyLogin}
+                Family login: ${family.login}
             </td>
         </tr>
         <tr>

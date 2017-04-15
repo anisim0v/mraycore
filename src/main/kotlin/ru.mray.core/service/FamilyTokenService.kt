@@ -38,8 +38,8 @@ class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepositor
         val familyToken = familyTokenRepository.findOne(account.familyToken)
                 ?: throw NotFoundException("Cannot find familyToken ${account.familyToken}")
 
-        val family = familyRepository.findOne(familyToken.familyLogin)
-                ?: throw NotFoundException("Cannot find family ${familyToken.familyLogin}")
+        val family = familyRepository.findOne(familyToken.id)
+                ?: throw NotFoundException("Cannot find family ${familyToken.id}")
 
         val model = ExtendedModelMap()
         model.put("account", account)

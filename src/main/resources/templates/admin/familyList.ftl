@@ -2,6 +2,7 @@
 <#include 'library/standardAdminPage.ftl'>
 
 <@standardAdminPage title="Families">
+<p><a href="/admin/families/add">Add family</a></p>
 <table border="1">
     <tr>
         <td>Login</td>
@@ -15,10 +16,10 @@
     </tr>
     <#list families as family>
         <tr>
-            <td><a href="/admin/families/${family.login}">${family.login}</a></td>
+            <td><a href="/admin/families/${family.id}">${family.login}</a></td>
             <td>${family.region}</td>
             <td>${family.password}</td>
-            <td><a href="/admin/families/${family.login}/renew">${family.paidUntil}</a></td>
+            <td><a href="/admin/families/${family.id}/renew">${family.paidUntil}</a></td>
             <td>${family.streetName}</td>
             <td>${family.streetNumber}</td>
             <td>${family.zipCode}</td>

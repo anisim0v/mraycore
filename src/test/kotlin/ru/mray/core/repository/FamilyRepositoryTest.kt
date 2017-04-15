@@ -57,6 +57,6 @@ class FamilyRepositoryTest {
         familyTokenRepository.save(tokens)
 
         val firstUnassigned = familyTokenRepository.findFirstUnassigned(Account.Region.PH)
-        assertThat(firstUnassigned!!.familyLogin).isEqualTo("musicray-test0")
+        assertThat(firstUnassigned!!.family).isEqualTo("musicray-test0")
     }
 }
