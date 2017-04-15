@@ -25,7 +25,7 @@
                 <input type="submit" value="Продлить"/>
             </form>
         <#else>
-            <#if account.activeUntil??>
+            <#if transaction?? && transaction.activeUntil??>
                 <span>Продлить подписку можно будет когда до ее истечения останется менее 10 дней</span>
             </#if>
         </#if>
@@ -50,7 +50,8 @@
                         ${transaction.paidAt}
                         <#else>
                             <span>Еще не оплачена</span>
-                            <a href="/pay/${transaction.id}">Оплатить</a> <a href="/pay/cancel/${transaction.id}">Отменить</a>
+                            <a href="/pay/${transaction.id}">Оплатить</a>
+                            <#--<a href="/pay/cancel/${transaction.id}">Отменить</a>-->
                         </#if>
                     </td>
                 </tr>

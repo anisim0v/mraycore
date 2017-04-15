@@ -34,8 +34,10 @@ class StatusController(val transactionRepository: TransactionRepository,
     @RequestMapping("/{account}")
     fun statusPage(@PathVariable account: Account, model: Model): String {
         val latestTransaction = transactionRepository.findFirstByAccountId(account.id)
-        val showRenewForm = latestTransaction == null || (account.activeUntil != null
-                && account.activeUntil!! < OffsetDateTime.now().plusDays(10).toInstant())
+        val showRenewForm = latestTransaction == null ||
+                !(latestTransaction.activeUntil == null
+                        || latestTransaction.activeUntil!! > OffsetDateTime.now().plusDays(10).toInstant())
+
 
         model.addAttribute("account", account)
         model.addAttribute("transaction", latestTransaction)
