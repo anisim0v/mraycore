@@ -10,11 +10,24 @@
         <div>Email: ${account.email}</div>
         <div>Регион: ${account.region}</div>
         <div>ID: ${account.id}</div>
-        <div>ID токена в семье: ${account.familyToken!"Вы еще не присоединены к семье"}</div>
-        <div>Подписка активна
-            до: ${account.activeUntil!"Дата окончания подписки появится после присоединения к семье"}</div>
-        <br>
+        <div>
+            Статус:
+            <#if transaction?? && transaction.paidAt?? && !transaction.activeSince??>
+                Подписка оплачена, но приглашение еще не выслано. Вы получите его в порядке очереди.
+                <br>Текущая статистика проекта доступна на <a href="/stats">этой странице</a>
+            <#elseif account.familyToken??>
+                Подписка оплачена до ${account.activeUntil!"<неизвестно>"}, вы присоединены к семье.
+            <#elseif !transaction?? || !transaction.paidAt??>
+                Подписка не оплачена
+            <#else>
+                Неизвестно. Обратитесь в поддержку.
+            </#if>
+        </div>
+        <#if account.familyToken??>
+            <div>ID токена в семье: ${account.familyToken}</div>
+        </#if>
         <#if showRenewForm>
+            <br>
             <form method="post" action="/status/${account.id}/renew">
                 <label for="renewPeriod">Продлить подписку на: </label>
                 <select id="renewPeriod" name="renewPeriod">
@@ -26,7 +39,7 @@
             </form>
         <#else>
             <#if transaction?? && transaction.activeUntil??>
-                <span>Продлить подписку можно будет когда до ее истечения останется менее 10 дней</span>
+                <div>Продлить подписку можно будет когда до ее истечения останется менее 10 дней</div>
             </#if>
         </#if>
 
@@ -51,7 +64,7 @@
                         <#else>
                             <span>Еще не оплачена</span>
                             <a href="/pay/${transaction.id}">Оплатить</a>
-                            <#--<a href="/pay/cancel/${transaction.id}">Отменить</a>-->
+                        <#--<a href="/pay/cancel/${transaction.id}">Отменить</a>-->
                         </#if>
                     </td>
                 </tr>

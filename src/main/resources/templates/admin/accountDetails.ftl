@@ -71,10 +71,10 @@
         </tr>
     </#list>
 </table>
+<p><a href="/admin/accounts/${account.id}/refresh">Refresh transactions</a></p>
+<p><a href="/admin/accounts/${account.id}/refresh?force=true">Force refresh transactions</a></p>
     <#if !account.familyToken??>
     <p><a href="/admin/accounts/${account.id}/assignToken">Assign token</a></p>
-    <p><a href="/admin/accounts/${account.id}/refresh">Refresh transactions</a></p>
-    <p><a href="/admin/accounts/${account.id}/refresh?force=true">Force refresh transactions</a></p>
     <#else>
     <p><a href="/admin/accounts/${account.id}/unlink">Unlink</a></p>
     <p><a href="/admin/accounts/${account.id}/emailInvite">Email invite</a></p>
