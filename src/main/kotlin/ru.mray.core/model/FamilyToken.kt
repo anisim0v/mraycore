@@ -14,11 +14,12 @@ class FamilyToken() {
     var assignManually: Boolean = false
 
     constructor(region: Account.Region, familyLogin: String,
-                slot: Int, token: String, paidUntil: LocalDate) : this() {
+                slot: Int, token: String, paidUntil: LocalDate, assignManually: Boolean = false) : this() {
         this.region = region
         this.familyLogin = familyLogin
         this.slot = slot
         this.token = token
         this.paidUntil = paidUntil
+        this.assignManually = assignManually
     }
 }

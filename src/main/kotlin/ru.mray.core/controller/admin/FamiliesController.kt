@@ -44,9 +44,16 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
             @RequestParam streetNumber: String,
             @RequestParam zipCode: String,
             @RequestParam paidUntil: String,
+            @RequestParam(value = "assignManually", defaultValue = "off") assignManuallyFlag: String,
             @RequestParam tokens: List<String>): String {
 
+
         val paidUntilDate = LocalDate.parse(paidUntil)
+        val assignManually = when(assignManuallyFlag) {
+            "on" -> true
+            "off" -> false
+            else -> throw IllegalArgumentException("Incorrect assignManually value")
+        }
 
         val family = Family()
         family.login = login
@@ -60,7 +67,7 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
         familyRepository.save(family)
 
         tokens
-                .mapIndexed { i, it -> FamilyToken(region, family.login, i, it, family.paidUntil) }
+                .mapIndexed { i, it -> FamilyToken(region, family.login, i, it, family.paidUntil, assignManually) }
                 .toList()
                 .let { familyTokenRepository.save(it) }
 

@@ -42,6 +42,12 @@
         </tr>
         <tr>
             <td>
+                <label for="assignManually">Assign manually</label>
+                <input type="checkbox" name="assignManually" id="assignManually">
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <label>Tokens</label>
                 <input required name="tokens"/>
                 <input required name="tokens"/>
