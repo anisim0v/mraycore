@@ -134,7 +134,7 @@ class PayController(val w1Service: W1Service,
                 familyTokenService.assignTokenToAccount(account)
                 return "WMI_RESULT=OK"
             } catch (e: NoFreeFamilyTokenAvailableException) {
-                logger.warn("Failed to autoassign token to user", e)
+                logger.warn("Failed to autoassign token to user: no free tokens available")
             }
         }
 
