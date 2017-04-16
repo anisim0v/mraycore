@@ -8,7 +8,7 @@
 <table border="1">
     <tr>
         <td>Email</td>
-        <td>${account.email}</td>
+        <td><a href="/status/${account.id}">${account.email}</a></td>
     </tr>
     <tr>
         <td>Id</td>
