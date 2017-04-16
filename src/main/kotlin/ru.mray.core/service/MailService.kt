@@ -40,7 +40,9 @@ open class MailService(private val viewResolver: FreeMarkerViewResolver,
     }
 
     init {
-        logger.warn("Email service is disabled due to mray.mailhandler-key has not been provided")
+        if (apiKey == null) {
+            logger.warn("Email service is disabled due to mray.mailhandler-key has not been provided")
+        }
     }
 
 
