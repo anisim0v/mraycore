@@ -1,11 +1,9 @@
-<#-- @ftlvariable name="token" type="ru.mray.core.model.FamilyToken" -->
-<#-- @ftlvariable name="family" type="ru.mray.core.model.Family" -->
 <#-- @ftlvariable name="account" type="ru.mray.core.model.Account" -->
 <#-- @ftlvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" -->
 <#include 'library/standardAdminPage.ftl'>
 
 <@standardAdminPage title="Assign token to account">
-<form method="POST" action="/admin/accounts/${account.id}/unlink">
+<form method="POST" action="/admin/accounts/${account.id}/assignToken/manual">
     <table>
         <tr>
             <td>

@@ -5,6 +5,7 @@ import org.springframework.ui.ExtendedModelMap
 import ru.mray.core.exceptions.NoFreeFamilyTokenAvailableException
 import ru.mray.core.exceptions.NotFoundException
 import ru.mray.core.model.Account
+import ru.mray.core.model.FamilyToken
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.FamilyRepository
 import ru.mray.core.repository.FamilyTokenRepository
@@ -16,12 +17,16 @@ class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepositor
                          private val familyRepository: FamilyRepository,
                          private val transactionService: TransactionService,
                          private val mailService: MailService) {
-    fun assignTokenToAccount(account: Account) {
+    fun assignTokenToAccount(account: Account, token: FamilyToken? = null) {
         if (account.familyToken != null) {
             return
         }
 
-        val familyToken = familyTokenRepository.findFirstUnassigned(account.region)
+        if (token?.account != null) {
+                throw IllegalStateException("Requested token is already assigned")
+        }
+
+        val familyToken = token ?: familyTokenRepository.findFirstUnassigned(account.region)
                 ?: throw NoFreeFamilyTokenAvailableException("No free tokens available")
         familyToken.account = account.id
         account.familyToken = familyToken.id

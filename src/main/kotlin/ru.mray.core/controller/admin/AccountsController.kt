@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
 import ru.mray.core.model.Account
+import ru.mray.core.model.FamilyToken
 import ru.mray.core.model.Transaction
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.FamilyRepository
@@ -70,6 +71,18 @@ class AccountsController(val accountRepository: AccountRepository,
     @RequestMapping("/{account}/assignToken")
     fun assignToken(@PathVariable account: Account): String {
         familyTokenService.assignTokenToAccount(account)
+        return "redirect:/admin/accounts/${account.id}"
+    }
+
+    @RequestMapping("/{account}/assignToken/manual")
+    fun assignTokenManuallyPage(@PathVariable account: Account, model: Model): String {
+        model.addAttribute("account", account)
+        return "admin/accountAssignToken"
+    }
+
+    @RequestMapping("/{account}/assignToken/manual", method = arrayOf(RequestMethod.POST))
+    fun assignTokenManually(@PathVariable account: Account, @RequestParam token: FamilyToken): String {
+        familyTokenService.assignTokenToAccount(account, token)
         return "redirect:/admin/accounts/${account.id}"
     }
 
