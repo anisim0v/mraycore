@@ -82,7 +82,7 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
                 .let { familyTokenRepository.save(it) }
 
         if (assignToPending) {
-            familyTokenService.assignTokens(region)
+            familyTokenService.assignTokens(region, 5)
         }
 
         return "redirect:/admin/families"
