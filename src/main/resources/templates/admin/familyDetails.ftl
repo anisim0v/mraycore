@@ -54,7 +54,7 @@
                 <a href="/admin/accounts/${token.account}">${token.account}</a>
                 </#if>
             </td>
-            <td>${token.assignManually?c}</td>
+            <td><a href="/admin/familyTokens/${token.id}/setAssignManually?enabled=${(!token.assignManually)?c}">${token.assignManually?c}</a></td>
         </tr>
     </#list>
 </table>
