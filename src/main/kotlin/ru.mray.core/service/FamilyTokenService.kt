@@ -49,9 +49,8 @@ class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepositor
         mailService.sendMail(account, "Приглашение в семью MusicRay", "mail/tokenAssigned", model)
     }
 
-    fun assignTokens(tokenCountToAssign: Int) {
-        val accounts = accountRepository.findPending(tokenCountToAssign)
-        print(accounts.size)
+    fun assignTokens(region: Account.Region, tokenCountToAssign: Int) {
+        val accounts = accountRepository.findPending(region, count = tokenCountToAssign)
         accounts.forEach { assignTokenToAccount(it) }
     }
 

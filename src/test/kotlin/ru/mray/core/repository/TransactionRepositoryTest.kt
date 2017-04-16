@@ -79,4 +79,27 @@ class TransactionRepositoryTest {
 
         assertThat(foundLastActiveTransaction).isNull()
     }
+
+    @Test
+    fun testFindInactivePaidTransactions() {
+        val accountId = UUID.randomUUID().toString()
+
+        (0..5)
+                .map {
+                    val transaction = Transaction(accountId, Account.Region.PH, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
+                    val now = OffsetDateTime.now()
+                    transaction.paidAt = now.plusSeconds(it.toLong()).toInstant()
+                    return@map transaction
+                }
+                .toList()
+                .let {
+                    transactionRepository.save(it)
+                    it
+                }
+
+        val inactivePaidTransactions = transactionRepository.findInactivePaidTransactions(region = Account.Region.PH)
+
+        assertThat(inactivePaidTransactions.count()).isEqualTo(6)
+        assertThat(transactionRepository.findInactivePaidTransactions(region = Account.Region.US).count()).isEqualTo(0)
+    }
 }

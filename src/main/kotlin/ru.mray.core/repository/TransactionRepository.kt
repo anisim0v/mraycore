@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query.query
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.data.mongodb.repository.Query
+import ru.mray.core.model.Account
 import ru.mray.core.model.Transaction
 
 interface TransactionRepository : TransactionRepositoryCustom, MongoRepository<Transaction, String> {
@@ -15,11 +16,8 @@ interface TransactionRepository : TransactionRepositoryCustom, MongoRepository<T
     @Query("{ 'accountId': ?0, 'paidAt': { \$ne: null }, 'activeSince': { \$exists: false } }")
     fun findAccountInactivePaidTransactions(accountId: String): List<Transaction>
 
-    @Query("{ 'paidAt': { \$ne: null }, 'activeSince': { \$exists: false } }", count = true)
-    fun countInactivePaidTransactions(): Int
-
-    @Query("{ 'paidAt': { \$ne: null }, 'activeSince': { \$exists: false } }")
-    fun findInactivePaidTransactions(): List<Transaction>
+    @Query("{ 'paidAt': { \$ne: null }, 'activeSince': { \$exists: false }, 'region': ?0 }")
+    fun findInactivePaidTransactions(region: Account.Region, sort: Sort = Sort(Sort.Direction.ASC, "paidAt")): List<Transaction>
 }
 
 

@@ -26,11 +26,29 @@ class AccountRepositoryTest {
     }
 
     @Test
-    fun testFindLatestActiveAccountTransactionNull() {
+    fun testFindPending() {
         accountRepository.save(listOf(
                 Account("bob@example.com", Account.Region.PH, 1).let {
                     val transaction = Transaction(it.id, it.region, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
                     transaction.paidAt = Instant.now()
+                    transactionRepository.save(transaction)
+                    return@let it
+                },
+                Account("bob2@example.com", Account.Region.PH, 1).let {
+                    val transaction = Transaction(it.id, it.region, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
+                    transaction.paidAt = Instant.now().plusSeconds(40)
+                    transactionRepository.save(transaction)
+                    return@let it
+                },
+                Account("bob3@example.com", Account.Region.PH, 1).let {
+                    val transaction = Transaction(it.id, it.region, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
+                    transaction.paidAt = Instant.now().plusSeconds(10)
+                    transactionRepository.save(transaction)
+                    return@let it
+                },
+                Account("bob4@example.com", Account.Region.PH, 1).let {
+                    val transaction = Transaction(it.id, it.region, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
+                    transaction.paidAt = Instant.now().plusSeconds(30)
                     transactionRepository.save(transaction)
                     return@let it
                 },
@@ -53,9 +71,9 @@ class AccountRepositoryTest {
                 }
         ))
 
-        val pending = accountRepository.findPending()
-        assertThat(pending.size).isEqualTo(1)
-        assertThat(pending.first().email).isEqualTo("bob@example.com")
+        val pending = accountRepository.findPending(Account.Region.PH)
+        assertThat(pending.size).isEqualTo(4)
+        assertThat(pending.map { it.email }).isEqualTo(listOf("bob@example.com", "bob3@example.com", "bob4@example.com", "bob2@example.com"))
     }
 
     @Test
@@ -100,5 +118,13 @@ class AccountRepositoryTest {
 
         val result = accountRepository.findAccountsToNotify(Instant.now().plusSeconds(3 * daySeconds))
         assertThat(result.map { it.email }).containsExactly("hillary@example.com")
+    }
+
+    @Test
+    fun testPendingAccountsSort() {
+        val result = listOf("a", "c", "b", "c", "d", "e", "f")
+                .distinct()
+                .takeWhile { it != "e" }
+        assertThat(result).isEqualTo(listOf("a", "c", "b", "d"))
     }
 }

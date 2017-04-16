@@ -36,7 +36,7 @@
         </tr>
         <tr>
             <td>
-                <form method="post" action="/admin/accounts/assignTokens">
+                <form method="post" action="/admin/accounts/assignTokens/${regionStats.region}">
                     <label for="tokenCountToAssign">Token count to assign [${regionStats.region}]:</label>
                     <input id="tokenCountToAssign" name="tokenCountToAssign"
                            value="${regionStats.tokenCountToAssign}" type="number" min="1" max="${regionStats.tokenCountToAssign}"/>

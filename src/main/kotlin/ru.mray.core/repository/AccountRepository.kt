@@ -1,6 +1,5 @@
 package ru.mray.core.repository
 
-import org.springframework.data.domain.Sort
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria.where
 import org.springframework.data.mongodb.core.query.Query.query
@@ -22,7 +21,7 @@ interface AccountRepository : MongoRepository<Account, String>, AccountRepositor
 }
 
 interface AccountRepositoryCustom {
-    fun findPending(count: Int = Int.MAX_VALUE, sort: Sort = Sort(Sort.Direction.ASC, "registeredAt")): List<Account>
+    fun findPending(region: Account.Region, count: Int = Int.MAX_VALUE): List<Account>
     fun findAccountsToNotify(expiresBefore: Instant = OffsetDateTime.now().plusDays(3).toInstant()): List<Account>
     fun countAccountsToNotify(expiresBefore: Instant = OffsetDateTime.now().plusDays(3).toInstant()): Long
 }
@@ -30,16 +29,24 @@ interface AccountRepositoryCustom {
 class AccountRepositoryImpl(val transactionRepository: TransactionRepository,
                             val mongoTemplate: MongoTemplate) : AccountRepositoryCustom {
 
-    override fun findPending(count: Int, sort: Sort): List<Account> {
-        val pendingAccounts = transactionRepository.findInactivePaidTransactions()
+    override fun findPending(region: Account.Region, count: Int): List<Account> {
+        val transactions = transactionRepository.findInactivePaidTransactions(region)
+        val pendingAccounts = transactions
                 .map { it.accountId }
-                .toSet()
+                .distinct()
                 .let {
-                    mongoTemplate.find(query(where("_id").`in`(it)).with(sort).limit(count), Account::class.java)
+                    mongoTemplate.find(query(where("_id").`in`(it).and("familyToken").exists(false)), Account::class.java)
                 }
-                .filter { it.familyToken == null }
+//                The following is necessary since mongo returns unsorted list
+                .associateBy { it.id }
 
-        return pendingAccounts
+        @Suppress("UNCHECKED_CAST")
+        val result = transactions
+                .map { pendingAccounts[it.accountId] }
+                .filter { it != null }
+                .take(count) as List<Account>
+
+        return result
     }
 
     override fun findAccountsToNotify(expiresBefore: Instant): List<Account> {

@@ -69,7 +69,7 @@ class PayController(val w1Service: W1Service,
         model.addAttribute("WMI_SIGNATURE", signature)
 
         val unassignedTokensCount = familyTokenRepository.countUnassigned(transaction.region)
-        val pendingAccounts = accountsRepository.findPending().filter { it.region == transaction.region }.count()
+        val pendingAccounts = accountsRepository.findPending(transaction.region).count()
 
         model.addAttribute("account", account)
         model.addAttribute("unassignedTokensCount", unassignedTokensCount)

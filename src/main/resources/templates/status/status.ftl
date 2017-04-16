@@ -1,3 +1,4 @@
+<#-- @ftlvariable name="queueSize" type="java.lang.Number" -->
 <#-- @ftlvariable name="showRenewForm" type="java.lang.Boolean" -->
 <#-- @ftlvariable name="transaction" type="ru.mray.core.model.Transaction" -->
 <#-- @ftlvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" -->
@@ -14,6 +15,7 @@
             Статус:
             <#if transaction?? && transaction.paidAt?? && !transaction.activeSince??>
                 Подписка оплачена, но приглашение еще не выслано. Вы получите его в порядке очереди.
+                <br>Заявок в очереди перед вами: ${queueSize}
                 <br>Текущая статистика проекта доступна на <a href="/stats">этой странице</a>
             <#elseif account.familyToken??>
                 Подписка оплачена до ${account.activeUntil!"<неизвестно>"}, вы присоединены к семье.

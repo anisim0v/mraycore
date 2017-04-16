@@ -20,10 +20,9 @@ class AdminIndexController(val accountRepository: AccountRepository,
         val expiredCount = accountRepository.countExpired()
         val accountsToNotifyCount = accountRepository.countAccountsToNotify()
 
-        val pendingAccounts = accountRepository.findPending()
 
         val regionsStats = Account.Region.values().map { region ->
-            val pendingCount = pendingAccounts.filter { it.region == region }.count()
+            val pendingCount = accountRepository.findPending(region).count()
             val unassignedTokensCount = familyTokenRepository.countUnassigned(region)
             val tokenCountToAssign = arrayOf(pendingCount, unassignedTokensCount).min()!!
 

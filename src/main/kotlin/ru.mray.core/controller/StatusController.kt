@@ -38,10 +38,14 @@ class StatusController(val transactionRepository: TransactionRepository,
                 !(latestTransaction.activeUntil == null
                         || latestTransaction.activeUntil!! > OffsetDateTime.now().plusDays(10).toInstant())
 
+        val queueSize = accountRepository.findPending(account.region)
+                .takeWhile { it.id != account.id }
+                .count()
 
         model.addAttribute("account", account)
         model.addAttribute("transaction", latestTransaction)
         model.addAttribute("showRenewForm", showRenewForm)
+        model.addAttribute("queueSize", queueSize)
         return "status/status"
     }
 

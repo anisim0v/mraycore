@@ -35,9 +35,9 @@ class AccountsController(val accountRepository: AccountRepository,
         return "admin/accountList"
     }
 
-    @RequestMapping("/pending")
-    fun pendingAccounts(model: Model): String {
-        val accounts = accountRepository.findPending()
+    @RequestMapping("/pending/{region}")
+    fun pendingAccounts(@RequestParam region: Account.Region, model: Model): String {
+        val accounts = accountRepository.findPending(region)
         model.addAttribute("title", "Pending accounts")
         model.addAttribute("accounts", accounts)
 
@@ -73,9 +73,9 @@ class AccountsController(val accountRepository: AccountRepository,
         return "redirect:/admin/accounts/${account.id}"
     }
 
-    @RequestMapping("/assignTokens", method = arrayOf(RequestMethod.POST))
-    fun assignTokens(@RequestParam tokenCountToAssign: Int): String {
-        familyTokenService.assignTokens(tokenCountToAssign)
+    @RequestMapping("/assignTokens/{region}", method = arrayOf(RequestMethod.POST))
+    fun assignTokens(@PathVariable region: Account.Region, @RequestParam tokenCountToAssign: Int): String {
+        familyTokenService.assignTokens(region, tokenCountToAssign)
         return "redirect:/admin"
     }
 
