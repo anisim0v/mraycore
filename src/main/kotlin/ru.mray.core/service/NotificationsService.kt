@@ -19,7 +19,7 @@ open class NotificationsService(val accountRepository: AccountRepository, val ma
         val accountsToNotify = accountRepository.findAccountsToNotify(now.plusDays(3).toInstant())
 
         accountsToNotify.forEach { account ->
-            logger.info("Sending renew notification to ${account.email}")
+            logger.info("Sending renew notification to ${account.email} (ID: ${account.id})")
             val model = ExtendedModelMap()
             model.addAttribute("account", account)
             mailService.sendMail(account, "MusicRay: Оповещение о продлении", "mail/renew", model)

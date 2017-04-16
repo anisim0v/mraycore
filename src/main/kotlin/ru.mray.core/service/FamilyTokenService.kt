@@ -1,5 +1,7 @@
 package ru.mray.core.service
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.ui.ExtendedModelMap
 import ru.mray.core.exceptions.NoFreeFamilyTokenAvailableException
@@ -17,6 +19,8 @@ class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepositor
                          private val familyRepository: FamilyRepository,
                          private val transactionService: TransactionService,
                          private val mailService: MailService) {
+    val logger: Logger = LoggerFactory.getLogger(FamilyTokenService::class.java)
+
     fun assignTokenToAccount(account: Account, token: FamilyToken? = null) {
         if (account.familyToken != null) {
             return
@@ -33,6 +37,8 @@ class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepositor
 
         accountRepository.save(account)
         familyTokenRepository.save(familyToken)
+
+        logger.info("Assigned token ${familyToken.id} to account ${account.id}")
 
         emailInvite(account)
 

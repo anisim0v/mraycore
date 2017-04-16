@@ -1,5 +1,7 @@
 package ru.mray.core.controller.admin
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PathVariable
@@ -13,6 +15,7 @@ import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.FamilyRepository
 import ru.mray.core.repository.FamilyTokenRepository
 import ru.mray.core.service.FamilyTokenService
+import ru.mray.core.service.TransactionService
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -23,6 +26,9 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
                          val familyRepository: FamilyRepository,
                          val accountRepository: AccountRepository,
                          val familyTokenService: FamilyTokenService) {
+
+    val logger: Logger = LoggerFactory.getLogger(FamiliesController::class.java)
+
     @RequestMapping
     fun familyTokens(model: Model): String {
         val families = familyRepository.findAll()
@@ -80,6 +86,8 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
                 .mapIndexed { i, it -> FamilyToken(region, family.id, i, it, family.paidUntil, assignManually) }
                 .toList()
                 .let { familyTokenRepository.save(it) }
+
+        logger.info("Family added: ${family.id} (${family.login})")
 
         if (assignToPending) {
             familyTokenService.assignTokens(region, 5)

@@ -1,5 +1,7 @@
 package ru.mray.core.service
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import ru.mray.core.model.Account
 import ru.mray.core.repository.AccountRepository
@@ -11,6 +13,9 @@ import java.time.ZoneId
 @Service
 class TransactionService(private val transactionRepository: TransactionRepository,
                          private val accountRepository: AccountRepository) {
+
+    val logger: Logger = LoggerFactory.getLogger(TransactionService::class.java)
+
     /**
      * Считает Transaction.activeUntil для всех оплаченных, но еще не активированных транзакций. Этот метод
      * должен вызываться каждый раз при подтверждении оплаты транзакции / выдаче FamilyToken'а
@@ -21,6 +26,8 @@ class TransactionService(private val transactionRepository: TransactionRepositor
      */
     fun refreshAccountTransactions(account: Account, newTransactionsStartInstant: Instant? = null, force: Boolean = false) {
         var latestActiveAccountTransaction = transactionRepository.findLatestActiveAccountTransaction(account.id)
+
+        logger.info("Refreshing transactions for account ${account.id}. Force: $force. Start instant: $newTransactionsStartInstant")
 
         if (account.familyToken == null && !force) {
             account.activeUntil = latestActiveAccountTransaction?.activeUntil

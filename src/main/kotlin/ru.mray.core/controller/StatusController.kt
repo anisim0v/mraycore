@@ -52,7 +52,7 @@ class StatusController(val transactionRepository: TransactionRepository,
         model.addAttribute("showRenewForm", showRenewForm)
         model.addAttribute("queueSize", queueSize)
 
-        logger.info("Serving /status/${account.id} (${account.email}")
+        logger.info("Serving /status/${account.id} (${account.email})")
 
         return "status/status"
     }
