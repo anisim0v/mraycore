@@ -44,7 +44,7 @@
         <tr>
             <td>
                 <label for="assignToPending">Automatically assign to pending</label>
-                <input type="checkbox" name="assignToPending" id="assignToPending">
+                <input type="checkbox" name="assignToPending" id="assignToPending" checked>
             </td>
         </tr>
         <tr>

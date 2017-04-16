@@ -15,7 +15,7 @@ open class IndexController(val accountRepository: AccountRepository,
 
     @RequestMapping
     fun index(): String {
-        logger.info("Serving /")
+//        logger.info("Serving /")
         return "index"
     }
 }
