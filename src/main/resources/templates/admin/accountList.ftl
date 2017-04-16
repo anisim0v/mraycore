@@ -5,6 +5,7 @@
 <@standardAdminPage title="${title}">
 <table border="1">
     <tr>
+        <td>#</td>
         <td>Email</td>
         <td>Id</td>
         <td>Period</td>
@@ -15,6 +16,7 @@
     </tr>
     <#list accounts as account>
         <tr>
+            <td>${account?index}</td>
             <td>${account.email}</td>
             <td><a href="/admin/accounts/${account.id}">${account.id}</a></td>
             <td>${account.renewPeriod}</td>
