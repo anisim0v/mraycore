@@ -39,11 +39,15 @@
                 <form method="post" action="/admin/accounts/assignTokens/${regionStats.region}">
                     <label for="tokenCountToAssign">Token count to assign [${regionStats.region}]:</label>
                     <input id="tokenCountToAssign" name="tokenCountToAssign"
-                           value="${regionStats.tokenCountToAssign}" type="number" min="1" max="${regionStats.tokenCountToAssign}"/>
+                           value="${regionStats.tokenCountToAssign}" type="number" min="1"
+                           max="${regionStats.tokenCountToAssign}"/>
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                     <input type="submit" value="Assign ${regionStats.region} tokens"/>
                 </form>
             </td>
+        </tr>
+        <tr>
+            <td><a href="/admin/accounts/pending/${regionStats.region}">Pending accounts [${regionStats.region}]</a></td>
         </tr>
     </table>
     </#list>
@@ -52,9 +56,6 @@
 <table>
     <tr>
         <td><a href="/admin/accounts">Accounts</a></td>
-    </tr>
-    <tr>
-        <td><a href="/admin/accounts/pending">Pending accounts</a></td>
     </tr>
     <tr>
         <td><a href="/admin/accounts/expired">Expired accounts</a></td>

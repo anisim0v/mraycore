@@ -36,7 +36,7 @@ class AccountsController(val accountRepository: AccountRepository,
     }
 
     @RequestMapping("/pending/{region}")
-    fun pendingAccounts(@RequestParam region: Account.Region, model: Model): String {
+    fun pendingAccounts(@PathVariable region: Account.Region, model: Model): String {
         val accounts = accountRepository.findPending(region)
         model.addAttribute("title", "Pending accounts")
         model.addAttribute("accounts", accounts)
