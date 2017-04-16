@@ -12,7 +12,9 @@ import ru.mray.core.model.FamilyToken
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.FamilyRepository
 import ru.mray.core.repository.FamilyTokenRepository
+import ru.mray.core.service.FamilyTokenService
 import java.time.LocalDate
+import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 
 
@@ -20,7 +22,8 @@ import java.time.format.DateTimeFormatter
 @RequestMapping("/admin/families")
 class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
                          val familyRepository: FamilyRepository,
-                         val accountRepository: AccountRepository) {
+                         val accountRepository: AccountRepository,
+                         val familyTokenService: FamilyTokenService) {
     @RequestMapping
     fun familyTokens(model: Model): String {
         val families = familyRepository.findAll()
@@ -30,7 +33,9 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
     }
 
     @RequestMapping("/add")
-    fun addFamilyPage(): String {
+    fun addFamilyPage(model: Model): String {
+        val paidUntil = LocalDate.now().plusMonths(1).format(DateTimeFormatter.ISO_DATE)
+        model.addAttribute("paidUntil", paidUntil)
         return "admin/familyAdd"
     }
 
@@ -45,6 +50,7 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
             @RequestParam zipCode: String,
             @RequestParam paidUntil: String,
             @RequestParam(value = "assignManually", defaultValue = "off") assignManuallyFlag: String,
+            @RequestParam(value = "assignToPending", defaultValue = "off") assignToPendingFlag: String,
             @RequestParam tokens: List<String>): String {
 
 
@@ -53,6 +59,11 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
             "on" -> true
             "off" -> false
             else -> throw IllegalArgumentException("Incorrect assignManually value")
+        }
+        val assignToPending = when(assignToPendingFlag) {
+            "on" -> true
+            "off" -> false
+            else -> throw IllegalArgumentException("Incorrect assignToPending value")
         }
 
         val family = Family()
@@ -70,6 +81,10 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
                 .mapIndexed { i, it -> FamilyToken(region, family.id, i, it, family.paidUntil, assignManually) }
                 .toList()
                 .let { familyTokenRepository.save(it) }
+
+        if (assignToPending) {
+            familyTokenService.assignTokens(region)
+        }
 
         return "redirect:/admin/families"
     }

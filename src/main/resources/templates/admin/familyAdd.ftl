@@ -1,3 +1,4 @@
+<#-- @ftlvariable name="paidUntil" type="java.lang.String" -->
 <#-- @ftlvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" -->
 <#include 'library/standardAdminPage.ftl'>
 
@@ -37,12 +38,18 @@
         <tr>
             <td>
                 <label for="paidUntil">Paid until</label>
-                <input required name="paidUntil" id="paidUntil" type="date"/>
+                <input required name="paidUntil" id="paidUntil" value="${paidUntil}"  type="date"/>
             </td>
         </tr>
         <tr>
             <td>
-                <label for="assignManually">Assign manually</label>
+                <label for="assignToPending">Automatically assign to pending</label>
+                <input type="checkbox" name="assignToPending" id="assignToPending" checked>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="assignManually">Unavailable for autoassignment</label>
                 <input type="checkbox" name="assignManually" id="assignManually">
             </td>
         </tr>
