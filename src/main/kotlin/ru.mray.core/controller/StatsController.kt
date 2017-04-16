@@ -1,5 +1,7 @@
 package ru.mray.core.controller
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
@@ -14,6 +16,8 @@ import ru.mray.core.repository.TransactionRepository
 class StatsController(val accountRepository: AccountRepository,
                       val transactionRepository: TransactionRepository,
                       val familyTokenRepository: FamilyTokenRepository) {
+    val logger: Logger = LoggerFactory.getLogger(StatsController::class.java)
+
     @RequestMapping
     fun statsPage(model: Model): String {
         val activeCount = accountRepository.countByFamilyTokenIsNotNull()
@@ -26,6 +30,8 @@ class StatsController(val accountRepository: AccountRepository,
 
             AdminIndexController.RegionStats(region, pendingCount, unassignedTokensCount, tokenCountToAssign)
         }
+
+        logger.info("Serving /stats")
 
         model.addAttribute("totalCount", totalCount)
         model.addAttribute("activeCount", activeCount)

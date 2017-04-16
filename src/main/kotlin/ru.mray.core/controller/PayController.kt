@@ -76,6 +76,8 @@ class PayController(val w1Service: W1Service,
         model.addAttribute("pendingAccounts", pendingAccounts)
         model.addAttribute("paymentsEnabled", paymentsEnabled)
 
+        logger.info("Serving /pay/${transaction.id}. Account: ${account.id} (${account.email})")
+
         return "pay/form"
     }
 
@@ -91,7 +93,7 @@ class PayController(val w1Service: W1Service,
                 .toMap()
 
         val json = objMapper.writeValueAsString(params)
-        logger.info("Confirmation data: $json")
+        logger.info("WalletOne confirmation data: $json")
 
         val actualSignature = w1Service.sign(params)
         if (signature != actualSignature) {
@@ -151,9 +153,10 @@ class PayController(val w1Service: W1Service,
         return redirectStr
     }
 
-    @RequestMapping("/error/{transaction}")
-    fun error(@PathVariable transaction: String,
+    @RequestMapping("/fail/{transaction}")
+    fun fail(@PathVariable transaction: String,
               model: Model): String {
+        logger.warn("Payment failed: $transaction")
         model.addAttribute("transactionId", transaction)
         return "pay/error"
     }
@@ -163,6 +166,8 @@ class PayController(val w1Service: W1Service,
              model: Model): String {
         transaction ?: throw NotFoundException("Unknown transaction")
         val account = accountsRepository.findOne(transaction.accountId)
+
+        logger.info("Payment succeed: $transaction. Account: ${account.id} (${account.email})")
 
         model.addAttribute("account", account)
 

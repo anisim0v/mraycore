@@ -49,7 +49,7 @@ class JoinController(val accountRepository: AccountRepository,
         val password = RandomStringUtils.random(8, true, true)
         account._password = passwordEncoder.encode(password)
         accountRepository.save(account)
-        logger.info("New account: Email: $email. Region: $region. Period: $period")
+        logger.info("New account: ID: ${account.id} Email: $email. Region: $region. Period: $period")
 
         val transaction = Transaction(account.id, account.region, Period.ofMonths(period), Transaction.TransactionType.PAYMENT)
 
