@@ -10,7 +10,7 @@ import java.time.Instant
 import java.time.OffsetDateTime
 
 interface AccountRepository : MongoRepository<Account, String>, AccountRepositoryCustom {
-    fun findByEmail(email: String): Account?
+    fun findByEmailIgnoreCase(email: String): Account?
     fun countByFamilyTokenIsNotNull(): Int
 
     @Query("{ 'activeUntil': { \$lt: ?0 }, 'familyToken': { \$exists: true } }")

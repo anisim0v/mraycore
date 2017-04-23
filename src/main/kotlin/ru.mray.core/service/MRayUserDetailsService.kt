@@ -9,6 +9,6 @@ import ru.mray.core.repository.AccountRepository
 @Service
 class MRayUserDetailsService(val accountRepository: AccountRepository) : UserDetailsService {
     override fun loadUserByUsername(email: String): UserDetails {
-        return accountRepository.findByEmail(email) ?: throw UsernameNotFoundException("Cannot find account with email $email")
+        return accountRepository.findByEmailIgnoreCase(email) ?: throw UsernameNotFoundException("Cannot find account with email $email")
     }
 }

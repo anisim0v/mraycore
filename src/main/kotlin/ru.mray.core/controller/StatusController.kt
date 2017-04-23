@@ -31,7 +31,7 @@ class StatusController(val transactionRepository: TransactionRepository,
 
     @RequestMapping("/byEmail")
     fun byEmail(email: String): String {
-        val account = accountRepository.findByEmail(email)
+        val account = accountRepository.findByEmailIgnoreCase(email)
                 ?: throw NotFoundException("В нашей базе нет пользователя с таким email")
         return "redirect:/status/${account.id}"
     }
