@@ -18,7 +18,7 @@
                 <br>Заявок в очереди перед вами: ${queueSize}
                 <br>Текущая статистика проекта доступна на <a href="/stats">этой странице</a>
             <#elseif account.familyToken??>
-                Подписка оплачена до ${account.activeUntil!"<неизвестно>"}, вы присоединены к семье.
+                Подписка оплачена до ${account.activeUntil!"<неизвестно>"}. Проверьте почту.
             <#elseif !transaction?? || !transaction.paidAt??>
                 Подписка не оплачена
             <#else>
