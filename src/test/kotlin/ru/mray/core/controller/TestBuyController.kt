@@ -6,6 +6,7 @@ import org.mockito.ArgumentCaptor
 import org.mockito.Mockito
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
+import org.springframework.core.env.Environment
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.ui.ExtendedModelMap
 import ru.mray.core.model.Account
@@ -23,9 +24,10 @@ class TestBuyController {
         val transactionRepository = Mockito.mock(TransactionRepository::class.java)
         val response = Mockito.mock(HttpServletResponse::class.java)
         val mailService = Mockito.mock(MailService::class.java)
+        val env = Mockito.mock(Environment::class.java)
         val model = ExtendedModelMap()
 
-        val buyController = JoinController(accountRepository, transactionRepository, BCryptPasswordEncoder(), mailService)
+        val buyController = JoinController(accountRepository, transactionRepository, BCryptPasswordEncoder(), mailService, env)
         val viewName = buyController.processForm(
                 "bob@example.com",
                 Account.Region.PH,

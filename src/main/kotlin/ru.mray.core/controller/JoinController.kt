@@ -3,6 +3,7 @@ package ru.mray.core.controller
 import org.apache.commons.lang3.RandomStringUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.core.env.Environment
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.ExtendedModelMap
@@ -23,13 +24,19 @@ import javax.servlet.http.HttpServletResponse
 class JoinController(val accountRepository: AccountRepository,
                      val transactionRepository: TransactionRepository,
                      val passwordEncoder: PasswordEncoder,
-                     val mailService: MailService) {
+                     val mailService: MailService,
+                     environment: Environment) {
 
     val logger: Logger = LoggerFactory.getLogger(JoinController::class.java)
 
+    val registrationEnabled: Boolean = environment.getProperty("mray.registration")?.toBoolean() ?: false
+
     @RequestMapping
     fun getPage(): String {
-        return "join/join"
+        return when(registrationEnabled) {
+            true -> "join/join"
+            false -> "join/disabled"
+        }
     }
 
     @RequestMapping(method = arrayOf(RequestMethod.POST))
