@@ -12,7 +12,7 @@ import ru.mray.core.model.Account
 import ru.mray.core.model.Family
 import ru.mray.core.model.FamilyToken
 import ru.mray.core.repository.mongo.MongoAccountRepository
-import ru.mray.core.repository.mongo.FamilyRepository
+import ru.mray.core.repository.mongo.MongoFamilyRepository
 import ru.mray.core.repository.mongo.FamilyTokenRepository
 import ru.mray.core.service.FamilyTokenService
 import java.time.LocalDate
@@ -22,7 +22,7 @@ import java.time.format.DateTimeFormatter
 @Controller
 @RequestMapping("/admin/families")
 class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
-                         val familyRepository: FamilyRepository,
+                         val familyRepository: MongoFamilyRepository,
                          val accountRepository: MongoAccountRepository,
                          val familyTokenService: FamilyTokenService) {
 
@@ -70,15 +70,16 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
             else -> throw IllegalArgumentException("Incorrect assignToPending value")
         }
 
-        val family = Family()
-        family.login = login
-        family.password = password
-        family.region = region
-        family.city = city
-        family.streetName = streetName
-        family.streetNumber = streetNumber
-        family.zipCode = zipCode
-        family.paidUntil = paidUntilDate
+        val family = Family(
+                login = login,
+                password = password,
+                region = region,
+                city = city,
+                streetName = streetName,
+                streetNumber = streetNumber,
+                zipCode = zipCode,
+                paidUntil = paidUntilDate
+        )
         familyRepository.save(family)
 
         tokens

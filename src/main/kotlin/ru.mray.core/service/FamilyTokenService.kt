@@ -9,14 +9,14 @@ import ru.mray.core.exceptions.NotFoundException
 import ru.mray.core.model.Account
 import ru.mray.core.model.FamilyToken
 import ru.mray.core.repository.mongo.MongoAccountRepository
-import ru.mray.core.repository.mongo.FamilyRepository
+import ru.mray.core.repository.mongo.MongoFamilyRepository
 import ru.mray.core.repository.mongo.FamilyTokenRepository
 import java.time.Instant
 
 @Service
 class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepository,
                          private val accountRepository: MongoAccountRepository,
-                         private val familyRepository: FamilyRepository,
+                         private val familyRepository: MongoFamilyRepository,
                          private val transactionService: TransactionService,
                          private val mailService: MailService) {
     val logger: Logger = LoggerFactory.getLogger(FamilyTokenService::class.java)

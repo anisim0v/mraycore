@@ -10,7 +10,7 @@ import ru.mray.core.model.Account
 import ru.mray.core.model.FamilyToken
 import ru.mray.core.model.Transaction
 import ru.mray.core.repository.mongo.MongoAccountRepository
-import ru.mray.core.repository.mongo.FamilyRepository
+import ru.mray.core.repository.mongo.MongoFamilyRepository
 import ru.mray.core.repository.mongo.FamilyTokenRepository
 import ru.mray.core.repository.mongo.TransactionRepository
 import ru.mray.core.service.FamilyTokenService
@@ -24,7 +24,7 @@ import java.time.Period
 class AccountsController(val accountRepository: MongoAccountRepository,
                          val transactionRepository: TransactionRepository,
                          val familyTokenRepository: FamilyTokenRepository,
-                         val familyRepository: FamilyRepository,
+                         val familyRepository: MongoFamilyRepository,
                          val transactionService: TransactionService,
                          val familyTokenService: FamilyTokenService) {
     @RequestMapping
