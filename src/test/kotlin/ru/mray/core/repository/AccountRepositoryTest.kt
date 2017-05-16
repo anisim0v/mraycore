@@ -7,6 +7,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.test.context.junit4.SpringRunner
 import ru.mray.core.model.Account
 import ru.mray.core.model.FamilyToken
@@ -15,7 +16,7 @@ import java.time.Instant
 import java.time.Period
 
 @RunWith(SpringRunner::class)
-@DataMongoTest
+@DataJpaTest
 class AccountRepositoryTest {
     @Autowired
     lateinit var accountRepository: AccountRepository
@@ -33,25 +34,21 @@ class AccountRepositoryTest {
                 Account("bob@example.com", Account.Region.PH, 1).let {
                     val transaction = Transaction(it, it.region, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
                     transaction.paidAt = Instant.now()
-                    transactionRepository.save(transaction)
                     return@let it
                 },
                 Account("bob2@example.com", Account.Region.PH, 1).let {
                     val transaction = Transaction(it, it.region, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
                     transaction.paidAt = Instant.now().plusSeconds(40)
-                    transactionRepository.save(transaction)
                     return@let it
                 },
                 Account("bob3@example.com", Account.Region.PH, 1).let {
                     val transaction = Transaction(it, it.region, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
                     transaction.paidAt = Instant.now().plusSeconds(10)
-                    transactionRepository.save(transaction)
                     return@let it
                 },
                 Account("bob4@example.com", Account.Region.PH, 1).let {
                     val transaction = Transaction(it, it.region, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
                     transaction.paidAt = Instant.now().plusSeconds(30)
-                    transactionRepository.save(transaction)
                     return@let it
                 },
                 Account("alice@example.com", Account.Region.PH, 1).let {
@@ -59,7 +56,6 @@ class AccountRepositoryTest {
                     transaction.paidAt = Instant.now()
                     transaction.activeSince = Instant.now()
                     transaction.activeUntil = Instant.now().plusSeconds(10)
-                    transactionRepository.save(transaction)
                     return@let it
                 },
                 Account("donald@example.com", Account.Region.PH, 1).let {

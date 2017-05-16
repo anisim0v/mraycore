@@ -53,7 +53,6 @@ class TransactionServiceTest {
     fun testRefreshAccountTransactions() {
         transactionService.refreshAccountTransactions(account)
 
-        assertThat(paidTransaction.previousTransactionId).isEqualTo(activatedTransaction.id)
         assertThat(paidTransaction.activeSince).isNotNull()
         assertThat(paidTransaction.activeUntil)
                 .isEqualTo(OffsetDateTime.ofInstant(activatedTransaction.activeUntil!!, ZoneId.of("UTC"))
@@ -78,7 +77,6 @@ class TransactionServiceTest {
 
         transactionService.refreshAccountTransactions(account)
 
-        assertThat(paidTransaction.previousTransactionId).isNull()
         assertThat(paidTransaction.activeSince).isNull()
         assertThat(paidTransaction.activeUntil).isNull()
     }

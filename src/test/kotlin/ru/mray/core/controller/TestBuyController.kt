@@ -51,7 +51,6 @@ class TestBuyController {
         transactionCaptor.allValues.forEach { transaction ->
             Assert.assertEquals(account.id, transaction.account.id)
             Assert.assertEquals(account.region, transaction.region)
-            Assert.assertNull(transaction.previousTransactionId)
 
             when(transaction.type) {
                 Transaction.TransactionType.BONUS -> {

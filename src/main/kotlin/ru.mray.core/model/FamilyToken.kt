@@ -6,7 +6,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "family_tokens")
-class FamilyToken(
+open class FamilyToken(
         @Enumerated(EnumType.STRING)
         val region: Account.Region,
 
