@@ -7,7 +7,7 @@ import ru.mray.core.model.Account
 import ru.mray.core.model.FamilyToken
 import java.time.LocalDate
 
-interface FamilyTokenRepository : MongoRepository<FamilyToken, String> {
+interface MongoFamilyTokenRepository : MongoRepository<FamilyToken, String> {
     fun findByAccount(accountId: String): FamilyToken?
     fun findByFamily(family: String): List<FamilyToken>
 

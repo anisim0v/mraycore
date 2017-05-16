@@ -6,8 +6,10 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.FamilyRepository
+import ru.mray.core.repository.FamilyTokenRepository
 import ru.mray.core.repository.mongo.MongoAccountRepository
 import ru.mray.core.repository.mongo.MongoFamilyRepository
+import ru.mray.core.repository.mongo.MongoFamilyTokenRepository
 import javax.annotation.PostConstruct
 
 @Service
@@ -16,7 +18,9 @@ class MigrationService(
         val mongoAccountRepository: MongoAccountRepository,
         val accountRepository: AccountRepository,
         val mongoFamilyRepository: MongoFamilyRepository,
-        val familyRepository: FamilyRepository
+        val familyRepository: FamilyRepository,
+        val mongoFamilyTokenRepository: MongoFamilyTokenRepository,
+        val familyTokenRepository: FamilyTokenRepository
 ) {
     @ManagedOperation
     @Transactional
@@ -27,5 +31,8 @@ class MigrationService(
 
         val families = mongoFamilyRepository.findAll()
         familyRepository.save(families)
+
+        val familyTokens = mongoFamilyTokenRepository.findAll()
+        familyTokenRepository.save(familyTokens)
     }
 }

@@ -10,11 +10,11 @@ import ru.mray.core.model.Account
 import ru.mray.core.model.FamilyToken
 import ru.mray.core.repository.mongo.MongoAccountRepository
 import ru.mray.core.repository.mongo.MongoFamilyRepository
-import ru.mray.core.repository.mongo.FamilyTokenRepository
+import ru.mray.core.repository.mongo.MongoFamilyTokenRepository
 import java.time.Instant
 
 @Service
-class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepository,
+class FamilyTokenService(private val familyTokenRepository: MongoFamilyTokenRepository,
                          private val accountRepository: MongoAccountRepository,
                          private val familyRepository: MongoFamilyRepository,
                          private val transactionService: TransactionService,

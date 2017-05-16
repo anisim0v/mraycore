@@ -2,24 +2,19 @@ package ru.mray.core.model
 
 import java.time.LocalDate
 import java.util.*
+import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
+import javax.persistence.Id
 
-class FamilyToken() {
-    var id: String = UUID.randomUUID().toString()
-    lateinit var region: Account.Region
-    lateinit var family: String
-    var slot: Int = 0 // Initialization is required for primitive types
-    lateinit var token: String
-    lateinit var paidUntil: LocalDate
-    var account: String? = null
-    var assignManually: Boolean = false
-
-    constructor(region: Account.Region, family: String,
-                slot: Int, token: String, paidUntil: LocalDate, assignManually: Boolean = false) : this() {
-        this.region = region
-        this.family = family
-        this.slot = slot
-        this.token = token
-        this.paidUntil = paidUntil
-        this.assignManually = assignManually
-    }
-}
+@Entity
+class FamilyToken(
+        @Enumerated(EnumType.STRING) val region: Account.Region,
+        val family: String,
+        val slot: Int,
+        var token: String,
+        var paidUntil: LocalDate,
+        var account: String? = null,
+        var assignManually: Boolean = false,
+        @Id var id: String = UUID.randomUUID().toString()
+)

@@ -13,7 +13,7 @@ import ru.mray.core.model.Family
 import ru.mray.core.model.FamilyToken
 import ru.mray.core.repository.mongo.MongoAccountRepository
 import ru.mray.core.repository.mongo.MongoFamilyRepository
-import ru.mray.core.repository.mongo.FamilyTokenRepository
+import ru.mray.core.repository.mongo.MongoFamilyTokenRepository
 import ru.mray.core.service.FamilyTokenService
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -21,7 +21,7 @@ import java.time.format.DateTimeFormatter
 
 @Controller
 @RequestMapping("/admin/families")
-class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
+class FamiliesController(val familyTokenRepository: MongoFamilyTokenRepository,
                          val familyRepository: MongoFamilyRepository,
                          val accountRepository: MongoAccountRepository,
                          val familyTokenService: FamilyTokenService) {
@@ -83,7 +83,7 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
         familyRepository.save(family)
 
         tokens
-                .mapIndexed { i, it -> FamilyToken(region, family.id, i, it, family.paidUntil, assignManually) }
+                .mapIndexed { i, it -> FamilyToken(region, family.id, i, it, family.paidUntil, assignManually = assignManually) }
                 .toList()
                 .let { familyTokenRepository.save(it) }
 

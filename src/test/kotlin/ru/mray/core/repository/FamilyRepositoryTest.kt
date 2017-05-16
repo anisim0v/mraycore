@@ -9,14 +9,14 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
 import org.springframework.test.context.junit4.SpringRunner
 import ru.mray.core.model.Account
 import ru.mray.core.model.FamilyToken
-import ru.mray.core.repository.mongo.FamilyTokenRepository
+import ru.mray.core.repository.mongo.MongoFamilyTokenRepository
 import java.time.LocalDate
 
 @RunWith(SpringRunner::class)
 @DataMongoTest
 class FamilyRepositoryTest {
     @Autowired
-    lateinit var familyTokenRepository: FamilyTokenRepository
+    lateinit var familyTokenRepository: MongoFamilyTokenRepository
 
     @Before
     fun setUp() {

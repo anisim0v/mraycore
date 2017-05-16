@@ -15,7 +15,7 @@ import ru.mray.core.exceptions.NoFreeFamilyTokenAvailableException
 import ru.mray.core.exceptions.NotFoundException
 import ru.mray.core.model.Transaction
 import ru.mray.core.repository.mongo.MongoAccountRepository
-import ru.mray.core.repository.mongo.FamilyTokenRepository
+import ru.mray.core.repository.mongo.MongoFamilyTokenRepository
 import ru.mray.core.repository.mongo.TransactionRepository
 import ru.mray.core.service.FamilyTokenService
 import ru.mray.core.service.TransactionService
@@ -35,7 +35,7 @@ class PayController(val w1Service: W1Service,
                     val objMapper: ObjectMapper,
                     val transactionService: TransactionService,
                     val familyTokenService: FamilyTokenService,
-                    val familyTokenRepository: FamilyTokenRepository,
+                    val familyTokenRepository: MongoFamilyTokenRepository,
                     environment: Environment) {
 
     val logger: Logger = LoggerFactory.getLogger(PayController::class.java)
