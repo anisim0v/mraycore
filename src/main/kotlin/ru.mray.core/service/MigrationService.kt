@@ -30,16 +30,16 @@ class MigrationService(
     @Transactional
     @PostConstruct
     fun migrate() {
-        val accounts = mongoAccountRepository.findAll()
-        accountRepository.save(accounts)
-
-        val families = mongoFamilyRepository.findAll()
-        familyRepository.save(families)
-
-        val familyTokens = mongoFamilyTokenRepository.findAll()
-        familyTokenRepository.save(familyTokens)
-
-        val transactions = mongoTransactionRepository.findAll()
-        transactionRepository.save(transactions)
+//        val accounts = mongoAccountRepository.findAll()
+//        accountRepository.save(accounts)
+//
+//        val families = mongoFamilyRepository.findAll()
+//        familyRepository.save(families)
+//
+//        val familyTokens = mongoFamilyTokenRepository.findAll()
+//        familyTokenRepository.save(familyTokens)
+//
+//        val transactions = mongoTransactionRepository.findAll()
+//        transactionRepository.save(transactions)
     }
 }
