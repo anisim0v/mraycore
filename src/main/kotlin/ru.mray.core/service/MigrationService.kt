@@ -5,6 +5,8 @@ import org.springframework.jmx.export.annotation.ManagedResource
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import ru.mray.core.model.Account
+import ru.mray.core.model.Family
+import ru.mray.core.model.FamilyToken
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.FamilyRepository
 import ru.mray.core.repository.FamilyTokenRepository
@@ -45,6 +47,36 @@ class MigrationService(
                 }
         accountRepository.save(accounts)
 
+        val families = mongoFamilyRepository.findAll()
+                .map {
+                    Family(
+                            login = it.login,
+                            region = it.region,
+                            password = it.password,
+                            paidUntil = it.paidUntil,
+                            streetName = it.streetName,
+                            streetNumber = it.streetNumber,
+                            zipCode = it.zipCode,
+                            city = it.city,
+                            id=it.id
+                    )
+                }
+        familyRepository.save(families)
+
+        val familyTokens = mongoFamilyTokenRepository.findAll()
+                .map {
+                    val family = familyRepository.findOne(it.family)
+                    val account = it.account?.let { accountRepository.findOne(it) }
+                    FamilyToken(region = it.region,
+                            family = family,
+                            account = account,
+                            slot = it.slot,
+                            paidUntil = it.paidUntil,
+                            token = it.token,
+                            assignManually = it.assignManually,
+                            id = it.id)
+                }
+        familyTokenRepository.save(familyTokens)
 //
 //        val families = mongoFamilyRepository.findAll()
 //        familyRepository.save(families)

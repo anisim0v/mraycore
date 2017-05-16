@@ -8,10 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails
 import ru.mray.core.model.Account
 import java.time.Instant
 import java.util.*
-import javax.persistence.Entity
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
-import javax.persistence.Id
 
 @Document(collection = "account")
 class MongoAccount(

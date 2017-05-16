@@ -1,5 +1,6 @@
 package ru.mray.core.model.mongo
 
+import org.springframework.data.mongodb.core.mapping.Document
 import ru.mray.core.model.Account
 import java.time.LocalDate
 import java.util.*
@@ -8,6 +9,7 @@ import javax.persistence.EnumType
 import javax.persistence.Enumerated
 import javax.persistence.Id
 
+@Document(collection = "family")
 class MongoFamily(
         val login: String,
         val region: Account.Region,
