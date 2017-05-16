@@ -6,25 +6,22 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import java.time.Instant
 import java.util.*
+import javax.persistence.Entity
+import javax.persistence.Id
 
-class Account() : UserDetails {
-    lateinit var email: String
-    lateinit var region: Region
-    var registeredAt: Instant = Instant.now()
-    var renewPeriod: Int = 1
-    var familyToken: String? = null
-    var activeUntil: Instant? = null
-    var renewNotificationSentAt: Instant? = null
-    var admin: Boolean = false
-    @Field("password") var _password: String? = null
-
-    var id: String = UUID.randomUUID().toString()
-
-    constructor(email: String, region: Region, renewPeriod: Int) : this() {
-        this.email = email
-        this.region = region
-        this.renewPeriod = renewPeriod
-    }
+@Entity
+class Account(
+        val email: String,
+        val region: Region,
+        var renewPeriod: Int = 1,
+        var registeredAt: Instant = Instant.now(),
+        var familyToken: String? = null,
+        var activeUntil: Instant? = null,
+        var renewNotificationSentAt: Instant? = null,
+        var admin: Boolean = false,
+        @Field("password") var _password: String? = null,
+        @Id val id: String = UUID.randomUUID().toString()
+) : UserDetails {
 
     enum class Region {
         PH,

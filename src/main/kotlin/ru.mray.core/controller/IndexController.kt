@@ -4,12 +4,12 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
-import ru.mray.core.repository.mongo.AccountRepository
+import ru.mray.core.repository.mongo.MongoAccountRepository
 import ru.mray.core.repository.mongo.TransactionRepository
 
 @Controller
 @RequestMapping("/")
-open class IndexController(val accountRepository: AccountRepository,
+open class IndexController(val accountRepository: MongoAccountRepository,
                            val transactionRepository: TransactionRepository) {
     val logger: Logger = LoggerFactory.getLogger(IndexController::class.java)
 

@@ -6,7 +6,7 @@ import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import ru.mray.core.model.Account
 import ru.mray.core.model.Transaction
-import ru.mray.core.repository.mongo.AccountRepository
+import ru.mray.core.repository.mongo.MongoAccountRepository
 import ru.mray.core.repository.mongo.TransactionRepository
 import java.time.Instant
 import java.time.OffsetDateTime
@@ -35,7 +35,7 @@ class TransactionServiceTest {
         return@let it
     }
 
-    val transactionService = TransactionService(transactionRepository, mock(AccountRepository::class.java))
+    val transactionService = TransactionService(transactionRepository, mock(MongoAccountRepository::class.java))
 
     init {
         `when`(transactionRepository.findLatestActiveAccountTransaction(account.id))

@@ -11,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.ui.ExtendedModelMap
 import ru.mray.core.model.Account
 import ru.mray.core.model.Transaction
-import ru.mray.core.repository.mongo.AccountRepository
+import ru.mray.core.repository.mongo.MongoAccountRepository
 import ru.mray.core.repository.mongo.TransactionRepository
 import ru.mray.core.service.MailService
 import java.time.Period
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse
 class TestBuyController {
     @Test
     fun testProcessForm() {
-        val accountRepository = Mockito.mock(AccountRepository::class.java)
+        val accountRepository = Mockito.mock(MongoAccountRepository::class.java)
         val transactionRepository = Mockito.mock(TransactionRepository::class.java)
         val response = Mockito.mock(HttpServletResponse::class.java)
         val mailService = Mockito.mock(MailService::class.java)

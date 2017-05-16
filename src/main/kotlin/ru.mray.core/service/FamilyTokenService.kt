@@ -8,14 +8,14 @@ import ru.mray.core.exceptions.NoFreeFamilyTokenAvailableException
 import ru.mray.core.exceptions.NotFoundException
 import ru.mray.core.model.Account
 import ru.mray.core.model.FamilyToken
-import ru.mray.core.repository.mongo.AccountRepository
+import ru.mray.core.repository.mongo.MongoAccountRepository
 import ru.mray.core.repository.mongo.FamilyRepository
 import ru.mray.core.repository.mongo.FamilyTokenRepository
 import java.time.Instant
 
 @Service
 class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepository,
-                         private val accountRepository: AccountRepository,
+                         private val accountRepository: MongoAccountRepository,
                          private val familyRepository: FamilyRepository,
                          private val transactionService: TransactionService,
                          private val mailService: MailService) {

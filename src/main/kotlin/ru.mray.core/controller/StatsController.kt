@@ -7,13 +7,13 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
 import ru.mray.core.controller.admin.AdminIndexController
 import ru.mray.core.model.Account
-import ru.mray.core.repository.mongo.AccountRepository
+import ru.mray.core.repository.mongo.MongoAccountRepository
 import ru.mray.core.repository.mongo.FamilyTokenRepository
 import ru.mray.core.repository.mongo.TransactionRepository
 
 @Controller
 @RequestMapping("/stats")
-class StatsController(val accountRepository: AccountRepository,
+class StatsController(val accountRepository: MongoAccountRepository,
                       val transactionRepository: TransactionRepository,
                       val familyTokenRepository: FamilyTokenRepository) {
     val logger: Logger = LoggerFactory.getLogger(StatsController::class.java)

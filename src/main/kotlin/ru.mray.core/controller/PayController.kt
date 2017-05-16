@@ -14,7 +14,7 @@ import ru.mray.core.exceptions.BadRequestException
 import ru.mray.core.exceptions.NoFreeFamilyTokenAvailableException
 import ru.mray.core.exceptions.NotFoundException
 import ru.mray.core.model.Transaction
-import ru.mray.core.repository.mongo.AccountRepository
+import ru.mray.core.repository.mongo.MongoAccountRepository
 import ru.mray.core.repository.mongo.FamilyTokenRepository
 import ru.mray.core.repository.mongo.TransactionRepository
 import ru.mray.core.service.FamilyTokenService
@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletRequest
 class PayController(val w1Service: W1Service,
                     val pricesHolder: PricesHolder,
                     val transactionRepository: TransactionRepository,
-                    val accountsRepository: AccountRepository,
+                    val accountsRepository: MongoAccountRepository,
                     val objMapper: ObjectMapper,
                     val transactionService: TransactionService,
                     val familyTokenService: FamilyTokenService,

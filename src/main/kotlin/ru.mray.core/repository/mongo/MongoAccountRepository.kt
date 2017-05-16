@@ -4,7 +4,7 @@ import org.springframework.data.mongodb.core.query.Criteria.where
 import org.springframework.data.mongodb.core.query.Query.query
 import ru.mray.core.model.Account
 
-interface AccountRepository : org.springframework.data.mongodb.repository.MongoRepository<Account, String>, ru.mray.core.repository.mongo.AccountRepositoryCustom {
+interface MongoAccountRepository : org.springframework.data.mongodb.repository.MongoRepository<Account, String>, ru.mray.core.repository.mongo.MongoAccountRepositoryCustom {
     fun findByEmailIgnoreCase(email: String): ru.mray.core.model.Account?
     fun countByFamilyTokenIsNotNull(): Int
 
@@ -15,14 +15,14 @@ interface AccountRepository : org.springframework.data.mongodb.repository.MongoR
     fun countExpired(instant: java.time.Instant = java.time.Instant.now()): Int
 }
 
-interface AccountRepositoryCustom {
+interface MongoAccountRepositoryCustom {
     fun findPending(region: ru.mray.core.model.Account.Region, count: Int = Int.MAX_VALUE): List<ru.mray.core.model.Account>
     fun findAccountsToNotify(expiresBefore: java.time.Instant = java.time.OffsetDateTime.now().plusDays(3).toInstant()): List<ru.mray.core.model.Account>
     fun countAccountsToNotify(expiresBefore: java.time.Instant = java.time.OffsetDateTime.now().plusDays(3).toInstant()): Long
 }
 
-class AccountRepositoryImpl(val transactionRepository: TransactionRepository,
-                            val mongoTemplate: org.springframework.data.mongodb.core.MongoTemplate) : ru.mray.core.repository.mongo.AccountRepositoryCustom {
+class MongoAccountRepositoryImpl(val transactionRepository: TransactionRepository,
+                            val mongoTemplate: org.springframework.data.mongodb.core.MongoTemplate) : ru.mray.core.repository.mongo.MongoAccountRepositoryCustom {
 
     override fun findPending(region: ru.mray.core.model.Account.Region, count: Int): List<ru.mray.core.model.Account> {
         val transactions = transactionRepository.findInactivePaidTransactions(region)

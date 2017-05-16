@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import ru.mray.core.exceptions.NotFoundException
 import ru.mray.core.model.Account
 import ru.mray.core.model.Transaction
-import ru.mray.core.repository.mongo.AccountRepository
+import ru.mray.core.repository.mongo.MongoAccountRepository
 import ru.mray.core.repository.mongo.TransactionRepository
 import java.time.OffsetDateTime
 import java.time.Period
@@ -19,7 +19,7 @@ import java.time.Period
 @Controller
 @RequestMapping("/status")
 class StatusController(val transactionRepository: TransactionRepository,
-                       val accountRepository: AccountRepository) {
+                       val accountRepository: MongoAccountRepository) {
 
     val logger: Logger = LoggerFactory.getLogger(StatusController::class.java)
 

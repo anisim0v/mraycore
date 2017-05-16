@@ -5,12 +5,12 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.ui.ExtendedModelMap
 import ru.mray.core.model.Account
-import ru.mray.core.repository.mongo.AccountRepository
+import ru.mray.core.repository.mongo.MongoAccountRepository
 import java.time.Instant
 import java.time.OffsetDateTime
 
 @Service
-open class NotificationsService(val accountRepository: AccountRepository, val mailService: MailService) {
+open class NotificationsService(val accountRepository: MongoAccountRepository, val mailService: MailService) {
 
     val logger: Logger = LoggerFactory.getLogger(NotificationsService::class.java)
 
