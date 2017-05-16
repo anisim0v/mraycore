@@ -8,6 +8,7 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
+@Table(name = "accounts")
 class Account(
         val email: String,
         @Enumerated(EnumType.STRING) val region: Region,

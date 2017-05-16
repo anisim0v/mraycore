@@ -2,12 +2,10 @@ package ru.mray.core.model
 
 import java.time.LocalDate
 import java.util.*
-import javax.persistence.Entity
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity
+@Table(name = "families")
 class Family(
         val login: String,
         @Enumerated(EnumType.STRING) val region: Account.Region,
