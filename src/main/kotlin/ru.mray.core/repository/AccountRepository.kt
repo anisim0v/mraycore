@@ -18,18 +18,25 @@ interface AccountRepository : JpaRepository<Account, String>, AccountRepositoryC
     @Query("SELECT *\nFROM accounts\nWHERE accounts.active_until < ? AND EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE accounts.id = family_tokens.account_id\n)", nativeQuery = true)
     fun findExpired(instant: Instant = Instant.now()): List<Account>
 
-    @Language("PostgreSQL")
-    @Query("SELECT DISTINCT ON (accounts.id) *\nFROM accounts\n  JOIN transactions\n    ON transactions.account_id = accounts.id AND transactions.paid_at IS NOT NULL AND transactions.active_since IS NULL\nWHERE accounts.region = ?\nORDER BY accounts.id, transactions.paid_at\nLIMIT ?", nativeQuery = true)
-    fun findPending(region: Region, count: Int = 100): List<Account>
 }
 
 interface AccountRepositoryCustom {
     fun countExpired(instant: Instant = Instant.now()): Int
     fun findAccountsToNotify(expiresBefore: Instant = now().plusDays(3).toInstant()): List<Account>
     fun countAccountsToNotify(expiresBefore: Instant = now().plusDays(3).toInstant()): Long
+    fun findPending(region: Region, count: Int = 100): List<Account>
 }
 
 class AccountRepositoryImpl(val jdbcTemplate: JdbcTemplate) : AccountRepositoryCustom {
+    override fun findPending(region: Region, count: Int): List<Account> {
+        val result = jdbcTemplate.queryForList(
+                "SELECT DISTINCT ON (accounts.id) accounts.*\nFROM accounts\n  JOIN transactions\n    ON transactions.account_id = accounts.id AND transactions.paid_at IS NOT NULL AND transactions.active_since IS NULL\nWHERE accounts.region = ?\nORDER BY accounts.id, transactions.paid_at\nLIMIT ?",
+                arrayOf(region.toString(), count),
+                Account::class.java
+        )
+
+        return result
+    }
 
     override fun countExpired(instant: Instant): Int {
         throw UnsupportedOperationException()
