@@ -83,7 +83,7 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
         familyRepository.save(family)
 
         tokens
-                .mapIndexed { i, it -> FamilyToken(region, family.id, i, it, family.paidUntil, assignManually = assignManually) }
+                .mapIndexed { i, it -> FamilyToken(region, family, i, it, family.paidUntil, assignManually = assignManually) }
                 .toList()
                 .let { familyTokenRepository.save(it) }
 

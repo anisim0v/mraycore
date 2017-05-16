@@ -53,7 +53,7 @@ class PayController(val w1Service: W1Service,
             return "redirect:/pay/done/${transaction.id}"
         }
 
-        val account = accountsRepository.findOne(transaction.accountId) ?: throw NotFoundException("Cannot find account with id ${transaction.accountId}")
+        val account = transaction.account
 
         val formFields = mapOf(
                 "WMI_MERCHANT_ID" to "141130336213", // TODO: Move to config
@@ -121,14 +121,7 @@ class PayController(val w1Service: W1Service,
 
         logger.info("Transaction paid: ${transaction.id}")
 
-        val account = accountsRepository.findOne(transaction.accountId)
-
-        if (account == null) {
-            val errorStr = "Can't find account for transaction ${transaction.id}"
-            logger.warn(errorStr)
-            val respStr = URLEncoder.encode("WMI_RESULT=RETRY&WMI_DESCRIPTION=$errorStr", "UTF-8")
-            return respStr
-        }
+        val account = transaction.account
 
         if (account.familyToken == null && autoassignmentEnabled) {
             try {
@@ -145,7 +138,7 @@ class PayController(val w1Service: W1Service,
 
     @RequestMapping("/cancel/{transaction}")
     fun cancel(@PathVariable transaction: Transaction): String {
-        val redirectStr = "redirect:/renew/${transaction.accountId}"
+        val redirectStr = "redirect:/renew/${transaction.account}"
         if (transaction.paidAt != null) {
             return redirectStr
         }
@@ -166,7 +159,7 @@ class PayController(val w1Service: W1Service,
     fun done(@PathVariable transaction: Transaction?,
              model: Model): String {
         transaction ?: throw NotFoundException("Unknown transaction")
-        val account = accountsRepository.findOne(transaction.accountId)
+        val account = transaction.account
 
         logger.info("Payment succeed: $transaction. Account: ${account.id} (${account.email})")
 

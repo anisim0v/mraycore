@@ -4,10 +4,12 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
 import org.springframework.test.context.junit4.SpringRunner
 import ru.mray.core.model.Account
+import ru.mray.core.model.FamilyToken
 import ru.mray.core.model.Transaction
 import java.time.Instant
 import java.time.Period
@@ -29,31 +31,31 @@ class AccountRepositoryTest {
     fun testFindPending() {
         accountRepository.save(listOf(
                 Account("bob@example.com", Account.Region.PH, 1).let {
-                    val transaction = Transaction(it.id, it.region, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
+                    val transaction = Transaction(it, it.region, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
                     transaction.paidAt = Instant.now()
                     transactionRepository.save(transaction)
                     return@let it
                 },
                 Account("bob2@example.com", Account.Region.PH, 1).let {
-                    val transaction = Transaction(it.id, it.region, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
+                    val transaction = Transaction(it, it.region, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
                     transaction.paidAt = Instant.now().plusSeconds(40)
                     transactionRepository.save(transaction)
                     return@let it
                 },
                 Account("bob3@example.com", Account.Region.PH, 1).let {
-                    val transaction = Transaction(it.id, it.region, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
+                    val transaction = Transaction(it, it.region, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
                     transaction.paidAt = Instant.now().plusSeconds(10)
                     transactionRepository.save(transaction)
                     return@let it
                 },
                 Account("bob4@example.com", Account.Region.PH, 1).let {
-                    val transaction = Transaction(it.id, it.region, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
+                    val transaction = Transaction(it, it.region, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
                     transaction.paidAt = Instant.now().plusSeconds(30)
                     transactionRepository.save(transaction)
                     return@let it
                 },
                 Account("alice@example.com", Account.Region.PH, 1).let {
-                    val transaction = Transaction(it.id, it.region, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
+                    val transaction = Transaction(it, it.region, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
                     transaction.paidAt = Instant.now()
                     transaction.activeSince = Instant.now()
                     transaction.activeUntil = Instant.now().plusSeconds(10)
@@ -62,11 +64,11 @@ class AccountRepositoryTest {
                 },
                 Account("donald@example.com", Account.Region.PH, 1).let {
                     it.activeUntil = Instant.now().plusSeconds(10)
-                    it.familyToken = "test"
+                    it.familyToken = Mockito.mock(FamilyToken::class.java)
                     return@let it
                 },
                 Account("hillary@example.com", Account.Region.PH, 1).let {
-                    it.familyToken = "test"
+                    it.familyToken = Mockito.mock(FamilyToken::class.java)
                     return@let it
                 }
         ))
@@ -81,28 +83,28 @@ class AccountRepositoryTest {
         val daySeconds: Long = 60 * 60 * 24
         accountRepository.save(listOf(
                 Account("bob@example.com", Account.Region.PH, 1).let {
-                    it.familyToken = "test"
+                    it.familyToken = Mockito.mock(FamilyToken::class.java)
                     it.activeUntil = Instant.now().plusSeconds(daySeconds)
                     it.renewNotificationSentAt = Instant.now().minusSeconds(10 * daySeconds)
                     return@let it
                 },
 
                 Account("alice@example.com", Account.Region.PH, 1).let {
-                    it.familyToken = "test"
+                    it.familyToken = Mockito.mock(FamilyToken::class.java)
                     it.activeUntil = Instant.now().plusSeconds(daySeconds)
                     it.renewNotificationSentAt = Instant.now().minusSeconds(daySeconds)
                     return@let it
                 },
 
                 Account("hillary@example.com", Account.Region.PH, 1).let {
-                    it.familyToken = "test"
+                    it.familyToken = Mockito.mock(FamilyToken::class.java)
                     it.activeUntil = Instant.now().plusSeconds(daySeconds)
                     it.renewNotificationSentAt = null
                     return@let it
                 },
 
                 Account("donald@example.com", Account.Region.PH, 1).let {
-                    it.familyToken = "test"
+                    it.familyToken = Mockito.mock(FamilyToken::class.java)
                     it.activeUntil = Instant.now().plusSeconds(10 * daySeconds)
                     it.renewNotificationSentAt = null
                     return@let it

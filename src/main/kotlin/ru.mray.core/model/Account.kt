@@ -6,10 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import java.time.Instant
 import java.util.*
-import javax.persistence.Entity
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity
 class Account(
@@ -17,7 +14,10 @@ class Account(
         @Enumerated(EnumType.STRING) val region: Region,
         var renewPeriod: Int = 1,
         var registeredAt: Instant = Instant.now(),
-        var familyToken: String? = null,
+
+        @OneToOne(mappedBy = "account")
+        var familyToken: FamilyToken? = null,
+
         var activeUntil: Instant? = null,
         var renewNotificationSentAt: Instant? = null,
         var admin: Boolean = false,

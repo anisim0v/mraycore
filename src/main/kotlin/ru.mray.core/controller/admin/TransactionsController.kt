@@ -16,8 +16,8 @@ class TransactionsController(val transactionRepository: TransactionRepository,
     @RequestMapping("/{transaction}/remove")
     fun remove(@PathVariable transaction: Transaction): String {
         transactionRepository.delete(transaction)
-        transactionService.refreshAccountTransactions(transaction.accountId)
-        return "redirect:/admin/accounts/${transaction.accountId}"
+        transactionService.refreshAccountTransactions(transaction.account.id)
+        return "redirect:/admin/accounts/${transaction.account.id}"
     }
 
     @RequestMapping("/{transaction}/deactivate")
@@ -25,7 +25,7 @@ class TransactionsController(val transactionRepository: TransactionRepository,
         transaction.activeSince = null
         transaction.activeUntil = null
         transactionRepository.save(transaction)
-        transactionService.refreshAccountTransactions(transaction.accountId)
-        return "redirect:/admin/accounts/${transaction.accountId}"
+        transactionService.refreshAccountTransactions(transaction.account.id)
+        return "redirect:/admin/accounts/${transaction.account.id}"
     }
 }

@@ -49,7 +49,7 @@ class TestBuyController {
         val transactionCaptor = ArgumentCaptor.forClass(Transaction::class.java)
         verify(transactionRepository, times(1)).save(transactionCaptor.capture()) // There was a 1-day bonus transaction before
         transactionCaptor.allValues.forEach { transaction ->
-            Assert.assertEquals(account.id, transaction.accountId)
+            Assert.assertEquals(account.id, transaction.account.id)
             Assert.assertEquals(account.region, transaction.region)
             Assert.assertNull(transaction.previousTransactionId)
 

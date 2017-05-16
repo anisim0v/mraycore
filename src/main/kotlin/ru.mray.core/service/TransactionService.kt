@@ -27,7 +27,7 @@ class TransactionService(private val transactionRepository: TransactionRepositor
      * транзакции.
      */
     fun refreshAccountTransactions(account: Account, newTransactionsStartInstant: Instant? = null, force: Boolean = false) {
-        var latestActiveAccountTransaction = transactionRepository.findLatestActiveAccountTransaction(account.id)
+        var latestActiveAccountTransaction = transactionRepository.findLatestActiveAccountTransaction(account)
 
         logger.info("Refreshing transactions for account ${account.id}. Force: $force. Start instant: $newTransactionsStartInstant")
 
@@ -37,7 +37,7 @@ class TransactionService(private val transactionRepository: TransactionRepositor
             return
         }
 
-        val inactivePaidTransactions = transactionRepository.findAccountInactivePaidTransactions(account.id)
+        val inactivePaidTransactions = transactionRepository.findAccountInactivePaidTransactions(account)
                 .sortedBy { it.paidAt }
 
         var newTransactionsStartInstantApplied = false
@@ -59,7 +59,7 @@ class TransactionService(private val transactionRepository: TransactionRepositor
 
             it.activeSince = activationStartTime
             it.activeUntil = lastTransactionActiveUntil
-            it.previousTransactionId = latestActiveAccountTransaction?.id
+            it.previousTransaction = latestActiveAccountTransaction
 
             transactionRepository.save(it)
             latestActiveAccountTransaction = it

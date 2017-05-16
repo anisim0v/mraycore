@@ -62,7 +62,7 @@ class StatusController(val transactionRepository: TransactionRepository,
     @RequestMapping("/{account}/renew", method = arrayOf(RequestMethod.POST))
     fun renew(@PathVariable account: Account,
               @RequestParam renewPeriod: Int): String {
-        val transaction = Transaction(account.id, account.region, Period.ofMonths(renewPeriod),
+        val transaction = Transaction(account, account.region, Period.ofMonths(renewPeriod),
                 Transaction.TransactionType.PAYMENT)
         transactionRepository.save(transaction)
         return "redirect:/pay/${transaction.id}"

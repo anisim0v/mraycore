@@ -98,8 +98,8 @@ class AccountsController(val accountRepository: AccountRepository,
 
     @RequestMapping("/{account}/unlink")
     fun unlinkPage(@PathVariable account: Account, model: Model): String {
-        val familyToken = familyTokenRepository.findOne(account.familyToken)!!
-        val family = familyRepository.findOne(familyToken.family)!!
+        val familyToken = account.familyToken!!
+        val family = familyToken.family
         model.addAttribute("account", account)
         model.addAttribute("token", familyToken)
         model.addAttribute("family", family)
@@ -145,7 +145,7 @@ class AccountsController(val accountRepository: AccountRepository,
             else -> throw IllegalArgumentException("Incorrect paid value")
         }
 
-        val transaction = Transaction(account.id, account.region, period, type)
+        val transaction = Transaction(account, account.region, period, type)
 
         if (paid) {
             transaction.paidAt = Instant.now()

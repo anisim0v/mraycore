@@ -35,8 +35,7 @@ class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepositor
 
         val familyToken = token ?: familyTokenRepository.findFirstUnassigned(account.region)
                 ?: throw NoFreeFamilyTokenAvailableException("No free tokens available")
-        familyToken.account = account.id
-        account.familyToken = familyToken.id
+        account.familyToken = familyToken
 
         accountRepository.save(account)
         familyTokenRepository.save(familyToken)
@@ -49,11 +48,10 @@ class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepositor
     }
 
     fun emailInvite(account: Account) {
-        val familyToken = familyTokenRepository.findOne(account.familyToken)
+        val familyToken = account.familyToken
                 ?: throw NotFoundException("Cannot find familyToken ${account.familyToken}")
 
-        val family = familyRepository.findOne(familyToken.family)
-                ?: throw NotFoundException("Cannot find family ${familyToken.family}")
+        val family = familyToken.family
 
         val model = ExtendedModelMap()
         model.put("account", account)

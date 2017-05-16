@@ -3,19 +3,28 @@ package ru.mray.core.model
 import java.time.Instant
 import java.time.Period
 import java.util.*
-import javax.persistence.Entity
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity
 class Transaction(
-        val accountId: String,
-        @Enumerated(EnumType.STRING) val region: Account.Region,
+        @ManyToOne
+        val account: Account,
+
+        @Enumerated(EnumType.STRING)
+        val region: Account.Region,
+
         val period: Period,
-        @Enumerated(EnumType.STRING) val type: TransactionType,
+
+        @Enumerated(EnumType.STRING)
+        val type: TransactionType,
+
         var issueDate: Instant = Instant.now(),
-        var previousTransactionId: String? = null,
+
+        @Basic(fetch = FetchType.LAZY)
+
+        @OneToOne
+        var previousTransaction: Transaction? = null,
+
         var paidAt: Instant? = null,
         var activeSince: Instant? = null,
         var activeUntil: Instant? = null,
