@@ -4,7 +4,7 @@ import org.springframework.data.domain.Sort
 import org.springframework.data.mongodb.core.query.Query.query
 import ru.mray.core.model.Transaction
 
-interface TransactionRepository : ru.mray.core.repository.mongo.TransactionRepositoryCustom, org.springframework.data.mongodb.repository.MongoRepository<Transaction, String> {
+interface MongoTransactionRepository : ru.mray.core.repository.mongo.MongoTransactionRepositoryCustom, org.springframework.data.mongodb.repository.MongoRepository<Transaction, String> {
     fun findByAccountId(accountId: String, sort: org.springframework.data.domain.Sort? = org.springframework.data.domain.Sort(Sort.Direction.DESC, "issueDate")): List<ru.mray.core.model.Transaction>
     fun findFirstByAccountId(accountId: String, sort: org.springframework.data.domain.Sort? = org.springframework.data.domain.Sort(Sort.Direction.DESC, "issueDate")): ru.mray.core.model.Transaction?
 
@@ -16,11 +16,11 @@ interface TransactionRepository : ru.mray.core.repository.mongo.TransactionRepos
 }
 
 
-interface TransactionRepositoryCustom {
+interface MongoTransactionRepositoryCustom {
     fun findLatestActiveAccountTransaction(accountId: String): ru.mray.core.model.Transaction?
 }
 
-class TransactionRepositoryImpl(val mongoTemplate: org.springframework.data.mongodb.core.MongoTemplate) : ru.mray.core.repository.mongo.TransactionRepositoryCustom {
+class MongoTransactionRepositoryImpl(val mongoTemplate: org.springframework.data.mongodb.core.MongoTemplate) : ru.mray.core.repository.mongo.MongoTransactionRepositoryCustom {
     override fun findLatestActiveAccountTransaction(accountId: String): ru.mray.core.model.Transaction? {
         val query = query(
                 org.springframework.data.mongodb.core.query.Criteria

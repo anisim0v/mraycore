@@ -7,7 +7,7 @@ import org.mockito.Mockito.mock
 import ru.mray.core.model.Account
 import ru.mray.core.model.Transaction
 import ru.mray.core.repository.mongo.MongoAccountRepository
-import ru.mray.core.repository.mongo.TransactionRepository
+import ru.mray.core.repository.mongo.MongoTransactionRepository
 import java.time.Instant
 import java.time.OffsetDateTime
 import java.time.Period
@@ -16,7 +16,7 @@ import java.time.temporal.ChronoUnit
 
 class TransactionServiceTest {
 
-    val transactionRepository: TransactionRepository = mock(TransactionRepository::class.java)
+    val transactionRepository: MongoTransactionRepository = mock(MongoTransactionRepository::class.java)
 
     val account = Account("bob@example.com", Account.Region.PH, 1).let {
         it.familyToken = "exampletoken"

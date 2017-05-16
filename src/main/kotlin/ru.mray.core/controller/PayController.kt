@@ -16,7 +16,7 @@ import ru.mray.core.exceptions.NotFoundException
 import ru.mray.core.model.Transaction
 import ru.mray.core.repository.mongo.MongoAccountRepository
 import ru.mray.core.repository.mongo.MongoFamilyTokenRepository
-import ru.mray.core.repository.mongo.TransactionRepository
+import ru.mray.core.repository.mongo.MongoTransactionRepository
 import ru.mray.core.service.FamilyTokenService
 import ru.mray.core.service.TransactionService
 import ru.mray.core.service.W1Service
@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletRequest
 @RequestMapping("/pay")
 class PayController(val w1Service: W1Service,
                     val pricesHolder: PricesHolder,
-                    val transactionRepository: TransactionRepository,
+                    val transactionRepository: MongoTransactionRepository,
                     val accountsRepository: MongoAccountRepository,
                     val objMapper: ObjectMapper,
                     val transactionService: TransactionService,

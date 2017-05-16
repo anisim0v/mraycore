@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping
 import ru.mray.core.model.Account
 import ru.mray.core.repository.mongo.MongoAccountRepository
 import ru.mray.core.repository.mongo.MongoFamilyTokenRepository
-import ru.mray.core.repository.mongo.TransactionRepository
+import ru.mray.core.repository.mongo.MongoTransactionRepository
 
 @Controller
 @RequestMapping("/admin")
 class AdminIndexController(val accountRepository: MongoAccountRepository,
-                           val transactionRepository: TransactionRepository,
+                           val transactionRepository: MongoTransactionRepository,
                            val familyTokenRepository: MongoFamilyTokenRepository) {
     @RequestMapping
     fun index(model: Model): String {

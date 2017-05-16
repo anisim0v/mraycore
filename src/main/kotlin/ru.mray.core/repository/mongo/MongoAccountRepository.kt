@@ -21,8 +21,8 @@ interface MongoAccountRepositoryCustom {
     fun countAccountsToNotify(expiresBefore: java.time.Instant = java.time.OffsetDateTime.now().plusDays(3).toInstant()): Long
 }
 
-class MongoAccountRepositoryImpl(val transactionRepository: TransactionRepository,
-                            val mongoTemplate: org.springframework.data.mongodb.core.MongoTemplate) : ru.mray.core.repository.mongo.MongoAccountRepositoryCustom {
+class MongoAccountRepositoryImpl(val transactionRepository: MongoTransactionRepository,
+                                 val mongoTemplate: org.springframework.data.mongodb.core.MongoTemplate) : ru.mray.core.repository.mongo.MongoAccountRepositoryCustom {
 
     override fun findPending(region: ru.mray.core.model.Account.Region, count: Int): List<ru.mray.core.model.Account> {
         val transactions = transactionRepository.findInactivePaidTransactions(region)
