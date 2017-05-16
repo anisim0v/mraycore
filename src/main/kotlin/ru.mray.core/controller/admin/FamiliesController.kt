@@ -83,7 +83,7 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
         familyRepository.save(family)
 
         tokens
-                .mapIndexed { i, it -> FamilyToken(region, family, i, it, family.paidUntil, assignManually = assignManually) }
+                .mapIndexed { i, it -> FamilyToken(region, family, i, it, assignManually = assignManually) }
                 .toList()
                 .let { familyTokenRepository.save(it) }
 
@@ -115,11 +115,7 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
     fun familyRenew(@PathVariable family: Family, @RequestParam paidUntil: String): String {
         family.paidUntil = LocalDate.parse(paidUntil)
 
-        val tokens = familyTokenRepository.findByFamily(family.id)
-                .map { it.paidUntil = family.paidUntil; it }
-
         familyRepository.save(family)
-        familyTokenRepository.save(tokens)
         return "redirect:/admin/families/${family.id}"
     }
 

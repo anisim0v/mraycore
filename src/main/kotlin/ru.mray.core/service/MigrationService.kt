@@ -72,7 +72,6 @@ class MigrationService(
                             family = family,
                             account = account,
                             slot = it.slot,
-                            paidUntil = it.paidUntil,
                             token = it.token,
                             assignManually = it.assignManually,
                             id = it.id)

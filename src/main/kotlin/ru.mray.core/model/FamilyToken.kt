@@ -1,6 +1,5 @@
 package ru.mray.core.model
 
-import java.time.LocalDate
 import java.util.*
 import javax.persistence.*
 
@@ -15,7 +14,6 @@ open class FamilyToken(
 
         val slot: Int,
         var token: String,
-        var paidUntil: LocalDate,
 
         @OneToOne
         var account: Account? = null,
