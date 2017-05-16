@@ -13,16 +13,16 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
 import ru.mray.core.model.Account
 import ru.mray.core.model.Transaction
-import ru.mray.core.repository.mongo.MongoAccountRepository
-import ru.mray.core.repository.mongo.MongoTransactionRepository
+import ru.mray.core.repository.AccountRepository
+import ru.mray.core.repository.TransactionRepository
 import ru.mray.core.service.MailService
 import java.time.Period
 import javax.servlet.http.HttpServletResponse
 
 @Controller
 @RequestMapping("/join")
-class JoinController(val accountRepository: MongoAccountRepository,
-                     val transactionRepository: MongoTransactionRepository,
+class JoinController(val accountRepository: AccountRepository,
+                     val transactionRepository: TransactionRepository,
                      val passwordEncoder: PasswordEncoder,
                      val mailService: MailService,
                      environment: Environment) {

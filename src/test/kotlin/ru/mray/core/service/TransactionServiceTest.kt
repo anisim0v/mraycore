@@ -6,6 +6,8 @@ import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import ru.mray.core.model.Account
 import ru.mray.core.model.Transaction
+import ru.mray.core.repository.AccountRepository
+import ru.mray.core.repository.TransactionRepository
 import ru.mray.core.repository.mongo.MongoAccountRepository
 import ru.mray.core.repository.mongo.MongoTransactionRepository
 import java.time.Instant
@@ -16,7 +18,7 @@ import java.time.temporal.ChronoUnit
 
 class TransactionServiceTest {
 
-    val transactionRepository: MongoTransactionRepository = mock(MongoTransactionRepository::class.java)
+    val transactionRepository: TransactionRepository = mock(TransactionRepository::class.java)
 
     val account = Account("bob@example.com", Account.Region.PH, 1).let {
         it.familyToken = "exampletoken"
@@ -35,7 +37,7 @@ class TransactionServiceTest {
         return@let it
     }
 
-    val transactionService = TransactionService(transactionRepository, mock(MongoAccountRepository::class.java))
+    val transactionService = TransactionService(transactionRepository, mock(AccountRepository::class.java))
 
     init {
         `when`(transactionRepository.findLatestActiveAccountTransaction(account.id))

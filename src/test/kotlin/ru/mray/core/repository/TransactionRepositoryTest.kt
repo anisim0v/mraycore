@@ -19,7 +19,7 @@ import java.util.*
 @DataMongoTest
 class TransactionRepositoryTest {
     @Autowired
-    lateinit var transactionRepository: MongoTransactionRepository
+    lateinit var transactionRepository: TransactionRepository
 
     @Before
     fun setUp() {

@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.RequestParam
 import ru.mray.core.model.Account
 import ru.mray.core.model.FamilyToken
 import ru.mray.core.model.Transaction
+import ru.mray.core.repository.AccountRepository
+import ru.mray.core.repository.FamilyRepository
+import ru.mray.core.repository.FamilyTokenRepository
+import ru.mray.core.repository.TransactionRepository
 import ru.mray.core.repository.mongo.MongoAccountRepository
 import ru.mray.core.repository.mongo.MongoFamilyRepository
 import ru.mray.core.repository.mongo.MongoFamilyTokenRepository
@@ -21,10 +25,10 @@ import java.time.Period
 
 @Controller
 @RequestMapping("/admin/accounts")
-class AccountsController(val accountRepository: MongoAccountRepository,
-                         val transactionRepository: MongoTransactionRepository,
-                         val familyTokenRepository: MongoFamilyTokenRepository,
-                         val familyRepository: MongoFamilyRepository,
+class AccountsController(val accountRepository: AccountRepository,
+                         val transactionRepository: TransactionRepository,
+                         val familyTokenRepository: FamilyTokenRepository,
+                         val familyRepository: FamilyRepository,
                          val transactionService: TransactionService,
                          val familyTokenService: FamilyTokenService) {
     @RequestMapping

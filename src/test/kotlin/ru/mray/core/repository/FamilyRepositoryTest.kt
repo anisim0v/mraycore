@@ -16,7 +16,7 @@ import java.time.LocalDate
 @DataMongoTest
 class FamilyRepositoryTest {
     @Autowired
-    lateinit var familyTokenRepository: MongoFamilyTokenRepository
+    lateinit var familyTokenRepository: FamilyTokenRepository
 
     @Before
     fun setUp() {

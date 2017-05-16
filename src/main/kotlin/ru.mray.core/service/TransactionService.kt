@@ -4,6 +4,8 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import ru.mray.core.model.Account
+import ru.mray.core.repository.AccountRepository
+import ru.mray.core.repository.TransactionRepository
 import ru.mray.core.repository.mongo.MongoAccountRepository
 import ru.mray.core.repository.mongo.MongoTransactionRepository
 import java.time.Instant
@@ -11,8 +13,8 @@ import java.time.OffsetDateTime
 import java.time.ZoneId
 
 @Service
-class TransactionService(private val transactionRepository: MongoTransactionRepository,
-                         private val accountRepository: MongoAccountRepository) {
+class TransactionService(private val transactionRepository: TransactionRepository,
+                         private val accountRepository: AccountRepository) {
 
     val logger: Logger = LoggerFactory.getLogger(TransactionService::class.java)
 
