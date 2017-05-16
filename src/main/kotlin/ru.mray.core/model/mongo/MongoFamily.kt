@@ -1,5 +1,6 @@
 package ru.mray.core.model.mongo
 
+import ru.mray.core.model.Account
 import java.time.LocalDate
 import java.util.*
 import javax.persistence.Entity
@@ -9,7 +10,7 @@ import javax.persistence.Id
 
 class MongoFamily(
         val login: String,
-        val region: MongoAccount.Region,
+        val region: Account.Region,
         val password: String,
         var paidUntil: LocalDate,
         val streetName: String,

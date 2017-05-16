@@ -1,6 +1,5 @@
 package ru.mray.core.model
 
-import org.springframework.data.mongodb.core.mapping.Field
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
@@ -21,7 +20,7 @@ class Account(
         var activeUntil: Instant? = null,
         var renewNotificationSentAt: Instant? = null,
         var admin: Boolean = false,
-        @Field("password") var _password: String? = null,
+        @Column(name = "password") var _password: String? = null,
         @Id val id: String = UUID.randomUUID().toString()
 ) : UserDetails {
 

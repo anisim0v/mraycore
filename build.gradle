@@ -17,6 +17,8 @@ apply plugin: 'kotlin'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'kotlin-spring'
 apply plugin: "kotlin-jpa"
+apply plugin: "kotlin-noarg"
+
 
 group 'ru.music-ray'
 version 'v1.0-SNAPSHOY'
@@ -39,6 +41,10 @@ test {
 
         events "PASSED", "FAILED", "SKIPPED"
     }
+}
+
+noArg {
+    annotation("org.springframework.data.mongodb.core.mapping.Document")
 }
 
 dependencies {

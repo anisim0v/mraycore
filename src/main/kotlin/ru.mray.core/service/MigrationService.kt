@@ -4,6 +4,7 @@ import org.springframework.jmx.export.annotation.ManagedOperation
 import org.springframework.jmx.export.annotation.ManagedResource
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import ru.mray.core.model.Account
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.FamilyRepository
 import ru.mray.core.repository.FamilyTokenRepository
@@ -30,8 +31,20 @@ class MigrationService(
     @Transactional
     @PostConstruct
     fun migrate() {
-//        val accounts = mongoAccountRepository.findAll()
-//        accountRepository.save(accounts)
+        val accounts = mongoAccountRepository.findAll()
+                .map {
+                    Account(id = it.id,
+                            email = it.email,
+                            region = it.region,
+                            renewPeriod = it.renewPeriod,
+                            registeredAt = it.registeredAt,
+                            activeUntil = it.activeUntil,
+                            renewNotificationSentAt = it.renewNotificationSentAt,
+                            _password = it._password,
+                            admin = it.admin)
+                }
+        accountRepository.save(accounts)
+
 //
 //        val families = mongoFamilyRepository.findAll()
 //        familyRepository.save(families)
