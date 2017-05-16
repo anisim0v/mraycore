@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam
 import ru.mray.core.model.Account
 import ru.mray.core.model.Family
 import ru.mray.core.model.FamilyToken
-import ru.mray.core.repository.AccountRepository
-import ru.mray.core.repository.FamilyRepository
-import ru.mray.core.repository.FamilyTokenRepository
+import ru.mray.core.repository.mongo.AccountRepository
+import ru.mray.core.repository.mongo.FamilyRepository
+import ru.mray.core.repository.mongo.FamilyTokenRepository
 import ru.mray.core.service.FamilyTokenService
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

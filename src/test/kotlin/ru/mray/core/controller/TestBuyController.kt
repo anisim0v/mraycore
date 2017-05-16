@@ -11,8 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.ui.ExtendedModelMap
 import ru.mray.core.model.Account
 import ru.mray.core.model.Transaction
-import ru.mray.core.repository.AccountRepository
-import ru.mray.core.repository.TransactionRepository
+import ru.mray.core.repository.mongo.AccountRepository
+import ru.mray.core.repository.mongo.TransactionRepository
 import ru.mray.core.service.MailService
 import java.time.Period
 import javax.servlet.http.HttpServletResponse

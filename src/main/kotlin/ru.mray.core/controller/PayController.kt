@@ -14,9 +14,9 @@ import ru.mray.core.exceptions.BadRequestException
 import ru.mray.core.exceptions.NoFreeFamilyTokenAvailableException
 import ru.mray.core.exceptions.NotFoundException
 import ru.mray.core.model.Transaction
-import ru.mray.core.repository.AccountRepository
-import ru.mray.core.repository.FamilyTokenRepository
-import ru.mray.core.repository.TransactionRepository
+import ru.mray.core.repository.mongo.AccountRepository
+import ru.mray.core.repository.mongo.FamilyTokenRepository
+import ru.mray.core.repository.mongo.TransactionRepository
 import ru.mray.core.service.FamilyTokenService
 import ru.mray.core.service.TransactionService
 import ru.mray.core.service.W1Service

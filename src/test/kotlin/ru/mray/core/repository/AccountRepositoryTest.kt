@@ -9,6 +9,8 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
 import org.springframework.test.context.junit4.SpringRunner
 import ru.mray.core.model.Account
 import ru.mray.core.model.Transaction
+import ru.mray.core.repository.mongo.AccountRepository
+import ru.mray.core.repository.mongo.TransactionRepository
 import java.time.Instant
 import java.time.Period
 

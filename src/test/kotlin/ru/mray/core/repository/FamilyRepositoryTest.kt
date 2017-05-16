@@ -9,12 +9,8 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
 import org.springframework.test.context.junit4.SpringRunner
 import ru.mray.core.model.Account
 import ru.mray.core.model.FamilyToken
-import ru.mray.core.model.Transaction
-import java.time.Instant
+import ru.mray.core.repository.mongo.FamilyTokenRepository
 import java.time.LocalDate
-import java.time.OffsetDateTime
-import java.time.Period
-import java.util.*
 
 @RunWith(SpringRunner::class)
 @DataMongoTest

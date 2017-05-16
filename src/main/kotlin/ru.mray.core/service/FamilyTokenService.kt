@@ -8,9 +8,9 @@ import ru.mray.core.exceptions.NoFreeFamilyTokenAvailableException
 import ru.mray.core.exceptions.NotFoundException
 import ru.mray.core.model.Account
 import ru.mray.core.model.FamilyToken
-import ru.mray.core.repository.AccountRepository
-import ru.mray.core.repository.FamilyRepository
-import ru.mray.core.repository.FamilyTokenRepository
+import ru.mray.core.repository.mongo.AccountRepository
+import ru.mray.core.repository.mongo.FamilyRepository
+import ru.mray.core.repository.mongo.FamilyTokenRepository
 import java.time.Instant
 
 @Service

@@ -1,4 +1,4 @@
-package ru.mray.core.repository
+package ru.mray.core.repository.mongo
 
 import org.springframework.data.domain.Sort
 import org.springframework.data.mongodb.repository.MongoRepository

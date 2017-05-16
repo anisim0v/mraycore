@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.ui.ExtendedModelMap
 import ru.mray.core.model.Account
-import ru.mray.core.repository.AccountRepository
+import ru.mray.core.repository.mongo.AccountRepository
 import java.time.Instant
 import java.time.OffsetDateTime
 
