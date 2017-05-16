@@ -59,7 +59,6 @@ class TransactionService(private val transactionRepository: TransactionRepositor
 
             it.activeSince = activationStartTime
             it.activeUntil = lastTransactionActiveUntil
-            it.previousTransaction = latestActiveAccountTransaction
 
             transactionRepository.save(it)
             latestActiveAccountTransaction = it

@@ -22,9 +22,6 @@ class Transaction(
 
         @Basic(fetch = FetchType.LAZY)
 
-        @OneToOne
-        var previousTransaction: Transaction? = null,
-
         var paidAt: Instant? = null,
         var activeSince: Instant? = null,
         var activeUntil: Instant? = null,

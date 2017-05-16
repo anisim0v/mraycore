@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional
 import ru.mray.core.model.Account
 import ru.mray.core.model.Family
 import ru.mray.core.model.FamilyToken
+import ru.mray.core.model.Transaction
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.FamilyRepository
 import ru.mray.core.repository.FamilyTokenRepository
@@ -58,7 +59,7 @@ class MigrationService(
                             streetNumber = it.streetNumber,
                             zipCode = it.zipCode,
                             city = it.city,
-                            id=it.id
+                            id = it.id
                     )
                 }
         familyRepository.save(families)
@@ -77,6 +78,24 @@ class MigrationService(
                             id = it.id)
                 }
         familyTokenRepository.save(familyTokens)
+
+        val transactions = mongoTransactionRepository.findAll()
+                .map {
+                    val account = accountRepository.findOne(it.accountId)
+                    Transaction(
+                            account = account,
+                            region = it.region,
+                            period = it.period,
+                            type = it.type,
+                            issueDate = it.issueDate,
+                            paidAt = it.paidAt,
+                            activeSince = it.activeSince,
+                            activeUntil = it.activeUntil,
+                            id = it.id
+                    )
+                }
+
+        transactionRepository.save(transactions)
 //
 //        val families = mongoFamilyRepository.findAll()
 //        familyRepository.save(families)
