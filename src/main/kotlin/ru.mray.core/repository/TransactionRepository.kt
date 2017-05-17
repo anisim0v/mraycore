@@ -12,6 +12,7 @@ import ru.mray.core.model.Transaction
 @Repository
 interface TransactionRepository : JpaRepository<Transaction, String> {
     fun findByAccountId(accountId: String, sort: Sort? = Sort(Sort.Direction.DESC, "issueDate")): List<Transaction>
+    fun findFirstByAccountId(accountId: String, sort: Sort? = Sort(Sort.Direction.DESC, "issueDate")): Transaction?
 
     @Language("PostgreSQL")
     @Query("SELECT *\nFROM transactions\nWHERE paid_at IS NOT NULL AND active_since IS NULL AND region = :#{#region.toString}\nORDER BY paid_at", nativeQuery = true)
