@@ -30,7 +30,7 @@
         <td><a href="/admin/accounts/expiring/1">Expire in 1 day: ${expireIn1Day}</a></td>
     </tr>
     <tr>
-        <td><a href="/admin/accounts/expiring/0">Expired accounts: ${expiredCount}</a></td>
+        <td><a href="/admin/accounts/expired">Expired accounts: ${expiredCount}</a></td>
     </tr>
     <tr>
         <td>Pending renew notifications: ${accountsToNotifyCount}</td>

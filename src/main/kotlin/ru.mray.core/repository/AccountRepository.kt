@@ -25,6 +25,10 @@ interface AccountRepository : JpaRepository<Account, String> {
     fun countPending(region: Region): Int
 
     @Language("PostgreSQL")
+    @Query("SELECT *\nFROM accounts\nWHERE accounts.active_until < ? AND EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE accounts.id = family_tokens.account_id\n)", nativeQuery = true)
+    fun findExpired(instant: Instant = Instant.now()): List<Account>
+
+    @Language("PostgreSQL")
     @Query("SELECT *\nFROM accounts\nWHERE accounts.renew_notification_sent_at IS NULL AND active_until < ? AND EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE account_id = accounts.id\n)", nativeQuery = true)
     fun findAccountsToNotify(expiresBefore: Instant = now().plusDays(10).toInstant()): List<Account>
 
@@ -33,15 +37,19 @@ interface AccountRepository : JpaRepository<Account, String> {
     fun countAccountsToNotify(expiresBefore: Instant = now().plusDays(10).toInstant()): Long
 
     @Language("PostgreSQL")
-    @Query("SELECT *\nFROM accounts\nWHERE active_until < ? AND EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE account_id = accounts.id\n)\nORDER BY active_until", nativeQuery = true)
-    fun findExpiring(expiresBefore: Instant = now().plusDays(10).toInstant()): List<Account>
+    @Query("SELECT *\nFROM accounts\nWHERE active_until < ? AND active_until > ? AND EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE account_id = accounts.id\n)\nORDER BY active_until", nativeQuery = true)
+    fun findExpiring(expiresBefore: Instant = now().plusDays(10).toInstant(), notBefore: Instant = Instant.now()): List<Account>
 
     @Language("PostgreSQL")
-    @Query("SELECT count(*)\nFROM accounts\nWHERE active_until < ? AND EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE account_id = accounts.id\n)", nativeQuery = true)
-    fun countExpiring(expiresBefore: Instant = now().plusDays(10).toInstant()): Int
+    @Query("SELECT count(*)\nFROM accounts\nWHERE active_until < ? AND active_until > ? AND EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE account_id = accounts.id\n)", nativeQuery = true)
+    fun countExpiring(expiresBefore: Instant = now().plusDays(10).toInstant(), notBefore: Instant = Instant.now()): Int
 
     @Language("PostgreSQL")
     @Modifying
     @Query("UPDATE accounts\nSET renew_notification_sent_at = NULL\nWHERE renew_notification_sent_at is NOT NULL\nRETURNING *", nativeQuery = true)
     fun resetNotificationDate(): List<Account>
+
+    @Language("PostgreSQL")
+    @Query("SELECT count(*)\nFROM accounts\nWHERE accounts.active_until < ? AND EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE accounts.id = family_tokens.account_id\n)", nativeQuery = true)
+    fun countExpired(instant: Instant = Instant.now()): Int
 }

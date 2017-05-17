@@ -64,6 +64,16 @@ class AccountsController(val accountRepository: AccountRepository,
         return "admin/accountList"
     }
 
+
+    @RequestMapping("/expired")
+    fun expiredAccounts(model: Model): String {
+        val accounts = accountRepository.findExpired()
+        model.addAttribute("title", "Expired accounts")
+        model.addAttribute("accounts", accounts)
+
+        return "admin/accountList"
+    }
+
     @RequestMapping("/{account}")
     fun accountDetails(@PathVariable account: Account, model: Model): String {
         val accountTransactions = transactionRepository.findByAccountId(account.id)
