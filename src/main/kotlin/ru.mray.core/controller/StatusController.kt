@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
+import ru.mray.core.exceptions.BadRequestException
 import ru.mray.core.exceptions.NotFoundException
 import ru.mray.core.model.Account
 import ru.mray.core.model.Transaction
@@ -76,7 +77,13 @@ class StatusController(val transactionRepository: TransactionRepository,
 
     @RequestMapping("/{account}/renew", method = arrayOf(RequestMethod.POST))
     fun renew(@PathVariable account: Account,
-              @RequestParam renewPeriod: Int): String {
+              @RequestParam renewPeriod: Int,
+              @AuthenticationPrincipal authUser: Account?): String {
+
+        if(renewPeriod == 0 && authUser?.admin != true) {
+            throw BadRequestException("Invalid renew period")
+        }
+
         val transaction = Transaction(account, account.region, Period.ofMonths(renewPeriod),
                 Transaction.TransactionType.PAYMENT)
         transactionRepository.save(transaction)

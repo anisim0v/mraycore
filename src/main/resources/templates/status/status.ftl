@@ -39,6 +39,9 @@
             <form method="post" action="/status/${account.id}/renew">
                 <label for="renewPeriod">Продлить подписку на: </label>
                 <select id="renewPeriod" name="renewPeriod">
+                    <#if isAdmin>
+                        <option value="0">Тестовый платеж</option>
+                    </#if>
                     <option value="1">1 месяц</option>
                 <#--<option value="2">2 месяца</option>-->
                 </select>
@@ -67,6 +70,14 @@
                         <a href="/pay/${unpaidTransaction.id}">Оплатить</a>
                     </td>
                 </tr>
+                <#if isAdmin>
+                    <tr>
+                        <td>Admin action</td>
+                        <td>
+                            <a href="/admin/transactions/${unpaidTransaction.id}/remove">Remove</a>
+                        </td>
+                    </tr>
+                </#if>
                 <tr>
                     <td>ID транзакции</td>
                     <td>${unpaidTransaction.id}</td>
