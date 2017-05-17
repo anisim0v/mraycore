@@ -1,3 +1,4 @@
+<#-- @ftlvariable name="WMI_CUSTOMER_EMAIL" type="java.lang.String" -->
 <#-- @ftlvariable name="paymentsEnabled" type="java.lang.Boolean" -->
 <#-- @ftlvariable name="pendingAccounts" type="java.lang.Number" -->
 <#-- @ftlvariable name="unassignedTokensCount" type="java.lang.Number" -->
