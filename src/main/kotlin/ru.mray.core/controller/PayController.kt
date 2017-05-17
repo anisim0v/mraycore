@@ -70,7 +70,7 @@ class PayController(val w1Service: W1Service,
         model.addAttribute("WMI_SIGNATURE", signature)
 
         val unassignedTokensCount = familyTokenRepository.countUnassigned(transaction.region)
-        val pendingAccounts = accountsRepository.findPending(transaction.region).count()
+        val pendingAccounts = accountsRepository.countPending(transaction.region)
 
         model.addAttribute("account", account)
         model.addAttribute("unassignedTokensCount", unassignedTokensCount)
@@ -106,7 +106,7 @@ class PayController(val w1Service: W1Service,
                 ?: throw BadRequestException("No WMI_PAYMENT_NO field in request")
 
         val transaction = transactionRepository.findOne(transactionId) ?: let {
-            logger.warn("Transaction not found activated: $transactionId")
+            logger.warn("Transaction not found: $transactionId")
             val respStr = URLEncoder.encode("WMI_RESULT=RETRY&WMI_DESCRIPTION=Unknown transaction id", "UTF-8")
             return respStr
         }
