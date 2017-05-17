@@ -7,6 +7,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.test.context.junit4.SpringRunner
 import ru.mray.core.model.Account
@@ -17,6 +18,7 @@ import java.time.LocalDate
 
 @RunWith(SpringRunner::class)
 @DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class FamilyRepositoryTest {
     @Autowired
     lateinit var familyTokenRepository: FamilyTokenRepository

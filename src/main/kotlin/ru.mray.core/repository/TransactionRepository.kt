@@ -15,14 +15,14 @@ interface TransactionRepository : JpaRepository<Transaction, String> {
     fun findFirstByAccountId(accountId: String, sort: Sort? = Sort(Sort.Direction.DESC, "issueDate")): Transaction?
 
     @Language("PostgreSQL")
-    @Query("SELECT *\nFROM transactions\nWHERE paid_at IS NOT NULL AND active_since IS NULL AND region = :#{#region.toString}\nORDER BY paid_at", nativeQuery = true)
+    @Query("SELECT *\nFROM transactions\nWHERE paid_at IS NOT NULL AND active_since IS NULL AND region = :#{[0].toString()}\nORDER BY paid_at", nativeQuery = true)
     fun findInactivePaidTransactions(region: Region): List<Transaction>
 
     @Language("PostgreSQL")
-    @Query("SELECT *\nFROM transactions\nWHERE paid_at IS NOT NULL AND active_since IS NULL AND account_id = #{#account.id}\nORDER BY paid_at", nativeQuery = true)
+    @Query("SELECT *\nFROM transactions\nWHERE paid_at IS NOT NULL AND active_since IS NULL AND account_id = :#{[0].id}\nORDER BY paid_at", nativeQuery = true)
     fun findAccountInactivePaidTransactions(account: Account): List<Transaction>
 
     @Language("PostgreSQL")
-    @Query("SELECT *\nFROM transactions\nWHERE active_since IS NOT NULL AND account_id = #{#account.id}\nORDER BY issue_date DESC", nativeQuery = true)
+    @Query("SELECT *\nFROM transactions\nWHERE active_since IS NOT NULL AND account_id = :#{[0].id}\nORDER BY issue_date DESC\nLIMIT 1", nativeQuery = true)
     fun findLatestActiveAccountTransaction(account: Account): ru.mray.core.model.Transaction?
 }

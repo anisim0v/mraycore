@@ -7,6 +7,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.test.context.junit4.SpringRunner
 import ru.mray.core.model.Account
@@ -19,9 +20,13 @@ import java.util.*
 
 @RunWith(SpringRunner::class)
 @DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class TransactionRepositoryTest {
     @Autowired
     lateinit var transactionRepository: TransactionRepository
+
+    @Autowired
+    lateinit var accountRepository: AccountRepository
 
     @Before
     fun setUp() {
@@ -31,6 +36,7 @@ class TransactionRepositoryTest {
     @Test
     fun testFindAccountInactivePaidTransactions() {
         val account = Account("example@example.com", Account.Region.PH)
+        accountRepository.save(account)
 
         val newTransaction = Transaction(account, Account.Region.PH, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
 
@@ -53,6 +59,7 @@ class TransactionRepositoryTest {
     @Test
     fun testFindLatestActiveAccountTransaction() {
         val account = Account("example@example.com", Account.Region.PH)
+        accountRepository.save(account)
 
         val lastTransaction = (0..5)
                 .reversed()
@@ -85,9 +92,12 @@ class TransactionRepositoryTest {
 
     @Test
     fun testFindInactivePaidTransactions() {
+        val account = Account("example@example.com", Account.Region.PH)
+        accountRepository.save(account)
+
         (0..5)
                 .map {
-                    val transaction = Transaction(Mockito.mock(Account::class.java), Account.Region.PH, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
+                    val transaction = Transaction(account, Account.Region.PH, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
                     val now = OffsetDateTime.now()
                     transaction.paidAt = now.plusSeconds(it.toLong()).toInstant()
                     return@map transaction
