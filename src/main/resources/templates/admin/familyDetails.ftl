@@ -42,6 +42,7 @@
     <tr>
         <td>ID</td>
         <td>Token</td>
+        <td>Slot</td>
         <td>Account id</td>
         <td>Assign manually</td>
     </tr>
@@ -49,6 +50,7 @@
         <tr>
             <td>${token.id}</td>
             <td>${token.token}</td>
+            <td>${token.slot}</td>
             <td>
                 <#if token.account??>
                 <a href="/admin/accounts/${token.account.id}">${token.account.id}</a>
