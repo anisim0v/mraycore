@@ -1,5 +1,8 @@
 package ru.mray.core.service
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import org.springframework.core.env.Environment
 import org.springframework.jmx.export.annotation.ManagedOperation
 import org.springframework.jmx.export.annotation.ManagedResource
 import org.springframework.stereotype.Service
@@ -28,12 +31,22 @@ class MigrationService(
         val mongoFamilyTokenRepository: MongoFamilyTokenRepository,
         val familyTokenRepository: FamilyTokenRepository,
         val mongoTransactionRepository: MongoTransactionRepository,
-        val transactionRepository: TransactionRepository
-) {
+        val transactionRepository: TransactionRepository) {
+
+    val logger: Logger = LoggerFactory.getLogger(MigrationService::class.java)
+
     @ManagedOperation
     @Transactional
-//    @PostConstruct
+    @PostConstruct
     fun migrate() {
+
+        if (accountRepository.count() > 0) {
+            logger.info("Skipping migration")
+            return
+        }
+
+        logger.info("Starting migration")
+
         val accounts = mongoAccountRepository.findAll()
                 .map {
                     Account(id = it.id,
@@ -47,6 +60,8 @@ class MigrationService(
                             admin = it.admin)
                 }
         accountRepository.save(accounts)
+        logger.info("Accounts migrated")
+
 
         val families = mongoFamilyRepository.findAll()
                 .map {
@@ -63,6 +78,7 @@ class MigrationService(
                     )
                 }
         familyRepository.save(families)
+        logger.info("Families migrated")
 
         val familyTokens = mongoFamilyTokenRepository.findAll()
                 .map {
@@ -77,6 +93,8 @@ class MigrationService(
                             id = it.id)
                 }
         familyTokenRepository.save(familyTokens)
+        logger.info("FamilyTokens migrated")
+
 
         val transactions = mongoTransactionRepository.findAll()
                 .map {
@@ -95,14 +113,6 @@ class MigrationService(
                 }
 
         transactionRepository.save(transactions)
-//
-//        val families = mongoFamilyRepository.findAll()
-//        familyRepository.save(families)
-//
-//        val familyTokens = mongoFamilyTokenRepository.findAll()
-//        familyTokenRepository.save(familyTokens)
-//
-//        val transactions = mongoTransactionRepository.findAll()
-//        transactionRepository.save(transactions)
+        logger.info("Transactions migrated")
     }
 }
