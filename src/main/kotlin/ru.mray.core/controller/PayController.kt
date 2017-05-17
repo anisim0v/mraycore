@@ -60,6 +60,7 @@ class PayController(val w1Service: W1Service,
                 "WMI_PAYMENT_NO" to transaction.id,
                 "WMI_PAYMENT_AMOUNT" to pricesHolder.getFormattedPrice(transaction.region, transaction.period),
                 "WMI_DESCRIPTION" to "MusicRay Spotify Premium ${transaction.region}: ${transaction.period.describe()} (${account.email})",
+                "WMI_CUSTOMER_EMAIL" to account.email,
                 "WMI_SUCCESS_URL" to "http://music-ray.ru/pay/done/${transaction.id}",
                 "WMI_FAIL_URL" to "http://music-ray.ru/pay/fail/${transaction.id}"
         )
