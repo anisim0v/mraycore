@@ -10,6 +10,8 @@ jobs:
       - checkout
       - restore_cache:
           key: mray-core-gradle-{{ checksum "build.gradle" }}
+      - setup_remote_docker
+      - run: docker run -p 5432:5432 -e POSTGRES_DB=mray_core_test --rm -d postgres:9.6.2
       - run: |
           ./gradlew build
           rm build/dist/*.original
