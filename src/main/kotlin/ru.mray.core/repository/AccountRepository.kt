@@ -1,5 +1,6 @@
 package ru.mray.core.repository
 
+import org.intellij.lang.annotations.Language
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
@@ -14,14 +15,17 @@ interface AccountRepository : JpaRepository<Account, String>, AccountRepositoryC
     fun findByEmailIgnoreCase(email: String): Account?
     fun countByFamilyTokenIsNotNull(): Int
 
+    @Language("PostgreSQL")
     @Query("SELECT *\nFROM accounts\nWHERE accounts.active_until < ? AND EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE accounts.id = family_tokens.account_id\n)", nativeQuery = true)
     fun findExpired(instant: Instant = Instant.now()): List<Account>
 
+    @Language("PostgreSQL")
+    @Query("SELECT *\nFROM accounts\nWHERE accounts.renew_notification_sent_at IS NULL AND active_until < ? AND EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE account_id = accounts.id\n)", nativeQuery = true)
+    fun findAccountsToNotify(expiresBefore: Instant = now().plusDays(3).toInstant()): List<Account>
 }
 
 interface AccountRepositoryCustom {
     fun countExpired(instant: Instant = Instant.now()): Int
-    fun findAccountsToNotify(expiresBefore: Instant = now().plusDays(3).toInstant()): List<Account>
     fun countAccountsToNotify(expiresBefore: Instant = now().plusDays(3).toInstant()): Long
     fun findPending(region: Region, count: Int = 100): List<Account>
 }
@@ -39,11 +43,6 @@ class AccountRepositoryImpl(val entityManager: EntityManager) : AccountRepositor
     }
 
     override fun countExpired(instant: Instant): Int {
-        throw UnsupportedOperationException()
-    }
-
-
-    override fun findAccountsToNotify(expiresBefore: Instant): List<Account> {
         throw UnsupportedOperationException()
     }
 

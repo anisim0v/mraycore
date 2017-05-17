@@ -115,42 +115,81 @@ class AccountRepositoryTest {
     @Test
     fun testFindAccountsToNotify() {
         val daySeconds: Long = 60 * 60 * 24
-        accountRepository.save(listOf(
-                Account("bob@example.com", Account.Region.PH, 1).let {
-                    it.familyToken = Mockito.mock(FamilyToken::class.java)
-                    it.activeUntil = Instant.now().plusSeconds(daySeconds)
-                    it.renewNotificationSentAt = Instant.now().minusSeconds(10 * daySeconds)
-                    return@let it
-                },
 
-                Account("alice@example.com", Account.Region.PH, 1).let {
-                    it.familyToken = Mockito.mock(FamilyToken::class.java)
-                    it.activeUntil = Instant.now().plusSeconds(daySeconds)
-                    it.renewNotificationSentAt = Instant.now().minusSeconds(daySeconds)
-                    return@let it
-                },
 
-                Account("hillary@example.com", Account.Region.PH, 1).let {
-                    it.familyToken = Mockito.mock(FamilyToken::class.java)
-                    it.activeUntil = Instant.now().plusSeconds(daySeconds)
-                    it.renewNotificationSentAt = null
-                    return@let it
-                },
+        val family = Family("test", Account.Region.PH, "testp", LocalDate.now().plusDays(30), "tests", "testn", "123000", "Moscow")
+        familyRepository.save(family)
 
-                Account("donald@example.com", Account.Region.PH, 1).let {
-                    it.familyToken = Mockito.mock(FamilyToken::class.java)
-                    it.activeUntil = Instant.now().plusSeconds(10 * daySeconds)
-                    it.renewNotificationSentAt = null
-                    return@let it
-                },
+        Account("bob@example.com", Account.Region.PH, 1).let {
 
-                Account("rex@example.com", Account.Region.PH, 1).let {
-                    it.familyToken = null
-                    it.activeUntil = Instant.now().plusSeconds(daySeconds)
-                    it.renewNotificationSentAt = null
-                    return@let it
-                }
-        ))
+            val familyToken = FamilyToken(Account.Region.PH, family, 1, "testt")
+
+            it.familyToken = familyToken
+            familyToken.account = it
+            it.activeUntil = Instant.now().plusSeconds(daySeconds)
+            it.renewNotificationSentAt = Instant.now().minusSeconds(10 * daySeconds)
+
+            accountRepository.save(it)
+            familyTokenRepository.save(familyToken)
+
+            return@let it
+        }
+
+        Account("alice@example.com", Account.Region.PH, 1).let {
+            val familyToken = FamilyToken(Account.Region.PH, family, 1, "testt")
+
+            it.familyToken = familyToken
+            familyToken.account = it
+
+            it.activeUntil = Instant.now().plusSeconds(daySeconds)
+            it.renewNotificationSentAt = Instant.now().minusSeconds(daySeconds)
+
+
+            accountRepository.save(it)
+            familyTokenRepository.save(familyToken)
+
+            return@let it
+        }
+
+        Account("hillary@example.com", Account.Region.PH, 1).let {
+            val familyToken = FamilyToken(Account.Region.PH, family, 1, "testt")
+
+            it.familyToken = familyToken
+            familyToken.account = it
+
+            it.activeUntil = Instant.now().plusSeconds(daySeconds)
+            it.renewNotificationSentAt = null
+
+            accountRepository.save(it)
+            familyTokenRepository.save(familyToken)
+
+            return@let it
+        }
+
+        Account("donald@example.com", Account.Region.PH, 1).let {
+            val familyToken = FamilyToken(Account.Region.PH, family, 1, "testt")
+
+            it.familyToken = familyToken
+            familyToken.account = it
+
+            it.activeUntil = Instant.now().plusSeconds(10 * daySeconds)
+            it.renewNotificationSentAt = null
+
+            accountRepository.save(it)
+            familyTokenRepository.save(familyToken)
+
+            return@let it
+        }
+
+        Account("rex@example.com", Account.Region.PH, 1).let {
+            it.familyToken = null
+            it.activeUntil = Instant.now().plusSeconds(daySeconds)
+            it.renewNotificationSentAt = null
+
+            accountRepository.save(it)
+
+            return@let it
+        }
 
         val result = accountRepository.findAccountsToNotify(Instant.now().plusSeconds(3 * daySeconds))
         assertThat(result.map { it.email }).containsExactly("hillary@example.com")
