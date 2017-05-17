@@ -118,6 +118,13 @@ class AccountsController(val accountRepository: AccountRepository,
         return "redirect:/admin/accounts/${account.id}"
     }
 
+    @RequestMapping("/{account}/resetRenewNotification")
+    fun resetRenewNotification(@PathVariable account: Account): String {
+        account.renewNotificationSentAt = null
+        accountRepository.save(account)
+        return "redirect:/admin/accounts/${account.id}"
+    }
+
     @RequestMapping("/{account}/emailInvite")
     fun emailInvite(@PathVariable account: Account): String {
         familyTokenService.emailInvite(account)

@@ -78,6 +78,7 @@
     <p><a href="/admin/accounts/${account.id}/assignToken/manual">Assign specific token token</a></p>
     <#else>
     <p><a href="/admin/accounts/${account.id}/unlink">Unlink</a></p>
+    <p><a href="/admin/accounts/${account.id}/resetRenewNotification">Reset renew notification</a></p>
     <p><a href="/admin/accounts/${account.id}/emailInvite">Email invite</a></p>
     </#if>
 <p><a href="/admin/accounts/${account.id}/createTransaction">Create transaction</a></p>
