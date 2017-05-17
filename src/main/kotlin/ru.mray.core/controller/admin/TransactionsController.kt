@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import ru.mray.core.model.Transaction
 import ru.mray.core.repository.TransactionRepository
-import ru.mray.core.repository.mongo.MongoTransactionRepository
 import ru.mray.core.service.TransactionService
 
 

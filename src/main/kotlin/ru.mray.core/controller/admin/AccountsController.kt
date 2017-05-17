@@ -13,10 +13,6 @@ import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.FamilyRepository
 import ru.mray.core.repository.FamilyTokenRepository
 import ru.mray.core.repository.TransactionRepository
-import ru.mray.core.repository.mongo.MongoAccountRepository
-import ru.mray.core.repository.mongo.MongoFamilyRepository
-import ru.mray.core.repository.mongo.MongoFamilyTokenRepository
-import ru.mray.core.repository.mongo.MongoTransactionRepository
 import ru.mray.core.service.FamilyTokenService
 import ru.mray.core.service.TransactionService
 import java.time.Instant

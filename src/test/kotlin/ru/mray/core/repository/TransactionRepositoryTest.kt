@@ -4,19 +4,15 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.test.context.junit4.SpringRunner
 import ru.mray.core.model.Account
 import ru.mray.core.model.Transaction
-import ru.mray.core.repository.mongo.MongoTransactionRepository
 import java.time.Instant
 import java.time.OffsetDateTime
 import java.time.Period
-import java.util.*
 
 @RunWith(SpringRunner::class)
 @DataJpaTest

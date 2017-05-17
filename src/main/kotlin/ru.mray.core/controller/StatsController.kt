@@ -10,9 +10,6 @@ import ru.mray.core.model.Account
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.FamilyTokenRepository
 import ru.mray.core.repository.TransactionRepository
-import ru.mray.core.repository.mongo.MongoAccountRepository
-import ru.mray.core.repository.mongo.MongoFamilyTokenRepository
-import ru.mray.core.repository.mongo.MongoTransactionRepository
 
 @Controller
 @RequestMapping("/stats")

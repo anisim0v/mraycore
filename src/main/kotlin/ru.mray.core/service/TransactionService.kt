@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service
 import ru.mray.core.model.Account
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.TransactionRepository
-import ru.mray.core.repository.mongo.MongoAccountRepository
-import ru.mray.core.repository.mongo.MongoTransactionRepository
 import java.time.Instant
 import java.time.OffsetDateTime
 import java.time.ZoneId

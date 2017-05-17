@@ -15,10 +15,8 @@ import ru.mray.core.model.Account
 import ru.mray.core.model.Transaction
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.TransactionRepository
-import java.time.Instant
 import java.time.OffsetDateTime
 import java.time.Period
-import java.time.temporal.ChronoUnit
 
 @Controller
 @RequestMapping("/status")

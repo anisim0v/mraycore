@@ -17,7 +17,6 @@ import ru.mray.core.model.Transaction
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.FamilyTokenRepository
 import ru.mray.core.repository.TransactionRepository
-import ru.mray.core.repository.mongo.MongoAccountRepository
 import ru.mray.core.service.FamilyTokenService
 import ru.mray.core.service.TransactionService
 import ru.mray.core.service.W1Service
