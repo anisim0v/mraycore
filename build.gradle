@@ -64,5 +64,5 @@ dependencies {
     compile 'org.hibernate:hibernate-core:5.2.10.Final'
 
 
-    testCompile 'com.h2database:h2:1.4.195'
+//    testCompile 'com.h2database:h2:1.4.195'
 }

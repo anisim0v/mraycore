@@ -6,6 +6,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.test.context.junit4.SpringRunner
 import ru.mray.core.model.Account
@@ -18,6 +20,7 @@ import java.time.Period
 
 @RunWith(SpringRunner::class)
 @DataJpaTest
+@AutoConfigureTestDatabase(replace = NONE)
 class AccountRepositoryTest {
     @Autowired
     lateinit var accountRepository: AccountRepository
@@ -38,7 +41,7 @@ class AccountRepositoryTest {
     @Test
     fun testFindPending() {
 
-        val family = Family("test", Account.Region.PH, "testp", LocalDate.MAX, "tests", "testn", "123000", "Moscow")
+        val family = Family("test", Account.Region.PH, "testp", LocalDate.now().plusDays(30), "tests", "testn", "123000", "Moscow")
         familyRepository.save(family)
 
         Account("bob@example.com", Account.Region.PH, 1).let {
@@ -106,7 +109,7 @@ class AccountRepositoryTest {
 
         val pending = accountRepository.findPending(Account.Region.PH)
         assertThat(pending.size).isEqualTo(4)
-        assertThat(pending.map { it.email }).isEqualTo(listOf("bob@example.com", "bob3@example.com", "bob4@example.com", "bob2@example.com"))
+        assertThat(pending.map { it.email }).containsAll(listOf("bob@example.com", "bob3@example.com", "bob4@example.com", "bob2@example.com"))
     }
 
     @Test
