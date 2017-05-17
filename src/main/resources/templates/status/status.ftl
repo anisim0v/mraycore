@@ -18,7 +18,7 @@
                 <br>Заявок в очереди перед вами: ${queueSize}
                 <br>Текущая статистика проекта доступна на <a href="/stats">этой странице</a>
             <#elseif account.familyToken??>
-                Подписка оплачена до ${account.activeUntil!"<неизвестно>"}. Проверьте почту.
+                Подписка оплачена до ${account.activeUntil!"<неизвестно>"}. Приглашение было отправлено на почту.
             <#elseif !transaction?? || !transaction.paidAt??>
                 Подписка не оплачена
             <#else>
@@ -26,7 +26,7 @@
             </#if>
         </div>
         <#if account.familyToken??>
-            <div>ID токена в семье: ${account.familyToken}</div>
+            <div>ID токена в семье: ${account.familyToken.id}</div>
         </#if>
         <#if showRenewForm>
             <br>
