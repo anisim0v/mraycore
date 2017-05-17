@@ -30,11 +30,11 @@ interface AccountRepository : JpaRepository<Account, String> {
 
     @Language("PostgreSQL")
     @Query("SELECT *\nFROM accounts\nWHERE accounts.renew_notification_sent_at IS NULL AND active_until < ? AND EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE account_id = accounts.id\n)", nativeQuery = true)
-    fun findAccountsToNotify(expiresBefore: Instant = now().plusDays(3).toInstant()): List<Account>
+    fun findAccountsToNotify(expiresBefore: Instant = now().plusDays(10).toInstant()): List<Account>
 
     @Language("PostgreSQL")
     @Query("SELECT count(*)\nFROM accounts\nWHERE accounts.renew_notification_sent_at IS NULL AND active_until < ? AND EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE account_id = accounts.id\n)", nativeQuery = true)
-    fun countAccountsToNotify(expiresBefore: Instant = now().plusDays(3).toInstant()): Long
+    fun countAccountsToNotify(expiresBefore: Instant = now().plusDays(10).toInstant()): Long
 
     @Language("PostgreSQL")
     @Query("SELECT count(*)\nFROM accounts\nWHERE accounts.active_until < ? AND EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE accounts.id = family_tokens.account_id\n)", nativeQuery = true)
