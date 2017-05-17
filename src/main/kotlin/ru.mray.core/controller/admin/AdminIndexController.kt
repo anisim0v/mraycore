@@ -7,6 +7,7 @@ import ru.mray.core.model.Account
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.FamilyTokenRepository
 import ru.mray.core.repository.TransactionRepository
+import java.time.Instant
 import java.time.OffsetDateTime
 
 @Controller
@@ -18,12 +19,12 @@ class AdminIndexController(val accountRepository: AccountRepository,
     fun index(model: Model): String {
         val accountsCount = accountRepository.count()
         val activeCount = accountRepository.countByFamilyTokenIsNotNull()
-        val expiredCount = accountRepository.countExpired()
         val accountsToNotifyCount = accountRepository.countAccountsToNotify()
 
         val expireIn10Days = accountRepository.countExpiring(OffsetDateTime.now().plusDays(10).toInstant())
         val expireIn3Days = accountRepository.countExpiring(OffsetDateTime.now().plusDays(3).toInstant())
         val expireIn1Day = accountRepository.countExpiring(OffsetDateTime.now().plusDays(1).toInstant())
+        val expiredCount = accountRepository.countExpiring(Instant.now())
 
         val regionsStats = Account.Region.values().map { region ->
             val pendingCount = accountRepository.countPending(region)

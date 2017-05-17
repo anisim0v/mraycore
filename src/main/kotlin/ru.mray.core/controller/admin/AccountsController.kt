@@ -16,6 +16,7 @@ import ru.mray.core.repository.TransactionRepository
 import ru.mray.core.service.FamilyTokenService
 import ru.mray.core.service.TransactionService
 import java.time.Instant
+import java.time.OffsetDateTime
 import java.time.Period
 
 
@@ -45,10 +46,19 @@ class AccountsController(val accountRepository: AccountRepository,
         return "admin/accountList"
     }
 
-    @RequestMapping("/expired")
-    fun expiredAccounts(model: Model): String {
-        val accounts = accountRepository.findExpired()
-        model.addAttribute("title", "Expired accounts")
+    @RequestMapping("/active")
+    fun activeAccounts(model: Model): String {
+        val accounts = accountRepository.findByFamilyTokenIsNotNull()
+        model.addAttribute("title", "Active accounts")
+        model.addAttribute("accounts", accounts)
+
+        return "admin/accountList"
+    }
+
+    @RequestMapping("/expiring/{days}")
+    fun expiringAccounts(model: Model, @PathVariable days: Long): String {
+        val accounts = accountRepository.findExpiring(OffsetDateTime.now().plusDays(days).toInstant())
+        model.addAttribute("title", "Expiring in $days days accounts")
         model.addAttribute("accounts", accounts)
 
         return "admin/accountList"

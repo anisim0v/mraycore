@@ -15,22 +15,22 @@
 <@standardAdminPage title="Admin index">
 <table>
     <tr>
-        <td>Total accounts: ${accountsCount}</td>
+        <td><a href="/admin/accounts">Total accounts: ${accountsCount}</a></td>
     </tr>
     <tr>
-        <td>Active accounts: ${activeCount}</td>
+        <td><a href="/admin/accounts/active">Active accounts: ${activeCount}</a></td>
     </tr>
     <tr>
-        <td>Expire in 10 days: ${expireIn10Days}</td>
+        <td><a href="/admin/accounts/expiring/10">Expire in 10 days: ${expireIn10Days}</a></td>
     </tr>
     <tr>
-        <td>Expire in 3 days: ${expireIn3Days}</td>
+        <td><a href="/admin/accounts/expiring/3">Expire in 3 days: ${expireIn3Days}</a></td>
     </tr>
     <tr>
-        <td>Expire in 1 day: ${expireIn1Day}</td>
+        <td><a href="/admin/accounts/expiring/1">Expire in 1 day: ${expireIn1Day}</a></td>
     </tr>
     <tr>
-        <td>Expired accounts: ${expiredCount}</td>
+        <td><a href="/admin/accounts/expiring/0">Expired accounts: ${expiredCount}</a></td>
     </tr>
     <tr>
         <td>Pending renew notifications: ${accountsToNotifyCount}</td>
@@ -66,12 +66,6 @@
 
 <p>
 <table>
-    <tr>
-        <td><a href="/admin/accounts">Accounts</a></td>
-    </tr>
-    <tr>
-        <td><a href="/admin/accounts/expired">Expired accounts</a></td>
-    </tr>
     <tr>
         <td><a href="/admin/families">Families</a></td>
     </tr>
