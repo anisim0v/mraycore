@@ -32,7 +32,7 @@ class MigrationService(
 ) {
     @ManagedOperation
     @Transactional
-    @PostConstruct
+//    @PostConstruct
     fun migrate() {
         val accounts = mongoAccountRepository.findAll()
                 .map {
