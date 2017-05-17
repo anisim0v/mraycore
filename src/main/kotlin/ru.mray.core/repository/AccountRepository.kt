@@ -17,12 +17,12 @@ interface AccountRepository : JpaRepository<Account, String> {
     fun countByFamilyTokenIsNotNull(): Int
 
     @Language("PostgreSQL")
-    @Query("SELECT DISTINCT ON (accounts.id) accounts.*\nFROM accounts\n  JOIN transactions\n    ON transactions.account_id = accounts.id AND transactions.paid_at IS NOT NULL AND transactions.active_since IS NULL\nWHERE accounts.region = :#{#region.toString()}\nORDER BY accounts.id, transactions.paid_at\nLIMIT :#{#count}", nativeQuery = true)
-    fun findPending(@Param("region") region: Region, @Param("count") count: Int = 100): List<Account>
+    @Query("SELECT DISTINCT ON (accounts.id) accounts.*\nFROM accounts\n  JOIN transactions\n    ON transactions.account_id = accounts.id AND transactions.paid_at IS NOT NULL AND transactions.active_since IS NULL\nWHERE accounts.region = :#{[0].toString()}\nORDER BY accounts.id, transactions.paid_at\nLIMIT :#{[1]}", nativeQuery = true)
+    fun findPending(region: Region, count: Int = 100): List<Account>
 
     @Language("PostgreSQL")
-    @Query("SELECT count(DISTINCT accounts.id)\nFROM accounts\n  JOIN transactions\n    ON transactions.account_id = accounts.id AND transactions.paid_at IS NOT NULL AND transactions.active_since IS NULL\nWHERE accounts.region = :#{#region.toString()}", nativeQuery = true)
-    fun countPending(@Param("region") region: Region): Int
+    @Query("SELECT count(DISTINCT accounts.id)\nFROM accounts\n  JOIN transactions\n    ON transactions.account_id = accounts.id AND transactions.paid_at IS NOT NULL AND transactions.active_since IS NULL\nWHERE accounts.region = :#{[0].toString()}", nativeQuery = true)
+    fun countPending(region: Region): Int
 
     @Language("PostgreSQL")
     @Query("SELECT *\nFROM accounts\nWHERE accounts.active_until < ? AND EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE accounts.id = family_tokens.account_id\n)", nativeQuery = true)
