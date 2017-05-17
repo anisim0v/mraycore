@@ -2,7 +2,8 @@
 <#-- @ftlvariable name="family" type="ru.mray.core.model.Family" -->
 <#-- @ftlvariable name="queueSize" type="java.lang.Number" -->
 <#-- @ftlvariable name="showRenewForm" type="java.lang.Boolean" -->
-<#-- @ftlvariable name="transaction" type="ru.mray.core.model.Transaction" -->
+<#-- @ftlvariable name="paidTransaction" type="ru.mray.core.model.Transaction" -->
+<#-- @ftlvariable name="unpaidTransaction" type="ru.mray.core.model.Transaction" -->
 <#-- @ftlvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" -->
 <#-- @ftlvariable name="account" type="ru.mray.core.model.Account" -->
 <#include '../library/standardPage.ftl'>
@@ -21,21 +22,18 @@
         </div>
         <div>
             Статус:
-            <#if transaction?? && transaction.paidAt?? && !transaction.activeSince??>
+            <#if paidTransaction?? && paidTransaction.paidAt?? && !paidTransaction.activeSince??>
                 Подписка оплачена, но приглашение еще не выслано. Вы получите его в порядке очереди.
                 <br>Заявок в очереди перед вами: ${queueSize}
                 <br>Текущая статистика проекта доступна на <a href="/stats">этой странице</a>
             <#elseif account.familyToken??>
                 Подписка оплачена до ${account.activeUntil!"<неизвестно>"}. Приглашение было отправлено на почту.
-            <#elseif !transaction?? || !transaction.paidAt??>
+            <#elseif !paidTransaction?? || !paidTransaction.paidAt??>
                 Подписка не оплачена
             <#else>
                 Неизвестно. Обратитесь в поддержку.
             </#if>
         </div>
-        <#if account.familyToken??>
-            <div>ID токена в семье: ${account.familyToken.id}</div>
-        </#if>
         <#if showRenewForm>
             <br>
             <form method="post" action="/status/${account.id}/renew">
@@ -48,50 +46,68 @@
                 <input type="submit" value="Продлить"/>
             </form>
         <#else>
-            <#if transaction?? && transaction.activeUntil??>
+            <#if paidTransaction?? && paidTransaction.activeUntil??>
                 <div>Продлить подписку можно будет когда до ее истечения останется менее 10 дней</div>
             </#if>
         </#if>
 
-        <#if transaction??>
+        <#if unpaidTransaction??>
             <table border="0" cellspacing="5px">
                 <tr>
-                    <td><b>Последняя операция:</b></td>
+                    <td><b>Неоплаченная операция:</b></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td>Период</td>
-                    <td>${transaction.period.months} мес.</td>
+                    <td>${unpaidTransaction.period.months} мес.</td>
                 </tr>
                 <tr>
                     <td>Дата создания</td>
-                    <td>${transaction.issueDate}</td>
+                    <td>${unpaidTransaction.issueDate}</td>
+                </tr>
+                <tr>
+                    <td>Ссылка для оплаты</td>
+                    <td>
+                        <a href="/pay/${unpaidTransaction.id}">Оплатить</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>ID</td>
+                    <td>${unpaidTransaction.id}</td>
+                </tr>
+            </table>
+        </#if>
+
+
+        <#if paidTransaction??>
+            <table border="0" cellspacing="5px">
+                <tr>
+                    <td><b>Информация о последней оплате:</b></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Период</td>
+                    <td>${paidTransaction.period.months} мес.</td>
+                </tr>
+                <tr>
+                    <td>Дата создания</td>
+                    <td>${paidTransaction.issueDate}</td>
                 </tr>
                 <tr>
                     <td>Дата оплаты</td>
-                    <td>
-                        <#if transaction.paidAt??>
-                        ${transaction.paidAt}
-                        <#else>
-                            <span>Еще не оплачена</span>
-                            <a href="/pay/${transaction.id}">Оплатить</a>
-                        <#--<a href="/pay/cancel/${transaction.id}">Отменить</a>-->
-                        </#if>
-                    </td>
+                    <td>${paidTransaction.paidAt}</td>
                 </tr>
-                <#if transaction.paidAt??>
-                    <tr>
-                        <td>Дата начала действия</td>
-                        <td>${transaction.activeSince!}</td>
-                    </tr>
-                    <tr>
-                        <td>Дата окончания действия</td>
-                        <td>${transaction.activeUntil!}</td>
-                    </tr>
-                </#if>
+                <tr>
+                    <td>Дата начала действия</td>
+                    <td>${paidTransaction.activeSince!}</td>
+                </tr>
+                <tr>
+                    <td>Дата окончания действия</td>
+                    <td>${paidTransaction.activeUntil!}</td>
+                </tr>
                 <tr>
                     <td>ID</td>
-                    <td>${transaction.id}</td>
+                    <td>${paidTransaction.id}</td>
                 </tr>
             </table>
         </#if>

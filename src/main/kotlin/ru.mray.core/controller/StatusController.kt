@@ -3,7 +3,6 @@ package ru.mray.core.controller
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.annotation.AuthenticationPrincipal
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PathVariable
@@ -15,10 +14,10 @@ import ru.mray.core.model.Account
 import ru.mray.core.model.Transaction
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.TransactionRepository
-import ru.mray.core.repository.mongo.MongoAccountRepository
-import ru.mray.core.repository.mongo.MongoTransactionRepository
+import java.time.Instant
 import java.time.OffsetDateTime
 import java.time.Period
+import java.time.temporal.ChronoUnit
 
 @Controller
 @RequestMapping("/status")
@@ -42,10 +41,21 @@ class StatusController(val transactionRepository: TransactionRepository,
 
     @RequestMapping("/{account}")
     fun statusPage(@PathVariable account: Account, model: Model, @AuthenticationPrincipal authUser: Account?): String {
-        val latestTransaction = transactionRepository.findFirstByAccountId(account.id)
-        val showRenewForm = latestTransaction == null ||
-                !(latestTransaction.activeUntil == null
-                        || latestTransaction.activeUntil!! > OffsetDateTime.now().plusDays(10).toInstant())
+        val paidTransaction = transactionRepository.findLatestPaid(account)
+
+        val unpaidTransactionValidSince = listOf(paidTransaction?.issueDate, OffsetDateTime.now().minusDays(1).toInstant())
+                .filterNotNull()
+                .max()!!
+
+        val unpaidTransaction = transactionRepository.findLatestUnpaid(account, unpaidTransactionValidSince)
+
+        val showRenewForm = when {
+            unpaidTransaction != null -> false
+            paidTransaction?.paidAt != null && paidTransaction.activeUntil == null -> false
+            paidTransaction?.activeUntil != null
+                    && paidTransaction.activeUntil!! > OffsetDateTime.now().plusDays(10).toInstant() -> false
+            else -> true
+        }
 
         val queueSize = accountRepository.findPending(account.region)
                 .takeWhile { it.id != account.id }
@@ -53,7 +63,8 @@ class StatusController(val transactionRepository: TransactionRepository,
 
         model.addAttribute("account", account)
         model.addAttribute("family", account.familyToken?.family)
-        model.addAttribute("transaction", latestTransaction)
+        model.addAttribute("unpaidTransaction", unpaidTransaction)
+        model.addAttribute("paidTransaction", paidTransaction)
         model.addAttribute("showRenewForm", showRenewForm)
         model.addAttribute("queueSize", queueSize)
         model.addAttribute("isAdmin", authUser?.admin ?: false)
