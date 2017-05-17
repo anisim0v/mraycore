@@ -58,10 +58,10 @@ class JoinController(val accountRepository: AccountRepository,
         accountRepository.save(account)
         logger.info("New account: ID: ${account.id} Email: $email. Region: $region. Period: $period")
 
-        val transaction = Transaction(account.id, account.region, Period.ofMonths(period), Transaction.TransactionType.PAYMENT)
+        val transaction = Transaction(account, account.region, Period.ofMonths(period), Transaction.TransactionType.PAYMENT)
 
         transactionRepository.save(transaction)
-        logger.info("New transaction: Type: ${transaction.type}. Account: ${transaction.accountId}. " +
+        logger.info("New transaction: Type: ${transaction.type}. Account: ${transaction.account.id}. " +
                 "Period: ${transaction.period}. Region: ${transaction.region}. ID: ${transaction.id}")
 
         val mailModel = ExtendedModelMap()

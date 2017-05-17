@@ -1,34 +1,27 @@
-package ru.mray.core.model
+package ru.mray.core.model.mongo
 
+import org.springframework.data.mongodb.core.mapping.Document
+import org.springframework.data.mongodb.core.mapping.Field
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+import ru.mray.core.model.Account
 import java.time.Instant
 import java.util.*
-import javax.persistence.*
 
-@Entity
-@Table(name = "accounts")
-class Account(
+@Document(collection = "account")
+class MongoAccount(
         val email: String,
-        @Enumerated(EnumType.STRING) val region: Region,
+        val region: Account.Region,
         var renewPeriod: Int = 1,
         var registeredAt: Instant = Instant.now(),
-
-        @OneToOne(mappedBy = "account")
-        var familyToken: FamilyToken? = null,
-
+        var familyToken: String? = null,
         var activeUntil: Instant? = null,
         var renewNotificationSentAt: Instant? = null,
         var admin: Boolean = false,
-        @Column(name = "password") var _password: String? = null,
-        @Id val id: String = UUID.randomUUID().toString()
+        @Field("password") var _password: String? = null,
+        val id: String = UUID.randomUUID().toString()
 ) : UserDetails {
-
-    enum class Region {
-        PH,
-        US
-    }
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         val authorities = mutableListOf(SimpleGrantedAuthority("ROLE_USER"))

@@ -1,10 +1,14 @@
 package ru.mray.core
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.context.annotation.Configuration
+import org.springframework.scheduling.annotation.EnableScheduling
+import java.util.*
 
 
 @SpringBootApplication
-@Configuration
+@EnableScheduling
 open class MRayCoreApplication {
+    init {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
+    }
 }

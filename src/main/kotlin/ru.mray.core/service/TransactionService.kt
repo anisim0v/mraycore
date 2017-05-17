@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service
 import ru.mray.core.model.Account
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.TransactionRepository
+import ru.mray.core.repository.mongo.MongoAccountRepository
+import ru.mray.core.repository.mongo.MongoTransactionRepository
 import java.time.Instant
 import java.time.OffsetDateTime
 import java.time.ZoneId
@@ -25,7 +27,7 @@ class TransactionService(private val transactionRepository: TransactionRepositor
      * транзакции.
      */
     fun refreshAccountTransactions(account: Account, newTransactionsStartInstant: Instant? = null, force: Boolean = false) {
-        var latestActiveAccountTransaction = transactionRepository.findLatestActiveAccountTransaction(account.id)
+        var latestActiveAccountTransaction = transactionRepository.findLatestActiveAccountTransaction(account)
 
         logger.info("Refreshing transactions for account ${account.id}. Force: $force. Start instant: $newTransactionsStartInstant")
 
@@ -35,7 +37,7 @@ class TransactionService(private val transactionRepository: TransactionRepositor
             return
         }
 
-        val inactivePaidTransactions = transactionRepository.findAccountInactivePaidTransactions(account.id)
+        val inactivePaidTransactions = transactionRepository.findAccountInactivePaidTransactions(account)
                 .sortedBy { it.paidAt }
 
         var newTransactionsStartInstantApplied = false
@@ -57,14 +59,14 @@ class TransactionService(private val transactionRepository: TransactionRepositor
 
             it.activeSince = activationStartTime
             it.activeUntil = lastTransactionActiveUntil
-            it.previousTransactionId = latestActiveAccountTransaction?.id
 
             transactionRepository.save(it)
             latestActiveAccountTransaction = it
+
+            account.renewNotificationSentAt = null
         }
 
         account.activeUntil = latestActiveAccountTransaction?.activeUntil
-        account.renewNotificationSentAt = null
         accountRepository.save(account)
     }
 

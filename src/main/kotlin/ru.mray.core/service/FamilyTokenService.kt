@@ -11,6 +11,9 @@ import ru.mray.core.model.FamilyToken
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.FamilyRepository
 import ru.mray.core.repository.FamilyTokenRepository
+import ru.mray.core.repository.mongo.MongoAccountRepository
+import ru.mray.core.repository.mongo.MongoFamilyRepository
+import ru.mray.core.repository.mongo.MongoFamilyTokenRepository
 import java.time.Instant
 
 @Service
@@ -32,8 +35,8 @@ class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepositor
 
         val familyToken = token ?: familyTokenRepository.findFirstUnassigned(account.region)
                 ?: throw NoFreeFamilyTokenAvailableException("No free tokens available")
-        familyToken.account = account.id
-        account.familyToken = familyToken.id
+        account.familyToken = familyToken
+        familyToken.account = account
 
         accountRepository.save(account)
         familyTokenRepository.save(familyToken)
@@ -46,11 +49,10 @@ class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepositor
     }
 
     fun emailInvite(account: Account) {
-        val familyToken = familyTokenRepository.findOne(account.familyToken)
+        val familyToken = account.familyToken
                 ?: throw NotFoundException("Cannot find familyToken ${account.familyToken}")
 
-        val family = familyRepository.findOne(familyToken.family)
-                ?: throw NotFoundException("Cannot find family ${familyToken.family}")
+        val family = familyToken.family
 
         val model = ExtendedModelMap()
         model.put("account", account)
@@ -66,7 +68,7 @@ class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepositor
     }
 
     fun unlinkAccount(account: Account, newToken: String) {
-        val familyToken = familyTokenRepository.findByAccount(account.id)
+        val familyToken = account.familyToken
                 ?: throw NotFoundException("Cannot find requested FamilyToken")
         familyToken.account = null
         familyToken.token = newToken

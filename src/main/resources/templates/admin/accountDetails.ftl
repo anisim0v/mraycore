@@ -27,7 +27,7 @@
         <td>
             <#if account.familyToken??>
 
-                <a href="/admin/families/byToken/${account.familyToken}">${account.familyToken}</a>
+                <a href="/admin/families/byToken/${account.familyToken.id}">${account.familyToken.id}</a>
             </#if>
         </td>
     </tr>

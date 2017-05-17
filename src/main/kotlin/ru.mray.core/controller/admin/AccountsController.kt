@@ -13,6 +13,10 @@ import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.FamilyRepository
 import ru.mray.core.repository.FamilyTokenRepository
 import ru.mray.core.repository.TransactionRepository
+import ru.mray.core.repository.mongo.MongoAccountRepository
+import ru.mray.core.repository.mongo.MongoFamilyRepository
+import ru.mray.core.repository.mongo.MongoFamilyTokenRepository
+import ru.mray.core.repository.mongo.MongoTransactionRepository
 import ru.mray.core.service.FamilyTokenService
 import ru.mray.core.service.TransactionService
 import java.time.Instant
@@ -94,8 +98,8 @@ class AccountsController(val accountRepository: AccountRepository,
 
     @RequestMapping("/{account}/unlink")
     fun unlinkPage(@PathVariable account: Account, model: Model): String {
-        val familyToken = familyTokenRepository.findOne(account.familyToken)!!
-        val family = familyRepository.findOne(familyToken.family)!!
+        val familyToken = account.familyToken!!
+        val family = familyToken.family
         model.addAttribute("account", account)
         model.addAttribute("token", familyToken)
         model.addAttribute("family", family)
@@ -141,7 +145,7 @@ class AccountsController(val accountRepository: AccountRepository,
             else -> throw IllegalArgumentException("Incorrect paid value")
         }
 
-        val transaction = Transaction(account.id, account.region, period, type)
+        val transaction = Transaction(account, account.region, period, type)
 
         if (paid) {
             transaction.paidAt = Instant.now()

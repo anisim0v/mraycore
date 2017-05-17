@@ -10,6 +10,9 @@ import ru.mray.core.model.Account
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.FamilyTokenRepository
 import ru.mray.core.repository.TransactionRepository
+import ru.mray.core.repository.mongo.MongoAccountRepository
+import ru.mray.core.repository.mongo.MongoFamilyTokenRepository
+import ru.mray.core.repository.mongo.MongoTransactionRepository
 
 @Controller
 @RequestMapping("/stats")
@@ -24,7 +27,7 @@ class StatsController(val accountRepository: AccountRepository,
         val totalCount = accountRepository.count()
 
         val regionsStats = Account.Region.values().map { region ->
-            val pendingCount = accountRepository.findPending(region).count()
+            val pendingCount = accountRepository.countPending(region)
             val unassignedTokensCount = familyTokenRepository.countUnassigned(region)
             val tokenCountToAssign = arrayOf(pendingCount, unassignedTokensCount).min()!!
 

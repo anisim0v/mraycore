@@ -21,7 +21,11 @@
             <td><a href="/admin/accounts/${account.id}">${account.id}</a></td>
             <td>${account.renewPeriod}</td>
             <td>${account.region}</td>
-            <td>${account.familyToken!}</td>
+            <td>
+                <#if account.familyToken??>
+                    ${account.familyToken.id}
+                </#if>
+            </td>
             <td>${account.activeUntil!}</td>
             <td>${account.registeredAt}</td>
         </tr>

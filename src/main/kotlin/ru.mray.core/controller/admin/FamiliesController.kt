@@ -70,19 +70,20 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
             else -> throw IllegalArgumentException("Incorrect assignToPending value")
         }
 
-        val family = Family()
-        family.login = login
-        family.password = password
-        family.region = region
-        family.city = city
-        family.streetName = streetName
-        family.streetNumber = streetNumber
-        family.zipCode = zipCode
-        family.paidUntil = paidUntilDate
+        val family = Family(
+                login = login,
+                password = password,
+                region = region,
+                city = city,
+                streetName = streetName,
+                streetNumber = streetNumber,
+                zipCode = zipCode,
+                paidUntil = paidUntilDate
+        )
         familyRepository.save(family)
 
         tokens
-                .mapIndexed { i, it -> FamilyToken(region, family.id, i, it, family.paidUntil, assignManually) }
+                .mapIndexed { i, it -> FamilyToken(region, family, i, it, assignManually = assignManually) }
                 .toList()
                 .let { familyTokenRepository.save(it) }
 
@@ -114,11 +115,7 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
     fun familyRenew(@PathVariable family: Family, @RequestParam paidUntil: String): String {
         family.paidUntil = LocalDate.parse(paidUntil)
 
-        val tokens = familyTokenRepository.findByFamily(family.id)
-                .map { it.paidUntil = family.paidUntil; it }
-
         familyRepository.save(family)
-        familyTokenRepository.save(tokens)
         return "redirect:/admin/families/${family.id}"
     }
 
@@ -129,9 +126,8 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
 
     @RequestMapping("/{family}")
     fun familyDetails(@PathVariable family: Family, model: Model): String {
-        val familyTokens = familyTokenRepository.findByFamily(family.id)
         model.addAttribute("family", family)
-        model.addAttribute("familyTokens", familyTokens)
+        model.addAttribute("familyTokens", family.familyTokens)
         return "admin/familyDetails"
     }
 }

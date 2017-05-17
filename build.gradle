@@ -1,19 +1,24 @@
 buildscript {
-    ext.kotlin_version = '1.1.1'
+    ext.kotlin_version = '1.1.2-2'
     ext.spring_boot_version = '1.5.3.RELEASE'
     repositories {
         mavenCentral()
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
         classpath "org.springframework.boot:spring-boot-gradle-plugin:$spring_boot_version"
-        classpath 'org.ajoberstar:gradle-git:1.6.0'
+        classpath "org.jetbrains.kotlin:kotlin-noarg:$kotlin_version"
     }
 }
 
 
 apply plugin: 'kotlin'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'kotlin-spring'
+apply plugin: "kotlin-jpa"
+apply plugin: "kotlin-noarg"
+
 
 group 'ru.music-ray'
 version 'v1.0-SNAPSHOY'
@@ -38,18 +43,25 @@ test {
     }
 }
 
+noArg {
+    annotation("org.springframework.data.mongodb.core.mapping.Document")
+}
+
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile "org.springframework.boot:spring-boot-starter-web"
     compile "org.springframework.boot:spring-boot-starter-security"
+    compile "org.springframework.boot:spring-boot-starter-data-jpa"
     compile "org.springframework.boot:spring-boot-starter-data-mongodb"
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-starter-freemarker"
-    compile "org.springframework.session:spring-session:1.3.0.RELEASE"
     compile "org.springframework.retry:spring-retry:1.1.5.RELEASE"
     compile 'org.springframework.boot:spring-boot-starter-test' // Required to render mail templates
     compile "org.apache.commons:commons-lang3:3.5"
     compile "commons-codec:commons-codec:1.10"
+    compile 'org.postgresql:postgresql:42.1.1'
+    compile 'org.hibernate:hibernate-core:5.2.10.Final'
 
-    testCompile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.0'
+
+//    testCompile 'com.h2database:h2:1.4.195'
 }

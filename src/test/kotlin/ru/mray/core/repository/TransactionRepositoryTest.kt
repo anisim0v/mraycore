@@ -4,21 +4,29 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.test.context.junit4.SpringRunner
 import ru.mray.core.model.Account
 import ru.mray.core.model.Transaction
+import ru.mray.core.repository.mongo.MongoTransactionRepository
 import java.time.Instant
 import java.time.OffsetDateTime
 import java.time.Period
 import java.util.*
 
 @RunWith(SpringRunner::class)
-@DataMongoTest
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class TransactionRepositoryTest {
     @Autowired
     lateinit var transactionRepository: TransactionRepository
+
+    @Autowired
+    lateinit var accountRepository: AccountRepository
 
     @Before
     fun setUp() {
@@ -27,21 +35,22 @@ class TransactionRepositoryTest {
 
     @Test
     fun testFindAccountInactivePaidTransactions() {
-        val accountId = UUID.randomUUID().toString()
+        val account = Account("example@example.com", Account.Region.PH)
+        accountRepository.save(account)
 
-        val newTransaction = Transaction(accountId, Account.Region.PH, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
+        val newTransaction = Transaction(account, Account.Region.PH, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
 
-        val paidInactiveTransaction = Transaction(accountId, Account.Region.PH, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
+        val paidInactiveTransaction = Transaction(account, Account.Region.PH, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
         paidInactiveTransaction.paidAt = Instant.now()
 
-        val paidActiveTransaction = Transaction(accountId, Account.Region.PH, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
+        val paidActiveTransaction = Transaction(account, Account.Region.PH, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
         paidActiveTransaction.paidAt = Instant.now()
         paidActiveTransaction.activeSince = Instant.now()
 
         transactionRepository.save(listOf(newTransaction, paidInactiveTransaction, paidActiveTransaction))
 
         val all = transactionRepository.findAll()
-        val inactivePaidTransactions = transactionRepository.findAccountInactivePaidTransactions(accountId)
+        val inactivePaidTransactions = transactionRepository.findAccountInactivePaidTransactions(account)
 
         assertThat(all.count()).isEqualTo(3)
         assertThat(inactivePaidTransactions.count()).isEqualTo(1)
@@ -49,12 +58,13 @@ class TransactionRepositoryTest {
 
     @Test
     fun testFindLatestActiveAccountTransaction() {
-        val accountId = UUID.randomUUID().toString()
+        val account = Account("example@example.com", Account.Region.PH)
+        accountRepository.save(account)
 
         val lastTransaction = (0..5)
                 .reversed()
                 .map {
-                    val transaction = Transaction(accountId, Account.Region.PH, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
+                    val transaction = Transaction(account, Account.Region.PH, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
                     val period = Period.ofMonths(it)
                     val now = OffsetDateTime.now()
                     transaction.paidAt = now.minus(period).toInstant()
@@ -68,25 +78,26 @@ class TransactionRepositoryTest {
                     it.maxBy { it.issueDate }!!
                 }
 
-        val foundLastActiveTransaction = transactionRepository.findLatestActiveAccountTransaction(accountId)
+        val foundLastActiveTransaction = transactionRepository.findLatestActiveAccountTransaction(account)
         assertThat(foundLastActiveTransaction?.id).isEqualTo(lastTransaction.id)
     }
 
     @Test
     fun testFindLatestActiveAccountTransactionNull() {
-        val accountId = UUID.randomUUID().toString()
-        val foundLastActiveTransaction = transactionRepository.findLatestActiveAccountTransaction(accountId)
+        val account = Account("example@example.com", Account.Region.PH)
+        val foundLastActiveTransaction = transactionRepository.findLatestActiveAccountTransaction(account)
 
         assertThat(foundLastActiveTransaction).isNull()
     }
 
     @Test
     fun testFindInactivePaidTransactions() {
-        val accountId = UUID.randomUUID().toString()
+        val account = Account("example@example.com", Account.Region.PH)
+        accountRepository.save(account)
 
         (0..5)
                 .map {
-                    val transaction = Transaction(accountId, Account.Region.PH, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
+                    val transaction = Transaction(account, Account.Region.PH, Period.ofMonths(1), Transaction.TransactionType.PAYMENT)
                     val now = OffsetDateTime.now()
                     transaction.paidAt = now.plusSeconds(it.toLong()).toInstant()
                     return@map transaction

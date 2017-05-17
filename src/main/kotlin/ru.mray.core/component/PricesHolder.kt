@@ -9,7 +9,7 @@ import java.util.*
 @Component
 open class PricesHolder {
 
-    internal var prices: Map<String, Map<Int, Double>>
+    internal lateinit var prices: Map<String, Map<Int, Double>>
 
     init {
         val resource = javaClass.classLoader.getResource("prices.yaml")

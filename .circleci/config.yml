@@ -11,6 +11,11 @@ jobs:
       - restore_cache:
           key: mray-core-gradle-{{ checksum "build.gradle" }}
       - run: |
+          apt update && apt install postgresql-9.4 postgresql-contrib-9.4 -y
+          echo "host    all             all             127.0.0.1/32            trust" > /etc/postgresql/9.4/main/pg_hba.conf
+          service postgresql start
+          createdb -U postgres -h 127.0.0.1 mray_core_test
+      - run: |
           ./gradlew build
           rm build/dist/*.original
       - save_cache:
