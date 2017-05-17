@@ -1,14 +1,13 @@
 package ru.mray.core.repository
 
-import org.intellij.lang.annotations.Language
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
-import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Repository
 import ru.mray.core.model.Account
 import ru.mray.core.model.Account.Region
 import java.time.Instant
 import java.time.OffsetDateTime.now
+import javax.persistence.EntityManager
 
 @Repository
 interface AccountRepository : JpaRepository<Account, String>, AccountRepositoryCustom {
@@ -27,15 +26,16 @@ interface AccountRepositoryCustom {
     fun findPending(region: Region, count: Int = 100): List<Account>
 }
 
-class AccountRepositoryImpl(val jdbcTemplate: JdbcTemplate) : AccountRepositoryCustom {
+class AccountRepositoryImpl(val entityManager: EntityManager) : AccountRepositoryCustom {
     override fun findPending(region: Region, count: Int): List<Account> {
-        val result = jdbcTemplate.queryForList(
-                "SELECT DISTINCT ON (accounts.id) accounts.*\nFROM accounts\n  JOIN transactions\n    ON transactions.account_id = accounts.id AND transactions.paid_at IS NOT NULL AND transactions.active_since IS NULL\nWHERE accounts.region = ?\nORDER BY accounts.id, transactions.paid_at\nLIMIT ?",
-                arrayOf(region.toString(), count),
-                Account::class.java
-        )
 
-        return result
+        val query = entityManager.createNativeQuery("SELECT DISTINCT ON (accounts.id) accounts.*\nFROM accounts\n  JOIN transactions\n    ON transactions.account_id = accounts.id AND transactions.paid_at IS NOT NULL AND transactions.active_since IS NULL\nWHERE accounts.region = ?\nORDER BY accounts.id, transactions.paid_at\nLIMIT ?", Account::class.java)
+        query.setParameter(1, region.toString())
+        query.setParameter(2, count)
+        val result = query.resultList
+
+        @Suppress("UNCHECKED_CAST")
+        return result as List<Account>
     }
 
     override fun countExpired(instant: Instant): Int {
