@@ -62,17 +62,13 @@
                     <td>${unpaidTransaction.period.months} мес.</td>
                 </tr>
                 <tr>
-                    <td>Дата создания</td>
-                    <td>${unpaidTransaction.issueDate}</td>
-                </tr>
-                <tr>
                     <td>Ссылка для оплаты</td>
                     <td>
                         <a href="/pay/${unpaidTransaction.id}">Оплатить</a>
                     </td>
                 </tr>
                 <tr>
-                    <td>ID</td>
+                    <td>ID транзакции</td>
                     <td>${unpaidTransaction.id}</td>
                 </tr>
             </table>
@@ -90,23 +86,19 @@
                     <td>${paidTransaction.period.months} мес.</td>
                 </tr>
                 <tr>
-                    <td>Дата создания</td>
-                    <td>${paidTransaction.issueDate}</td>
-                </tr>
-                <tr>
                     <td>Дата оплаты</td>
                     <td>${paidTransaction.paidAt}</td>
                 </tr>
                 <tr>
                     <td>Дата начала действия</td>
-                    <td>${paidTransaction.activeSince!}</td>
+                    <td>${paidTransaction.activeSince!"Появится после присоединения к семье"}</td>
                 </tr>
                 <tr>
                     <td>Дата окончания действия</td>
-                    <td>${paidTransaction.activeUntil!}</td>
+                    <td>${paidTransaction.activeUntil!"Появится после присоединения к семье"}</td>
                 </tr>
                 <tr>
-                    <td>ID</td>
+                    <td>ID транзакции</td>
                     <td>${paidTransaction.id}</td>
                 </tr>
             </table>

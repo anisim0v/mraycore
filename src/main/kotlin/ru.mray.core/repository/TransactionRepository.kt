@@ -9,7 +9,6 @@ import ru.mray.core.model.Account
 import ru.mray.core.model.Account.Region
 import ru.mray.core.model.Transaction
 import java.time.Instant
-import java.time.OffsetDateTime
 
 @Repository
 interface TransactionRepository : JpaRepository<Transaction, String> {
