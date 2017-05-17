@@ -1,6 +1,7 @@
 package ru.mray.core.service
 
 import org.apache.commons.codec.digest.DigestUtils
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory.getLogger
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.env.Environment
@@ -14,11 +15,19 @@ open class W1Service(environment: Environment) {
      * Walletone utils service
      */
 
-    private val signingKey: String = environment.getProperty("mray.w1.key") ?: ""
+    private val signingKey: String? = environment.getProperty("mray.w1.key")
 
-    val logger = getLogger(W1Service::class.java)
+    final val logger: Logger = getLogger(W1Service::class.java)
+
+    init {
+        logger.warn("mray.w1.key is not set. W1Service won't sign or validate transactions")
+    }
 
     fun sign(data: Map<String, Any>): String {
+        if (signingKey == null) {
+            throw IllegalStateException("mray.w1.key is not set. Failed to sign transaction")
+        }
+
         var singleString = data.keys.toSortedSet()
                 .map { key ->
                     data[key]
