@@ -62,10 +62,11 @@ class TransactionService(private val transactionRepository: TransactionRepositor
 
             transactionRepository.save(it)
             latestActiveAccountTransaction = it
+
+            account.renewNotificationSentAt = null
         }
 
         account.activeUntil = latestActiveAccountTransaction?.activeUntil
-        account.renewNotificationSentAt = null
         accountRepository.save(account)
     }
 
