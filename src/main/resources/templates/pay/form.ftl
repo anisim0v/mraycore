@@ -39,6 +39,7 @@
             <input name="WMI_PAYMENT_AMOUNT" type="hidden" value="${WMI_PAYMENT_AMOUNT}"/>
             <input name="WMI_CURRENCY_ID" type="hidden" value="${WMI_CURRENCY_ID}"/>
             <input name="WMI_DESCRIPTION" type="hidden" value='${WMI_DESCRIPTION}'/>
+            <input name="WMI_CUSTOMER_EMAIL" type="hidden" value="${WMI_CUSTOMER_EMAIL}"/>
             <input name="WMI_SUCCESS_URL" type="hidden" value="${WMI_SUCCESS_URL}"/>
             <input name="WMI_FAIL_URL" type="hidden" value="${WMI_FAIL_URL}"/>
             <input name="WMI_PAYMENT_NO" type="hidden" value="${WMI_PAYMENT_NO}"/>
