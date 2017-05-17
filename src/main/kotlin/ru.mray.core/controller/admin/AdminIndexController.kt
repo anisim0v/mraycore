@@ -10,6 +10,7 @@ import ru.mray.core.repository.TransactionRepository
 import ru.mray.core.repository.mongo.MongoAccountRepository
 import ru.mray.core.repository.mongo.MongoFamilyTokenRepository
 import ru.mray.core.repository.mongo.MongoTransactionRepository
+import java.time.OffsetDateTime
 
 @Controller
 @RequestMapping("/admin")
@@ -23,6 +24,8 @@ class AdminIndexController(val accountRepository: AccountRepository,
         val expiredCount = accountRepository.countExpired()
         val accountsToNotifyCount = accountRepository.countAccountsToNotify()
 
+        val expireIn10Days = accountRepository.countExpiring(OffsetDateTime.now().plusDays(10).toInstant())
+        val expireIn3Days = accountRepository.countExpiring(OffsetDateTime.now().plusDays(3).toInstant())
 
         val regionsStats = Account.Region.values().map { region ->
             val pendingCount = accountRepository.countPending(region)
@@ -37,6 +40,9 @@ class AdminIndexController(val accountRepository: AccountRepository,
         model.addAttribute("expiredCount", expiredCount)
         model.addAttribute("accountsToNotifyCount", accountsToNotifyCount)
         model.addAttribute("regionsStats", regionsStats)
+
+        model.addAttribute("expireIn10Days", expireIn10Days)
+        model.addAttribute("expireIn3Days", expireIn3Days)
 
         return "admin/index"
     }

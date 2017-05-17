@@ -38,6 +38,14 @@ interface AccountRepository : JpaRepository<Account, String> {
     fun countAccountsToNotify(expiresBefore: Instant = now().plusDays(10).toInstant()): Long
 
     @Language("PostgreSQL")
+    @Query("SELECT *\nFROM accounts\nWHERE active_until < ? AND EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE account_id = accounts.id\n)", nativeQuery = true)
+    fun findExpiring(expiresBefore: Instant = now().plusDays(10).toInstant()): List<Account>
+
+    @Language("PostgreSQL")
+    @Query("SELECT count(*)\nFROM accounts\nWHERE active_until < ? AND EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE account_id = accounts.id\n)", nativeQuery = true)
+    fun countExpiring(expiresBefore: Instant = now().plusDays(10).toInstant()): Int
+
+    @Language("PostgreSQL")
     @Modifying
     @Query("UPDATE accounts\nSET renew_notification_sent_at = NULL\nWHERE renew_notification_sent_at is NOT NULL\nRETURNING *", nativeQuery = true)
     fun resetNotificationDate(): List<Account>

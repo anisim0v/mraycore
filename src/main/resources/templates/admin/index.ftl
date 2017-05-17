@@ -1,3 +1,5 @@
+<#-- @ftlvariable name="expireIn10Days" type="java.lang.Number" -->
+<#-- @ftlvariable name="expireIn3Days" type="java.lang.Number" -->
 <#-- @ftlvariable name="accountsToNotifyCount" type="java.lang.Number" -->
 <#-- @ftlvariable name="regionsStats" type="ru.mray.core.controller.admin.AdminIndexController.RegionStats[]" -->
 <#-- @ftlvariable name="expiredCount" type="java.lang.Number" -->
@@ -19,6 +21,12 @@
     </tr>
     <tr>
         <td>Expired accounts: ${expiredCount}</td>
+    </tr>
+    <tr>
+        <td>Expire in 10 days: ${expireIn10Days}</td>
+    </tr>
+    <tr>
+        <td>Expire in 3 days: ${expireIn3Days}</td>
     </tr>
     <tr>
         <td>Pending renew notifications: ${accountsToNotifyCount}</td>
@@ -68,12 +76,6 @@
     </tr>
     <tr>
         <td><a href="/admin/families/tokens">Family tokens</a></td>
-    </tr>
-    <tr>
-        <td><a href="/admin/service/sendRenewNotifications">Send renew notifications</a></td>
-    </tr>
-    <tr>
-        <td><a href="/admin/service/resetRenewNotifications">Reset renew notifications</a></td>
     </tr>
 </table>
 </@standardAdminPage>
