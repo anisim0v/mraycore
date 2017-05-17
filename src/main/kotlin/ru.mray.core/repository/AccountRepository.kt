@@ -12,7 +12,7 @@ import java.time.OffsetDateTime.now
 import javax.persistence.EntityManager
 
 @Repository
-interface AccountRepository : JpaRepository<Account, String>, AccountRepositoryCustom {
+interface AccountRepository : JpaRepository<Account, String> {
     fun findByEmailIgnoreCase(email: String): Account?
     fun countByFamilyTokenIsNotNull(): Int
 
@@ -27,20 +27,12 @@ interface AccountRepository : JpaRepository<Account, String>, AccountRepositoryC
     @Language("PostgreSQL")
     @Query("SELECT *\nFROM accounts\nWHERE accounts.renew_notification_sent_at IS NULL AND active_until < ? AND EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE account_id = accounts.id\n)", nativeQuery = true)
     fun findAccountsToNotify(expiresBefore: Instant = now().plusDays(3).toInstant()): List<Account>
-}
 
-interface AccountRepositoryCustom {
-    fun countExpired(instant: Instant = Instant.now()): Int
+    @Language("PostgreSQL")
+    @Query("SELECT count(*)\nFROM accounts\nWHERE accounts.renew_notification_sent_at IS NULL AND active_until < ? AND EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE account_id = accounts.id\n)", nativeQuery = true)
     fun countAccountsToNotify(expiresBefore: Instant = now().plusDays(3).toInstant()): Long
-}
 
-class AccountRepositoryImpl(val entityManager: EntityManager) : AccountRepositoryCustom {
-    override fun countExpired(instant: Instant): Int {
-        throw UnsupportedOperationException()
-    }
-
-    override fun countAccountsToNotify(expiresBefore: Instant): Long {
-        throw UnsupportedOperationException()
-    }
-
+    @Language("PostgreSQL")
+    @Query("SELECT *\nFROM accounts\nWHERE accounts.active_until < ? AND EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE accounts.id = family_tokens.account_id\n)", nativeQuery = true)
+    fun countExpired(instant: Instant = Instant.now()): Int
 }
