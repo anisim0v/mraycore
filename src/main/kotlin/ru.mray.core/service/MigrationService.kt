@@ -31,16 +31,18 @@ class MigrationService(
         val mongoFamilyTokenRepository: MongoFamilyTokenRepository,
         val familyTokenRepository: FamilyTokenRepository,
         val mongoTransactionRepository: MongoTransactionRepository,
-        val transactionRepository: TransactionRepository) {
+        val transactionRepository: TransactionRepository,
+        environment: Environment) {
 
     val logger: Logger = LoggerFactory.getLogger(MigrationService::class.java)
+    val migrationEnabled: Boolean = environment.getProperty("mray.migrate", Boolean::class.java, false)
 
     @ManagedOperation
     @Transactional
     @PostConstruct
     fun migrate() {
 
-        if (accountRepository.count() > 0) {
+        if (!migrationEnabled || accountRepository.count() > 0) {
             logger.info("Skipping migration")
             return
         }
