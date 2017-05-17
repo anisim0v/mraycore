@@ -1,3 +1,4 @@
+<#-- @ftlvariable name="expireIn1Day" type="java.lang.Number" -->
 <#-- @ftlvariable name="expireIn10Days" type="java.lang.Number" -->
 <#-- @ftlvariable name="expireIn3Days" type="java.lang.Number" -->
 <#-- @ftlvariable name="accountsToNotifyCount" type="java.lang.Number" -->
@@ -20,13 +21,16 @@
         <td>Active accounts: ${activeCount}</td>
     </tr>
     <tr>
-        <td>Expired accounts: ${expiredCount}</td>
-    </tr>
-    <tr>
         <td>Expire in 10 days: ${expireIn10Days}</td>
     </tr>
     <tr>
         <td>Expire in 3 days: ${expireIn3Days}</td>
+    </tr>
+    <tr>
+        <td>Expire in 1 day: ${expireIn1Day}</td>
+    </tr>
+    <tr>
+        <td>Expired accounts: ${expiredCount}</td>
     </tr>
     <tr>
         <td>Pending renew notifications: ${accountsToNotifyCount}</td>

@@ -23,6 +23,7 @@ class AdminIndexController(val accountRepository: AccountRepository,
 
         val expireIn10Days = accountRepository.countExpiring(OffsetDateTime.now().plusDays(10).toInstant())
         val expireIn3Days = accountRepository.countExpiring(OffsetDateTime.now().plusDays(3).toInstant())
+        val expireIn1Day = accountRepository.countExpiring(OffsetDateTime.now().plusDays(1).toInstant())
 
         val regionsStats = Account.Region.values().map { region ->
             val pendingCount = accountRepository.countPending(region)
@@ -40,6 +41,7 @@ class AdminIndexController(val accountRepository: AccountRepository,
 
         model.addAttribute("expireIn10Days", expireIn10Days)
         model.addAttribute("expireIn3Days", expireIn3Days)
+        model.addAttribute("expireIn1Day", expireIn1Day)
 
         return "admin/index"
     }
