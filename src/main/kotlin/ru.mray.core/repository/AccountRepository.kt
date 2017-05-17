@@ -37,6 +37,6 @@ interface AccountRepository : JpaRepository<Account, String> {
     fun countAccountsToNotify(expiresBefore: Instant = now().plusDays(3).toInstant()): Long
 
     @Language("PostgreSQL")
-    @Query("SELECT *\nFROM accounts\nWHERE accounts.active_until < ? AND EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE accounts.id = family_tokens.account_id\n)", nativeQuery = true)
+    @Query("SELECT count(*)\nFROM accounts\nWHERE accounts.active_until < ? AND EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE accounts.id = family_tokens.account_id\n)", nativeQuery = true)
     fun countExpired(instant: Instant = Instant.now()): Int
 }
