@@ -50,6 +50,7 @@ class StatusController(val transactionRepository: TransactionRepository,
                 .count()
 
         model.addAttribute("account", account)
+        model.addAttribute("family", account.familyToken?.family)
         model.addAttribute("transaction", latestTransaction)
         model.addAttribute("showRenewForm", showRenewForm)
         model.addAttribute("queueSize", queueSize)

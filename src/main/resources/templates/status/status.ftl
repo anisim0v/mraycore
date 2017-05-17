@@ -1,3 +1,4 @@
+<#-- @ftlvariable name="family" type="ru.mray.core.model.Family" -->
 <#-- @ftlvariable name="queueSize" type="java.lang.Number" -->
 <#-- @ftlvariable name="showRenewForm" type="java.lang.Boolean" -->
 <#-- @ftlvariable name="transaction" type="ru.mray.core.model.Transaction" -->
@@ -84,6 +85,38 @@
                 <tr>
                     <td>ID</td>
                     <td>${transaction.id}</td>
+                </tr>
+            </table>
+        </#if>
+
+        <#if family??>
+            <table border="0" cellspacing="5px">
+                <tr>
+                    <td><b>Информация о семье:</b></td>
+                </tr>
+                <tr>
+                    <td>Ссылка</td>
+                    <td>Была выслана вам на почту. При необходимости напишите нам в поддержку, отправим повторно.</td>
+                </tr>
+                <tr>
+                    <td>Full name</td>
+                    <td>Имя и фамилия, обязательно латиницей. Можно ваши, можно случайные.</td>
+                </tr>
+                <tr>
+                    <td>Street name</td>
+                    <td>${family.streetName}</td>
+                </tr>
+                <tr>
+                    <td>Street number</td>
+                    <td>${family.streetNumber}</td>
+                </tr>
+                <tr>
+                    <td>Zip code</td>
+                    <td>${family.zipCode}</td>
+                </tr>
+                <tr>
+                    <td>City</td>
+                    <td>${family.city}</td>
                 </tr>
             </table>
         </#if>
