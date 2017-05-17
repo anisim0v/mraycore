@@ -16,4 +16,7 @@ class Family(
         val zipCode: String,
         val city: String,
         @Id val id: String = UUID.randomUUID().toString()
-)
+) {
+    @OneToMany(targetEntity = FamilyToken::class, mappedBy = "family")
+    val familyTokens: MutableList<FamilyToken> = mutableListOf()
+}

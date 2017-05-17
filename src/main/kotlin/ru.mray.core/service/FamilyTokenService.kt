@@ -67,7 +67,7 @@ class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepositor
     }
 
     fun unlinkAccount(account: Account, newToken: String) {
-        val familyToken = familyTokenRepository.findByAccount(account.id)
+        val familyToken = account.familyToken
                 ?: throw NotFoundException("Cannot find requested FamilyToken")
         familyToken.account = null
         familyToken.token = newToken

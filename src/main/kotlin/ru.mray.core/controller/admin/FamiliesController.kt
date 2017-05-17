@@ -126,9 +126,8 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
 
     @RequestMapping("/{family}")
     fun familyDetails(@PathVariable family: Family, model: Model): String {
-        val familyTokens = familyTokenRepository.findByFamily(family.id)
         model.addAttribute("family", family)
-        model.addAttribute("familyTokens", familyTokens)
+        model.addAttribute("familyTokens", family.familyTokens)
         return "admin/familyDetails"
     }
 }
