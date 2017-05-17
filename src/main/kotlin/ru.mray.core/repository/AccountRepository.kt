@@ -2,6 +2,7 @@ package ru.mray.core.repository
 
 import org.intellij.lang.annotations.Language
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
@@ -35,6 +36,11 @@ interface AccountRepository : JpaRepository<Account, String> {
     @Language("PostgreSQL")
     @Query("SELECT count(*)\nFROM accounts\nWHERE accounts.renew_notification_sent_at IS NULL AND active_until < ? AND EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE account_id = accounts.id\n)", nativeQuery = true)
     fun countAccountsToNotify(expiresBefore: Instant = now().plusDays(10).toInstant()): Long
+
+    @Language("PostgreSQL")
+    @Modifying
+    @Query("UPDATE accounts\nSET renew_notification_sent_at = NULL\nWHERE renew_notification_sent_at is NOT NULL\nRETURNING *", nativeQuery = true)
+    fun resetNotificationDate(): List<Account>
 
     @Language("PostgreSQL")
     @Query("SELECT count(*)\nFROM accounts\nWHERE accounts.active_until < ? AND EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE accounts.id = family_tokens.account_id\n)", nativeQuery = true)

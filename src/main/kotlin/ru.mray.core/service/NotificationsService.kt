@@ -2,6 +2,7 @@ package ru.mray.core.service
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import org.springframework.ui.ExtendedModelMap
 import ru.mray.core.model.Account
@@ -15,6 +16,7 @@ open class NotificationsService(val accountRepository: AccountRepository, val ma
 
     val logger: Logger = LoggerFactory.getLogger(NotificationsService::class.java)
 
+    @Scheduled(fixedDelay = 10 * 1000)
     fun sendNotifications(): List<Account> {
         val now = OffsetDateTime.now()
         val accountsToNotify = accountRepository.findAccountsToNotify()
