@@ -23,7 +23,7 @@
             <td>${token.token}</td>
             <td>
                 <#if token.account??>
-                <a href="/admin/accounts/${token.account}">${token.account}</a>
+                <a href="/admin/accounts/${token.account.id}">${token.account.id}</a>
                 </#if>
             </td>
         </tr>

@@ -121,7 +121,7 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
 
     @RequestMapping("/byToken/{familyToken}")
     fun familyDetailsByToken(familyToken: FamilyToken): String {
-        return "redirect:/admin/families/${familyToken.family}"
+        return "redirect:/admin/families/${familyToken.family.id}"
     }
 
     @RequestMapping("/{family}")
