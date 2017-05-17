@@ -1,3 +1,4 @@
+<#-- @ftlvariable name="isAdmin" type="boolean" -->
 <#-- @ftlvariable name="family" type="ru.mray.core.model.Family" -->
 <#-- @ftlvariable name="queueSize" type="java.lang.Number" -->
 <#-- @ftlvariable name="showRenewForm" type="java.lang.Boolean" -->
@@ -11,7 +12,13 @@
     <div class="container">
         <div>Email: ${account.email}</div>
         <div>Регион: ${account.region}</div>
-        <div>ID: ${account.id}</div>
+        <div>ID:
+            <#if isAdmin>
+                <a href="/admin/accounts/${account.id}">${account.id}</a>
+            <#else>
+                <span>${account.id}</span>
+            </#if>
+        </div>
         <div>
             Статус:
             <#if transaction?? && transaction.paidAt?? && !transaction.activeSince??>

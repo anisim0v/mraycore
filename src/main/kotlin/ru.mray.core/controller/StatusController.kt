@@ -2,6 +2,8 @@ package ru.mray.core.controller
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PathVariable
@@ -39,7 +41,7 @@ class StatusController(val transactionRepository: TransactionRepository,
     }
 
     @RequestMapping("/{account}")
-    fun statusPage(@PathVariable account: Account, model: Model): String {
+    fun statusPage(@PathVariable account: Account, model: Model, @AuthenticationPrincipal authUser: Account?): String {
         val latestTransaction = transactionRepository.findFirstByAccountId(account.id)
         val showRenewForm = latestTransaction == null ||
                 !(latestTransaction.activeUntil == null
@@ -54,6 +56,7 @@ class StatusController(val transactionRepository: TransactionRepository,
         model.addAttribute("transaction", latestTransaction)
         model.addAttribute("showRenewForm", showRenewForm)
         model.addAttribute("queueSize", queueSize)
+        model.addAttribute("isAdmin", authUser?.admin ?: false)
 
         logger.info("Serving /status/${account.id} (${account.email})")
 
