@@ -1,4 +1,4 @@
-package ru.mray.core.config
+package ru.mray.core.converter
 
 import java.time.Period
 import javax.persistence.AttributeConverter
@@ -13,5 +13,4 @@ class PeriodConverter : AttributeConverter<Period, String> {
     override fun convertToDatabaseColumn(attribute: Period): String {
         return attribute.toString()
     }
-
 }
