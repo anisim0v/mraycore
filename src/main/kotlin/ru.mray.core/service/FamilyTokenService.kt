@@ -36,6 +36,7 @@ class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepositor
         val familyToken = token ?: familyTokenRepository.findFirstUnassigned(account.region)
                 ?: throw NoFreeFamilyTokenAvailableException("No free tokens available")
         account.familyToken = familyToken
+        familyToken.account = account
 
         accountRepository.save(account)
         familyTokenRepository.save(familyToken)
