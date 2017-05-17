@@ -15,13 +15,12 @@
     </tr>
     <#list familyTokens as token>
         <tr>
-            <td><a href="/admin/families/${token.family}">${token.family}</a></td>
+            <td><a href="/admin/families/${token.family.id}">${token.family.id}</a></td>
             <td>${token.region}</td>
             <td>${token.id}</td>
             <td>${token.slot}</td>
             <td>${token.assignManually?c}</td>
             <td>${token.token}</td>
-            <td>${token.paidUntil}</td>
             <td>
                 <#if token.account??>
                 <a href="/admin/accounts/${token.account}">${token.account}</a>

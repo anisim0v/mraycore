@@ -14,6 +14,6 @@ class FamilyTokensController(val familyTokenRepository: FamilyTokenRepository) {
     fun setAssignManually(@PathVariable token: FamilyToken, @RequestParam enabled: Boolean): String {
         token.assignManually = enabled
         familyTokenRepository.save(token)
-        return "redirect:/admin/families/${token.family}"
+        return "redirect:/admin/families/${token.family.id}"
     }
 }
