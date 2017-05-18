@@ -12,7 +12,7 @@ import kotlin.reflect.KProperty
 
 @Service
 class ConfigService(val environment: Environment,
-                    val objectMapper: ObjectMapper) {
+                    objectMapper: ObjectMapper) {
 
     final val consul: Consul? = consulLet@ let {
         val host = environment.getProperty("mray.consul.host", String::class.java)
@@ -30,8 +30,11 @@ class ConfigService(val environment: Environment,
     final val logger: Logger = LoggerFactory.getLogger(MailService::class.java)
 
 
-    var registrationEnabled: Boolean by BooleanConsulProperty("mray.registration", false, Boolean::class, consul,
-            environment, objectMapper)
+    var registrationEnabled: Boolean by BooleanConsulProperty("mray.registration", false, Boolean::class, consul, environment, objectMapper)
+    var paymentsEnabled: Boolean by BooleanConsulProperty("mray.payments", false, Boolean::class, consul, environment, objectMapper)
+    var notificationsEnabled: Boolean by BooleanConsulProperty("mray.notifications", false, Boolean::class, consul, environment, objectMapper)
+    var autoassignmentEnabled: Boolean by BooleanConsulProperty("mray.autoassignment", false, Boolean::class, consul, environment, objectMapper)
+
 
     class BooleanConsulProperty<T : Any>(val name: String, val defaultValue: T, val type: KClass<T>,
                                          val consul: Consul?, val environment: Environment,

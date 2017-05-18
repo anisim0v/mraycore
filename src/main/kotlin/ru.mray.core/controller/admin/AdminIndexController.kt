@@ -49,6 +49,9 @@ class AdminIndexController(val accountRepository: AccountRepository,
         model.addAttribute("retiredCount", retiredCount)
 
         model.addAttribute("configRegistrationEnabled", configService.registrationEnabled)
+        model.addAttribute("autoassignmentEnabled", configService.autoassignmentEnabled)
+        model.addAttribute("notificationsEnabled", configService.notificationsEnabled)
+        model.addAttribute("paymentsEnabled", configService.paymentsEnabled)
 
         return "admin/index"
     }

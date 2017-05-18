@@ -36,6 +36,9 @@ open class ServiceController(val notificationsService: NotificationsService,
     fun switchConfigParam(@PathVariable name: String): String {
         when (name) {
             "registrationEnabled" -> configService.registrationEnabled = !configService.registrationEnabled
+            "paymentsEnabled" -> configService.paymentsEnabled = !configService.paymentsEnabled
+            "autoassignmentEnabled" -> configService.autoassignmentEnabled = !configService.autoassignmentEnabled
+            "notificationsEnabled" -> configService.notificationsEnabled = !configService.notificationsEnabled
             else -> NotFoundException("Unknown param")
         }
         return "redirect:/admin"
