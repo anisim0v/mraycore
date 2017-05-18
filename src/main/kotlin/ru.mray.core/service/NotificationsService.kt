@@ -18,7 +18,9 @@ import java.time.Instant
     val notificationsEnabled: Boolean = environment.getProperty("mray.notifications", Boolean::class.java, false)
 
     init {
-        logger.warn("Renew notifications are disabled")
+        if (!notificationsEnabled) {
+            logger.warn("Renew notifications are disabled")
+        }
     }
 
     @Scheduled(fixedDelay = 10 * 1000)
