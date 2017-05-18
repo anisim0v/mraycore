@@ -1,3 +1,7 @@
+<#-- @ftlvariable name="configRegistrationEnabled" type="boolean" -->
+<#-- @ftlvariable name="autoassignmentEnabled" type="boolean" -->
+<#-- @ftlvariable name="notificationsEnabled" type="boolean" -->
+<#-- @ftlvariable name="paymentsEnabled" type="boolean" -->
 <#-- @ftlvariable name="retiredCount" type="java.lang.Number" -->
 <#-- @ftlvariable name="expireIn1Day" type="java.lang.Number" -->
 <#-- @ftlvariable name="expireIn10Days" type="java.lang.Number" -->
@@ -78,6 +82,21 @@
     </tr>
     <tr>
         <td><a href="/admin/families/tokens">Family tokens</a></td>
+    </tr>
+</table>
+<p>
+<table>
+    <tr>
+        <td>Registration:  <a href="/admin/service/config/toggle/registrationEnabled">${configRegistrationEnabled?c}</a></td>
+    </tr>
+    <tr>
+        <td>Payments:  <a href="/admin/service/config/toggle/paymentsEnabled">${paymentsEnabled?c}</a></td>
+    </tr>
+    <tr>
+        <td>Autoassignment:  <a href="/admin/service/config/toggle/autoassignmentEnabled">${autoassignmentEnabled?c}</a></td>
+    </tr>
+    <tr>
+        <td>Notifications:  <a href="/admin/service/config/toggle/notificationsEnabled">${notificationsEnabled?c}</a></td>
     </tr>
 </table>
 </@standardAdminPage>

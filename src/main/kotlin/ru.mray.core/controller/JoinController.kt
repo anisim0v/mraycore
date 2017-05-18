@@ -15,6 +15,7 @@ import ru.mray.core.model.Account
 import ru.mray.core.model.Transaction
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.TransactionRepository
+import ru.mray.core.service.ConfigService
 import ru.mray.core.service.MailService
 import java.time.Period
 import javax.servlet.http.HttpServletResponse
@@ -25,14 +26,15 @@ class JoinController(val accountRepository: AccountRepository,
                      val transactionRepository: TransactionRepository,
                      val passwordEncoder: PasswordEncoder,
                      val mailService: MailService,
+                     val configService: ConfigService,
                      environment: Environment) {
 
     val logger: Logger = LoggerFactory.getLogger(JoinController::class.java)
 
-    val registrationEnabled: Boolean = environment.getProperty("mray.registration")?.toBoolean() ?: false
-
     @RequestMapping
     fun getPage(): String {
+        val registrationEnabled = configService.registrationEnabled
+
         return when(registrationEnabled) {
             true -> "join/join"
             false -> "join/disabled"

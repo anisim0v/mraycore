@@ -7,6 +7,7 @@ import ru.mray.core.model.Account
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.FamilyTokenRepository
 import ru.mray.core.repository.TransactionRepository
+import ru.mray.core.service.ConfigService
 import java.time.Instant
 import java.time.OffsetDateTime
 
@@ -14,7 +15,8 @@ import java.time.OffsetDateTime
 @RequestMapping("/admin")
 class AdminIndexController(val accountRepository: AccountRepository,
                            val transactionRepository: TransactionRepository,
-                           val familyTokenRepository: FamilyTokenRepository) {
+                           val familyTokenRepository: FamilyTokenRepository,
+                           val configService: ConfigService) {
     @RequestMapping
     fun index(model: Model): String {
         val accountsCount = accountRepository.count()
@@ -45,6 +47,11 @@ class AdminIndexController(val accountRepository: AccountRepository,
         model.addAttribute("expireIn1Day", expireIn1Day)
         model.addAttribute("expiredCount", expiredCount)
         model.addAttribute("retiredCount", retiredCount)
+
+        model.addAttribute("configRegistrationEnabled", configService.registrationEnabled)
+        model.addAttribute("autoassignmentEnabled", configService.autoassignmentEnabled)
+        model.addAttribute("notificationsEnabled", configService.notificationsEnabled)
+        model.addAttribute("paymentsEnabled", configService.paymentsEnabled)
 
         return "admin/index"
     }
