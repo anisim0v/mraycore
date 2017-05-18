@@ -12,6 +12,7 @@
         <td>Region</td>
         <td>Token</td>
         <td>Active until</td>
+        <td>TTL</td>
         <td>Renew notification sent at</td>
         <td>Registered at</td>
     </tr>
@@ -28,6 +29,7 @@
                 </#if>
             </td>
             <td>${account.activeUntil!}</td>
+            <td>${account.ttl!}</td>
             <td>${account.renewNotificationSentAt!}</td>
             <td>${account.registeredAt}</td>
         </tr>

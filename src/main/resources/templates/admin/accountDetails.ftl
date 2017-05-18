@@ -36,6 +36,10 @@
         <td>${account.activeUntil!}</td>
     </tr>
     <tr>
+        <td>TTL</td>
+        <td>${account.ttl!}</td>
+    </tr>
+    <tr>
         <td>Registered at</td>
         <td>${account.registeredAt}</td>
     </tr>

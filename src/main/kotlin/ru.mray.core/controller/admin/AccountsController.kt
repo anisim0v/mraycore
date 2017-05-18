@@ -31,6 +31,7 @@ class AccountsController(val accountRepository: AccountRepository,
     @RequestMapping
     fun users(model: Model): String {
         val accounts = accountRepository.findAll()
+                .sortedByDescending { it.activeUntil }
         model.addAttribute("title", "All accounts")
         model.addAttribute("accounts", accounts)
 
@@ -49,6 +50,7 @@ class AccountsController(val accountRepository: AccountRepository,
     @RequestMapping("/active")
     fun activeAccounts(model: Model): String {
         val accounts = accountRepository.findByFamilyTokenIsNotNull()
+                .sortedByDescending { it.activeUntil }
         model.addAttribute("title", "Active accounts")
         model.addAttribute("accounts", accounts)
 
