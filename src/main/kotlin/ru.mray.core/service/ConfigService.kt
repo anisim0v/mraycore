@@ -29,15 +29,17 @@ class ConfigService(val environment: Environment,
                 .build()
     }
 
-    var registrationEnabled: Boolean by BooleanConsulProperty("mray.registration", false, Boolean::class, consul, environment, objectMapper)
-    var paymentsEnabled: Boolean by BooleanConsulProperty("mray.payments", false, Boolean::class, consul, environment, objectMapper)
-    var notificationsEnabled: Boolean by BooleanConsulProperty("mray.notifications", false, Boolean::class, consul, environment, objectMapper)
-    var autoassignmentEnabled: Boolean by BooleanConsulProperty("mray.autoassignment", false, Boolean::class, consul, environment, objectMapper)
+    var registrationEnabled: Boolean by ConsulProperty("mray.registration", false, Boolean::class, consul, environment, objectMapper)
+    var paymentsEnabled: Boolean by ConsulProperty("mray.payments", false, Boolean::class, consul, environment, objectMapper)
+    var notificationsEnabled: Boolean by ConsulProperty("mray.notifications", false, Boolean::class, consul, environment, objectMapper)
+    var autoassignmentEnabled: Boolean by ConsulProperty("mray.autoassignment", false, Boolean::class, consul, environment, objectMapper)
+
+//    var exampleMessage: String by ConsulProperty("mray.messages.example", "Default value", String::class, consul, environment, objectMapper)
 
 
-    class BooleanConsulProperty<T : Any>(val name: String, val defaultValue: T, val type: KClass<T>,
-                                         val consul: Consul?, val environment: Environment,
-                                         val objectMapper: ObjectMapper) {
+    class ConsulProperty<T : Any>(val name: String, val defaultValue: T, val type: KClass<T>,
+                                  val consul: Consul?, val environment: Environment,
+                                  val objectMapper: ObjectMapper) {
         operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
 
             val consulResult = consul?.keyValueClient()?.getValueAsString(name.replace(".", "/"))?.orNull()
