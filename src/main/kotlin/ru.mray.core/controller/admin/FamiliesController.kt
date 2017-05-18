@@ -29,8 +29,9 @@ class FamiliesController(val familyTokenRepository: FamilyTokenRepository,
     val logger: Logger = LoggerFactory.getLogger(FamiliesController::class.java)
 
     @RequestMapping
-    fun familyTokens(model: Model): String {
+    fun families(model: Model): String {
         val families = familyRepository.findAll()
+                .sortedBy { it.paidUntil }
         model.addAttribute("families", families)
 
         return "admin/familyList"
