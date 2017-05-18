@@ -60,6 +60,7 @@ dependencies {
     compile "commons-codec:commons-codec:1.10"
     compile 'org.postgresql:postgresql:42.1.1'
     compile 'org.hibernate:hibernate-core:5.2.10.Final'
+    compile 'com.orbitz.consul:consul-client:0.14.1'
 
 
 //    testCompile 'com.h2database:h2:1.4.195'
