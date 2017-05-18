@@ -1,3 +1,4 @@
+<#-- @ftlvariable name="configRegistrationEnabled" type="boolean" -->
 <#-- @ftlvariable name="retiredCount" type="java.lang.Number" -->
 <#-- @ftlvariable name="expireIn1Day" type="java.lang.Number" -->
 <#-- @ftlvariable name="expireIn10Days" type="java.lang.Number" -->
@@ -78,6 +79,12 @@
     </tr>
     <tr>
         <td><a href="/admin/families/tokens">Family tokens</a></td>
+    </tr>
+</table>
+<p>
+<table>
+    <tr>
+        <td>Registration enabled:  <a href="/admin/service/config/toggle/registrationEnabled">${configRegistrationEnabled?c}</a></td>
     </tr>
 </table>
 </@standardAdminPage>
