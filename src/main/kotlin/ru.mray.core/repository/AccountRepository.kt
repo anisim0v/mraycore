@@ -25,7 +25,7 @@ interface AccountRepository : JpaRepository<Account, String> {
     fun countPending(region: Region): Int
 
     @Language("PostgreSQL")
-    @Query("SELECT *\nFROM accounts\nWHERE accounts.active_until < ? AND EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE accounts.id = family_tokens.account_id\n)", nativeQuery = true)
+    @Query("SELECT *\nFROM accounts\nWHERE accounts.active_until < ? AND EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE accounts.id = family_tokens.account_id\n)\nORDER BY active_until ", nativeQuery = true)
     fun findExpired(instant: Instant = Instant.now()): List<Account>
 
     @Language("PostgreSQL")

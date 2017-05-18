@@ -32,17 +32,26 @@ class Account(
         US
     }
 
-    val ttl: Period?
+    val ttl: String?
     get() {
         if (activeUntil == null) {
             return null
         }
 
+        val daySeconds = 60 * 60 * 24
+
         val activeUntilEpoch = this.activeUntil!!.epochSecond
         val nowEpoch = Instant.now().epochSecond
 
         val diff = activeUntilEpoch - nowEpoch
-        val result = Period.ofDays((diff / 60 / 60 / 24).toInt())
+        val days = (diff / daySeconds).toInt()
+
+        val remaining = diff % daySeconds
+        val hours = remaining / 3600
+        val minutes = remaining % 3600 / 60
+        val sec = remaining % 60
+
+        val result = "${days}D${hours}H${minutes}M${sec}S"
         return result
     }
 
