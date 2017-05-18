@@ -1,5 +1,6 @@
 package ru.mray.core.service
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.common.net.HostAndPort
 import com.orbitz.consul.Consul
 import org.slf4j.Logger
@@ -10,7 +11,8 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 
 @Service
-class ConfigService(val environment: Environment) {
+class ConfigService(val environment: Environment,
+                    val objectMapper: ObjectMapper) {
 
     final val consul: Consul? = consulLet@ let {
         val host = environment.getProperty("mray.consul.host", String::class.java)
@@ -28,16 +30,30 @@ class ConfigService(val environment: Environment) {
     final val logger: Logger = LoggerFactory.getLogger(MailService::class.java)
 
 
-    var registrationEnabled: Boolean by BooleanConsulProperty("mray.registration", false, Boolean::class, consul, environment)
+    var registrationEnabled: Boolean by BooleanConsulProperty("mray.registration", false, Boolean::class, consul,
+            environment, objectMapper)
 
-    class BooleanConsulProperty<T : Any>(val name: String, val defaultValue: T, val type: KClass<T>, val consul: Consul?, val environment: Environment) {
+    class BooleanConsulProperty<T : Any>(val name: String, val defaultValue: T, val type: KClass<T>,
+                                         val consul: Consul?, val environment: Environment,
+                                         val objectMapper: ObjectMapper) {
         operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
-            val result = environment.getProperty(name, type.java)
+
+            val consulResult = consul?.keyValueClient()?.getValueAsString(name.replace(".", "/"))?.orNull()
+            val envResult = environment.getProperty(name)
+            val resultStr = consulResult ?: envResult
+
+            val result = resultStr?.let { objectMapper.readValue<T>(resultStr, type.java) }
+
             return result ?: defaultValue
         }
 
         operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
+            if (consul == null) {
+                return
+            }
 
+            val keyValueClient = consul.keyValueClient()
+            keyValueClient.putValue(name.replace(".", "/"), objectMapper.writeValueAsString(value))
         }
     }
 }

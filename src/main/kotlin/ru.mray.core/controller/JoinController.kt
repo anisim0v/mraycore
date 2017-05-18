@@ -33,7 +33,9 @@ class JoinController(val accountRepository: AccountRepository,
 
     @RequestMapping
     fun getPage(): String {
-        return when(configService.registrationEnabled) {
+        val registrationEnabled = configService.registrationEnabled
+
+        return when(registrationEnabled) {
             true -> "join/join"
             false -> "join/disabled"
         }
