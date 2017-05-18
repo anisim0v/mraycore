@@ -13,6 +13,7 @@ import ru.mray.core.model.Account
 import ru.mray.core.model.Transaction
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.TransactionRepository
+import ru.mray.core.service.ConfigService
 import ru.mray.core.service.MailService
 import java.time.Period
 import javax.servlet.http.HttpServletResponse
@@ -25,9 +26,10 @@ class TestBuyController {
         val response = Mockito.mock(HttpServletResponse::class.java)
         val mailService = Mockito.mock(MailService::class.java)
         val env = Mockito.mock(Environment::class.java)
+        val configService = Mockito.mock(ConfigService::class.java)
         val model = ExtendedModelMap()
 
-        val buyController = JoinController(accountRepository, transactionRepository, BCryptPasswordEncoder(), mailService, env)
+        val buyController = JoinController(accountRepository, transactionRepository, BCryptPasswordEncoder(), mailService, configService, env)
         val viewName = buyController.processForm(
                 "bob@example.com",
                 Account.Region.PH,
