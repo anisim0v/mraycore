@@ -11,12 +11,12 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 
 @Service
-class ConfigService(val environment: Environment,
+class ConfigService(private val environment: Environment,
                     objectMapper: ObjectMapper) {
 
-    final val logger: Logger = LoggerFactory.getLogger(MailService::class.java)
+    private val logger: Logger = LoggerFactory.getLogger(MailService::class.java)
 
-    final val consul: Consul? = consulLet@ let {
+    private val consul: Consul? = consulLet@ let {
         val host = environment.getProperty("mray.consul.host", String::class.java)
 
         if (host == null) {
@@ -37,7 +37,7 @@ class ConfigService(val environment: Environment,
 //    var exampleMessage: String by ConsulProperty("mray.messages.example", "Default value", String::class, consul, environment, objectMapper)
 
 
-    class ConsulProperty<T : Any>(val name: String, val defaultValue: T, val type: KClass<T>,
+    private class ConsulProperty<T : Any>(val name: String, val defaultValue: T, val type: KClass<T>,
                                   val consul: Consul?, val environment: Environment,
                                   val objectMapper: ObjectMapper) {
         operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
