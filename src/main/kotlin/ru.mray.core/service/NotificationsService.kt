@@ -12,20 +12,13 @@ import java.time.Instant
 
 @Service class NotificationsService(val accountRepository: AccountRepository,
                                     val mailService: MailService,
-                                    val environment: Environment) {
+                                    val configService: ConfigService) {
 
     final val logger: Logger = LoggerFactory.getLogger(NotificationsService::class.java)
-    val notificationsEnabled: Boolean = environment.getProperty("mray.notifications", Boolean::class.java, false)
 
-    init {
-        if (!notificationsEnabled) {
-            logger.warn("Renew notifications are disabled")
-        }
-    }
-
-    @Scheduled(fixedDelay = 10 * 1000)
+    @Scheduled(fixedDelay = 5 * 50 * 1000)
     fun sendNotifications(): List<Account> {
-        if (!notificationsEnabled) {
+        if (!configService.notificationsEnabled) {
             return listOf()
         }
         val accountsToNotify = accountRepository.findAccountsToNotify()

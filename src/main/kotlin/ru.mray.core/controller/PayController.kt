@@ -17,6 +17,7 @@ import ru.mray.core.model.Transaction
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.FamilyTokenRepository
 import ru.mray.core.repository.TransactionRepository
+import ru.mray.core.service.ConfigService
 import ru.mray.core.service.FamilyTokenService
 import ru.mray.core.service.TransactionService
 import ru.mray.core.service.W1Service
@@ -36,12 +37,10 @@ class PayController(val w1Service: W1Service,
                     val transactionService: TransactionService,
                     val familyTokenService: FamilyTokenService,
                     val familyTokenRepository: FamilyTokenRepository,
-                    environment: Environment) {
+                    val configService: ConfigService) {
 
     val logger: Logger = LoggerFactory.getLogger(PayController::class.java)
 
-    val autoassignmentEnabled: Boolean = environment.getProperty("mray.autoassignment")?.toBoolean() ?: false
-    val paymentsEnabled: Boolean = environment.getProperty("mray.payments")?.toBoolean() ?: false
 
     @RequestMapping("/{transaction}")
     fun createForm(@PathVariable transaction: Transaction?,
@@ -75,7 +74,7 @@ class PayController(val w1Service: W1Service,
         model.addAttribute("account", account)
         model.addAttribute("unassignedTokensCount", unassignedTokensCount)
         model.addAttribute("pendingAccounts", pendingAccounts)
-        model.addAttribute("paymentsEnabled", paymentsEnabled)
+        model.addAttribute("paymentsEnabled", configService.paymentsEnabled)
 
         logger.info("Serving /pay/${transaction.id}. Account: ${account.id} (${account.email})")
 
@@ -123,7 +122,7 @@ class PayController(val w1Service: W1Service,
 
         val account = transaction.account
 
-        if (account.familyToken == null && autoassignmentEnabled) {
+        if (account.familyToken == null && configService.autoassignmentEnabled) {
             try {
                 familyTokenService.assignTokenToAccount(account)
                 return "WMI_RESULT=OK"
