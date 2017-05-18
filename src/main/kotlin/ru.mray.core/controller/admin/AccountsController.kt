@@ -24,8 +24,6 @@ import java.time.Period
 @RequestMapping("/admin/accounts")
 class AccountsController(val accountRepository: AccountRepository,
                          val transactionRepository: TransactionRepository,
-                         val familyTokenRepository: FamilyTokenRepository,
-                         val familyRepository: FamilyRepository,
                          val transactionService: TransactionService,
                          val familyTokenService: FamilyTokenService) {
     @RequestMapping
@@ -66,11 +64,19 @@ class AccountsController(val accountRepository: AccountRepository,
         return "admin/accountList"
     }
 
-
     @RequestMapping("/expired")
     fun expiredAccounts(model: Model): String {
         val accounts = accountRepository.findExpired()
         model.addAttribute("title", "Expired accounts")
+        model.addAttribute("accounts", accounts)
+
+        return "admin/accountList"
+    }
+
+    @RequestMapping("/retired")
+    fun retiredAccounts(model: Model): String {
+        val accounts = accountRepository.findRetired()
+        model.addAttribute("title", "Retired accounts")
         model.addAttribute("accounts", accounts)
 
         return "admin/accountList"

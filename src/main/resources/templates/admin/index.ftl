@@ -1,3 +1,4 @@
+<#-- @ftlvariable name="retiredCount" type="java.lang.Number" -->
 <#-- @ftlvariable name="expireIn1Day" type="java.lang.Number" -->
 <#-- @ftlvariable name="expireIn10Days" type="java.lang.Number" -->
 <#-- @ftlvariable name="expireIn3Days" type="java.lang.Number" -->
@@ -31,6 +32,9 @@
     </tr>
     <tr>
         <td><a href="/admin/accounts/expired">Expired accounts: ${expiredCount}</a></td>
+    </tr>
+    <tr>
+        <td><a href="/admin/accounts/retired">Retired accounts: ${retiredCount}</a></td>
     </tr>
     <tr>
         <td>Pending renew notifications: ${accountsToNotifyCount}</td>

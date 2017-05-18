@@ -52,4 +52,11 @@ interface AccountRepository : JpaRepository<Account, String> {
     @Language("PostgreSQL")
     @Query("SELECT count(*)\nFROM accounts\nWHERE accounts.active_until < ? AND EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE accounts.id = family_tokens.account_id\n)", nativeQuery = true)
     fun countExpired(instant: Instant = Instant.now()): Int
+    @Language("PostgreSQL")
+
+    @Query("SELECT *\nFROM accounts\nWHERE accounts.active_until < ? AND NOT EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE accounts.id = family_tokens.account_id\n)\nORDER BY active_until DESC ", nativeQuery = true)
+    fun findRetired(instant: Instant = Instant.now()): List<Account>
+
+    @Query("SELECT count(*)\nFROM accounts\nWHERE accounts.active_until < ? AND NOT EXISTS(\n    SELECT *\n    FROM family_tokens\n    WHERE accounts.id = family_tokens.account_id\n)", nativeQuery = true)
+    fun countRetired(instant: Instant = Instant.now()): Int
 }
