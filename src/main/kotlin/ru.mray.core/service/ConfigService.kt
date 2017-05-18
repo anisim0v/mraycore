@@ -14,6 +14,8 @@ import kotlin.reflect.KProperty
 class ConfigService(val environment: Environment,
                     objectMapper: ObjectMapper) {
 
+    final val logger: Logger = LoggerFactory.getLogger(MailService::class.java)
+
     final val consul: Consul? = consulLet@ let {
         val host = environment.getProperty("mray.consul.host", String::class.java)
 
@@ -26,9 +28,6 @@ class ConfigService(val environment: Environment,
                 .withHostAndPort(HostAndPort.fromParts(host, 8500))
                 .build()
     }
-
-    final val logger: Logger = LoggerFactory.getLogger(MailService::class.java)
-
 
     var registrationEnabled: Boolean by BooleanConsulProperty("mray.registration", false, Boolean::class, consul, environment, objectMapper)
     var paymentsEnabled: Boolean by BooleanConsulProperty("mray.payments", false, Boolean::class, consul, environment, objectMapper)
