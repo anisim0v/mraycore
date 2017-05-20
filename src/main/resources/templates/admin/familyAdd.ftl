@@ -49,7 +49,7 @@
         </tr>
         <tr>
             <td>
-                <label for="assignManually">Unavailable for autoassignment</label>
+                <label for="assignManually">Reserved (unavailable for autoassignment)</label>
                 <input type="checkbox" name="assignManually" id="assignManually">
             </td>
         </tr>

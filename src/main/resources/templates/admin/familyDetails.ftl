@@ -44,7 +44,7 @@
         <td>Token</td>
         <td>Slot</td>
         <td>Account id</td>
-        <td>Assign manually</td>
+        <td>Reserved</td>
     </tr>
     <#list familyTokens as token>
         <tr>
