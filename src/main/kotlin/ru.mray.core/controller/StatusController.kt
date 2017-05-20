@@ -48,12 +48,14 @@ class StatusController(val transactionRepository: TransactionRepository,
                 .max()!!
 
         val unpaidTransaction = transactionRepository.findLatestUnpaid(account, unpaidTransactionValidSince)
+        val isActive = paidTransaction?.activeUntil?.isAfter(Instant.now()) ?: false
 
         val showRenewForm = when {
             unpaidTransaction != null -> false
             paidTransaction?.paidAt != null && paidTransaction.activeUntil == null -> false
             paidTransaction?.activeUntil != null
                     && paidTransaction.activeUntil!! > OffsetDateTime.now().plusDays(10).toInstant() -> false
+            account.familyToken != null && !isActive -> false
             else -> true
         }
 
@@ -61,7 +63,6 @@ class StatusController(val transactionRepository: TransactionRepository,
                 .takeWhile { it.id != account.id }
                 .count()
 
-        val isActive = paidTransaction?.activeUntil?.isAfter(Instant.now()) ?: false
 
         model.addAttribute("account", account)
         model.addAttribute("family", account.familyToken?.family)
