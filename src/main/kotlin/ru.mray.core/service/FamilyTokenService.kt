@@ -18,7 +18,8 @@ class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepositor
                          private val accountRepository: AccountRepository,
                          private val familyRepository: FamilyRepository,
                          private val transactionService: TransactionService,
-                         private val mailService: MailService) {
+                         private val mailService: MailService,
+                         private val configService: ConfigService) {
     val logger: Logger = LoggerFactory.getLogger(FamilyTokenService::class.java)
 
     fun assignTokenToAccount(account: Account, token: FamilyToken? = null) {
@@ -73,5 +74,9 @@ class FamilyTokenService(private val familyTokenRepository: FamilyTokenRepositor
 
         account.familyToken = null
         accountRepository.save(account)
+
+        if (configService.autoassignmentEnabled) {
+            assignTokens(familyToken.region, 1)
+        }
     }
 }
