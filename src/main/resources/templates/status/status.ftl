@@ -1,3 +1,4 @@
+<#-- @ftlvariable name="isActive" type="boolean" -->
 <#-- @ftlvariable name="isAdmin" type="boolean" -->
 <#-- @ftlvariable name="family" type="ru.mray.core.model.Family" -->
 <#-- @ftlvariable name="queueSize" type="java.lang.Number" -->
@@ -28,7 +29,7 @@
                 <br>Текущая статистика проекта доступна на <a href="/stats">этой странице</a>
             <#elseif account.familyToken??>
                 Подписка оплачена до ${account.activeUntil!"<неизвестно>"}. Приглашение было отправлено на почту.
-            <#elseif !paidTransaction?? || !paidTransaction.paidAt??>
+            <#elseif !isActive>
                 Подписка не оплачена
             <#else>
                 Неизвестно. Обратитесь в поддержку.

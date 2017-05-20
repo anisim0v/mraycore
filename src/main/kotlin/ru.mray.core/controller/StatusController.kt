@@ -15,6 +15,7 @@ import ru.mray.core.model.Account
 import ru.mray.core.model.Transaction
 import ru.mray.core.repository.AccountRepository
 import ru.mray.core.repository.TransactionRepository
+import java.time.Instant
 import java.time.OffsetDateTime
 import java.time.Period
 
@@ -60,12 +61,15 @@ class StatusController(val transactionRepository: TransactionRepository,
                 .takeWhile { it.id != account.id }
                 .count()
 
+        val isActive = paidTransaction?.activeUntil?.isAfter(Instant.now()) ?: false
+
         model.addAttribute("account", account)
         model.addAttribute("family", account.familyToken?.family)
         model.addAttribute("unpaidTransaction", unpaidTransaction)
         model.addAttribute("paidTransaction", paidTransaction)
         model.addAttribute("showRenewForm", showRenewForm)
         model.addAttribute("queueSize", queueSize)
+        model.addAttribute("isActive", isActive)
         model.addAttribute("isAdmin", authUser?.admin ?: false)
 
         logger.info("Serving /status/${account.id} (${account.email})")
