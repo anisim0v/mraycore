@@ -13,6 +13,6 @@ open class IndexController() {
     @RequestMapping
     fun index(): String {
         logger.info("Serving /")
-        return "redirect:http://bit.ly/2qDvzEo"
+        return "redirect:http://bit.do/dsHwJ"
     }
 }
