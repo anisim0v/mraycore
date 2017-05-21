@@ -13,6 +13,6 @@ open class IndexController() {
     @RequestMapping
     fun index(): String {
 //        logger.info("Serving /")
-        return "index"
+        return "redirect:http://telegra.ph/Vot-i-vsyo-05-21"
     }
 }
