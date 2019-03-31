@@ -12,6 +12,5 @@ services:
     command: consul agent -server -bootstrap -ui -client 0.0.0.0 -data-dir=/consul/data -bind=165.227.159.49
   mray:
     build: .
-    network_mode: host
     ports:
       - 8080:8080
