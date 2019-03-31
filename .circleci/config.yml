@@ -1,43 +1,62 @@
+# Java Gradle CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-java/ for more details
+#
 version: 2
 jobs:
   build:
-    working_directory: ~/mray-core
     docker:
-      - image: openjdk:8
+      # specify the version you desire here
+      - image: circleci/openjdk:8-jdk
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/postgres:9.4
+
+    working_directory: ~/repo
+
     environment:
+      # Customize the JVM maximum heap limit
+      JVM_OPTS: -Xmx3200m
       TERM: dumb
+
     steps:
       - checkout
+
+      # Download and cache dependencies
+
       - restore_cache:
-          key: mray-core-gradle-{{ checksum "build.gradle" }}
-      - run: |
-          ./gradlew build
-          rm build/dist/*.original
+          keys:
+            - lucerne-gradle-{{ checksum "build.gradle" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: gradle dependencies
       - save_cache:
-          key: mray-core-gradle-{{ checksum "build.gradle" }}
+          key: lucerne-gradle-{{ checksum "build.gradle" }}
           paths:
             - ~/.gradle
             - ~/.embedmongo
       - save_cache:
-          key: mray-core-{{ .Revision }}
+          key: lucerne-{{ .Revision }}
           paths:
-            - ~/mray-core/build/dist
+            - ~/lucerne/build/dist
       - store_artifacts:
-          path: ~/mray-core/build/dist
-          destination: mray-core
-  deploy:
-    working_directory: ~/mray-core
-    docker:
-      - image: docker:git
+          path: ~/lucerne/build/dist
+          destination: lucerne
 
-    steps:
-      - checkout
+      # run tests!
+      - run: gradle test
       - restore_cache:
-          key: mray-core-{{ .Revision }}
-      - setup_remote_docker
-      - run:
-          name: Push docker image
-          command: |
-            docker build -t yadda/mraycore:latest .
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker push yadda/mraycore:latest
+          key: lucerne-{{ .Revision }}
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run: |
+          docker build -t yadda/mraycore:latest .
+          docker login -u $DOCKER_USER -p $DOCKER_PASS
+          docker push yadda/mraycore:latest
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "build.gradle" }}
