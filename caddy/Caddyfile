@@ -4,9 +4,3 @@ http://musicray.ydd.at {
     }
     log stdout
 }
-https://musicray.ydd.at {
-    proxy / mray {
-        transparent
-    }
-    log stdout
-}
