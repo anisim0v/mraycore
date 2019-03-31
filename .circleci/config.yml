@@ -1,63 +1,62 @@
+# Java Gradle CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-java/ for more details
+#
 version: 2
 jobs:
   build:
-    working_directory: ~/mray-core
     docker:
-      - image: openjdk:8
+      # specify the version you desire here
+      - image: circleci/openjdk:8-jdk
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/postgres:9.4
+
+    working_directory: ~/repo
+
     environment:
+      # Customize the JVM maximum heap limit
+      JVM_OPTS: -Xmx3200m
       TERM: dumb
+
     steps:
       - checkout
+
+      # Download and cache dependencies
+
       - restore_cache:
-          key: mray-core-gradle-{{ checksum "build.gradle" }}
-      - run: |
-          apt update && apt install postgresql-9.4 postgresql-contrib-9.4 -y
-          echo "host    all             all             127.0.0.1/32            trust" > /etc/postgresql/9.4/main/pg_hba.conf
-          service postgresql start
-          createdb -U postgres -h 127.0.0.1 mray_core_test
-      - run: |
-          ./gradlew build
-          rm build/dist/*.original
+          keys:
+            - lucerne-gradle-{{ checksum "build.gradle" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: gradle dependencies
       - save_cache:
-          key: mray-core-gradle-{{ checksum "build.gradle" }}
+          key: lucerne-gradle-{{ checksum "build.gradle" }}
           paths:
             - ~/.gradle
             - ~/.embedmongo
       - save_cache:
-          key: mray-core-{{ .Revision }}
+          key: lucerne-{{ .Revision }}
           paths:
-            - ~/mray-core/build/dist
+            - ~/lucerne/build/dist
       - store_artifacts:
-          path: ~/mray-core/build/dist
-          destination: mray-core
-      - run:
-          name: Trigger deployment
-          command: |
-                if [ "${CIRCLE_BRANCH}" == "master" ]; then
-                  curl -u ${CIRCLE_API_TOKEN}: \
-                    -d build_parameters[CIRCLE_JOB]=deploy \
-                    https://circleci.com/api/v1.1/project/github/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/tree/$CIRCLE_BRANCH
-                fi
-  deploy:
-    working_directory: ~/mray-core
-    docker:
-      - image: docker:git
-    environment:
-      TERM: dumb
-      IMAGE_NAME: quay.io/mray/core
-    steps:
-      - checkout
+          path: ~/lucerne/build/dist
+          destination: lucerne
+
+      # run tests!
+      - run: gradle test
       - restore_cache:
-          key: mray-core-{{ .Revision }}
-      - setup_remote_docker
-      - run:
-          name: Build docker image
-          command: |
-            docker login -u="mray+ci" -p="$REGISTRY_PASSWORD" quay.io
-            docker build -t $IMAGE_NAME:ci-$CIRCLE_BUILD_NUM -f ci.Dockerfile .
-            docker tag $IMAGE_NAME:ci-$CIRCLE_BUILD_NUM $IMAGE_NAME:latest
-      - run:
-          name: Push docker image
-          command: |
-            docker push $IMAGE_NAME:latest
-            docker push $IMAGE_NAME:ci-$CIRCLE_BUILD_NUM
+          key: lucerne-{{ .Revision }}
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run: |
+          docker build -t yadda/mraycore:latest .
+          docker login -u $DOCKER_USER -p $DOCKER_PASS
+          docker push yadda/mraycore:latest
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "build.gradle" }}
