@@ -10,7 +10,7 @@ services:
     image: consul
     ports:
       - 8300:8300
-    command: consul agent -server -bootstrap -ui -client 0.0.0.0 -data-dir=/consul/data -bind=165.227.159.49
+    command: consul agent -server -bootstrap -ui -client 0.0.0.0 -data-dir=/consul/data -advertise=165.227.159.49
   mray:
     build: .
     ports:
