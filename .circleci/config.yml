@@ -29,9 +29,7 @@ jobs:
     working_directory: ~/mray-core
     docker:
       - image: docker:git
-    environment:
-      TERM: dumb
-      IMAGE_NAME: quay.io/mray/core
+
     steps:
       - checkout
       - restore_cache:
