@@ -2,14 +2,12 @@ version: '2'
 services:
   postgres:
     image: postgres:9.6
-    ports:
-      - 127.0.0.1:5432:5432
+
     environment:
       - "POSTGRES_DB=mray_core"
   consul:
     image: consul
-    ports:
-      - 127.0.0.1:8500:8500
+
     command: consul agent -server -bootstrap -ui -client 0.0.0.0 -data-dir=/consul/data
   mray:
     build: .
