@@ -38,6 +38,6 @@ jobs:
       - run:
           name: Push docker image
           command: |
-          docker build -t yadda/lucerne:latest .
-          docker login -u $DOCKER_USER -p $DOCKER_PASS
-          docker push yadda/lucerne:latest
+            docker build -t yadda/mraycore:latest .
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker push yadda/mraycore:latest
