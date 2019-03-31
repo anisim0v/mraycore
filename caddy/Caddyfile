@@ -1,5 +1,5 @@
 http://musicray.ydd.at {
-    proxy / mray {
+    proxy / mray:8080 {
         transparent
     }
     log stdout
