@@ -1,17 +1,31 @@
 version: '2'
 services:
+  caddy:
+    image: abiosoft/caddy
+    restart: always
+
+    volumes:
+      - ./caddy/Caddyfile:/etc/Caddyfile
+    ports:
+      - 80:80
+      - 443:443
   postgres:
     image: postgres:9.6
+    restart: always
 
     environment:
       - "POSTGRES_DB=mray_core"
 
   consul:
     image: consul
+    restart: always
+
     ports:
       - 8300:8300
     command: consul agent -server -bootstrap -ui -client 0.0.0.0 -data-dir=/consul/data -advertise=165.227.159.49
   mray:
+    restart: always
+
     build: .
     ports:
       - 8080:8080

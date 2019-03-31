@@ -1,0 +1,12 @@
+http://musicray.ydd.at {
+    proxy / mray {
+        transparent
+    }
+    log stdout
+}
+https://musicray.ydd.at {
+    proxy / mray {
+        transparent
+    }
+    log stdout
+}
