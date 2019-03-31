@@ -11,7 +11,7 @@ services:
     image: consul
     network_mode: host
 
-    command: consul agent -server -bootstrap -ui -client 0.0.0.0 -data-dir=/consul/data
+    command: consul agent -server -bootstrap -ui -client 0.0.0.0 -data-dir=/consul/data -bind=165.227.159.49
   mray:
     build: .
     network_mode: host
