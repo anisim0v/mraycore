@@ -35,7 +35,7 @@ class JoinController(val accountRepository: AccountRepository,
     fun getPage(): String {
         val registrationEnabled = configService.registrationEnabled
 
-        return when(registrationEnabled) {
+        return when(true) {
             true -> "join/join"
             false -> "join/disabled"
         }
